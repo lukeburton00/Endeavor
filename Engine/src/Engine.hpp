@@ -1,4 +1,5 @@
 #pragma once
+
 #ifdef _WIN32
 #include <SDL.h>
 #undef main

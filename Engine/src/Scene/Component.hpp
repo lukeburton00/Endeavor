@@ -1,5 +1,12 @@
 #pragma once
-#include <glm/glm.hpp>
+#ifdef _WIN32
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+#else
+#inclue "glm/glm.hpp"
+#endif
+
 
 class Component
 {
