@@ -21,6 +21,7 @@ public:
     {
         return mTransform;
     }
+    
 private:
     std::shared_ptr<Transform> mTransform;
 };

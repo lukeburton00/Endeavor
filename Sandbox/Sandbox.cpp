@@ -46,11 +46,3 @@ void Sandbox::stop()
 {
     printf("Stopping Sandbox...\n");
 }
-
-int main() 
-{
-    Sandbox game;
-    Application engine(game);
-    engine.start();
-    return 0;
-}
