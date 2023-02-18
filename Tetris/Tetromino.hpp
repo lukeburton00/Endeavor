@@ -1,10 +1,13 @@
 #pragma once
+#include "Engine.hpp"
+#include <array>
 
-class Tetromino
+class Tetromino : public GameObject
 {
 public:
-    Tetromino()
-    {
-        printf("Tetromino constructor called.\n");
-    }
+    std::array<GameObject, 4> tiles;
+    Tetromino();
+    void moveDown();
+    void updateTiles();
+private:
 };

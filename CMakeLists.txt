@@ -7,7 +7,7 @@ project(Engine VERSION 0.1)
 
 add_definitions(-DDEBUG)
 
-add_executable(${PROJECT_NAME} sandbox/sandbox.cpp tetris/tetris.cpp
+add_executable(${PROJECT_NAME} sandbox/sandbox.cpp tetris/tetris.cpp tetris/tetromino.cpp
 engine/src/application/application.cpp 
 engine/src/core/events/subject.cpp engine/src/core/input/input.cpp 
 engine/src/core/time/time.cpp 

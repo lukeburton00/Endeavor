@@ -7,10 +7,12 @@
 class Renderer
 {
 public:
-    Renderer();
+    Renderer(glm::vec2 dimensions);
     void drawQuad(const glm::vec2& position, const glm::vec2& scale, const glm::vec4& color);
+    void setViewport(const glm::vec2& dimensions);
 
 private:
     VAO mQuadVAO;
+    glm::mat4 mProjectionMatrix;
     void createQuadPrimitive();
 };

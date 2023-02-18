@@ -31,5 +31,31 @@ public:
     {
         scale = scaleVector;
     }
+};
 
+class Sprite : public Component
+{
+public:
+    glm::vec4 color;
+    Sprite() : color(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)) {};
+
+    void setColor(glm::vec4 colorVector)
+    {
+        color = colorVector;
+    }
+};
+
+class Collider : public Component
+{
+public:
+    glm::vec2 xBounds;
+    glm::vec2 yBounds;
+
+    Collider() : xBounds(glm::vec2(0.0f, 100.0f)), yBounds(glm::vec2(0.0f,100.0f)) {};
+
+    void setBounds(glm::vec2 xVector, glm::vec2 yVector)
+    {
+        xBounds = xVector;
+        yBounds = yVector;
+    }
 };

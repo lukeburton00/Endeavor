@@ -44,7 +44,7 @@ void Window::create(const int &windowWidth, const int &windowHeight, const char 
     #endif
 }
 
-void Window::refresh()
+void Window::clear()
 {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);

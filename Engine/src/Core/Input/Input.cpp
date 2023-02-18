@@ -2,6 +2,7 @@
 
 std::vector<SDL_Keycode> Input::pressedKeys;	
 std::vector<SDL_Keycode> Input::releasedKeys;
+std::vector<SDL_Keycode> Input::downKeys;
 bool Input::quit = false;
 
 void Input::processInput()
@@ -11,6 +12,7 @@ void Input::processInput()
 	SDL_Event event;
 	quit = false;
  	releasedKeys.clear();
+	downKeys.clear();
  	while (SDL_PollEvent(&event) != 0)
  	{
  		switch(event.type)
@@ -21,6 +23,11 @@ void Input::processInput()
 				if (!count(pressedKeys.begin(), pressedKeys.end(), keyCodeDown))
 				{
  					pressedKeys.push_back(keyCodeDown);
+				}
+
+				if (!count(downKeys.begin(), downKeys.end(), keyCodeDown))
+				{
+ 					downKeys.push_back(keyCodeDown);
 				}
  				break;
  			}
@@ -72,4 +79,11 @@ bool Input::isKeyReleased(const char * keyName)
 	bool keyWasReleased = count(releasedKeys.begin(), releasedKeys.end(), SDL_GetKeyFromName(keyName));
 
  	return keyWasReleased;
+}
+
+bool Input::isKeyDown(const char * keyName)
+{
+	bool keyDown = count(downKeys.begin(), downKeys.end(), SDL_GetKeyFromName(keyName));
+
+ 	return keyDown;
 }

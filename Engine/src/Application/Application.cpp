@@ -5,8 +5,9 @@ Application::Application(Game& game) : mActiveGame(game) {};
 void Application::start()
 {
     #ifdef DEBUG
-    printf("Initializing Game...\n");
+    printf("Initializing...\n");
     #endif
+
     mActiveGame.start();
     mWindow.create(
         mActiveGame.getWidth(), 
@@ -21,7 +22,7 @@ void Application::start()
     title = "DefaultTexture";
     ResourceManager::loadTexture2D(title, "../engine/assets/2DTextures/default.jpg");
 
-    Renderer renderer;
+    Renderer renderer(glm::vec2(mActiveGame.getWidth(), mActiveGame.getHeight()));
     mRenderer = std::make_shared<Renderer>(renderer);
 
     loop();
@@ -30,7 +31,7 @@ void Application::start()
 void Application::loop()
 {
     #ifdef DEBUG
-    printf("Running Game...\n\n");
+    printf("Running...\n\n");
     int frames = 0;
     int framesPerSecond = 0;
     float elapsedTime = 0.0f;
@@ -80,17 +81,29 @@ void Application::processInput()
 
 void Application::update(float deltaTime)
 {
+    std::shared_ptr<Scene> scene = mActiveGame.getActiveScene();
+
+    for (auto& obj : scene->objects)
+    {
+        obj->update(deltaTime);
+    }
+
     mActiveGame.update(deltaTime);
 }
 
 void Application::render()
 {
-    mWindow.refresh();
+    mWindow.clear();
     std::shared_ptr<Scene> scene = mActiveGame.getActiveScene();
 
     for (auto const& obj : scene->objects)
     {
-        mRenderer->drawQuad(obj.getTransform()->position, obj.getTransform()->scale, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+        auto transform = obj->getTransform();
+        auto sprite = obj->getSprite();
+        if (transform != nullptr && sprite != nullptr)
+        {
+            mRenderer->drawQuad(transform->position, transform->scale, sprite->color);
+        }
     }
 
     mWindow.swapBuffers();

@@ -14,7 +14,7 @@ class Window
 {
 public:
     void create(const int &windowWidth, const int &windowHeight, const char * title, const GLuint &flags);
-    void refresh();
+    void clear();
     void swapBuffers();
     void destroy();
     SDL_Window * getWindow(){ return mWindow; };

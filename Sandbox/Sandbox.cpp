@@ -11,15 +11,16 @@ void Sandbox::start()
     GameObject obj;
     obj.id = 1;
     obj.addTransform();
+    obj.addSprite();
 
-    scene.objects.push_back(obj);
+    scene.objects.push_back(std::make_shared<GameObject>(obj));
     setActiveScene(scene);
 }
 
 void Sandbox::update(float deltaTime)
 {
     std::shared_ptr<Scene> scene = getActiveScene();
-    std::shared_ptr<Transform> transform = scene->objects[0].getTransform();
+    std::shared_ptr<Transform> transform = scene->objects[0]->getTransform();
 
     if (Input::isKeyPressed("W"))
     {
@@ -46,3 +47,12 @@ void Sandbox::stop()
 {
     printf("Stopping Sandbox...\n");
 }
+
+
+// int main() 
+// {
+//     Sandbox game;
+//     Application engine(game);
+//     engine.start();
+//     return 0;
+// }

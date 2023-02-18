@@ -11,7 +11,6 @@ public:
     void start();
     void stop();
     void reset();
-
     float getElapsedTime();
 
 private:
