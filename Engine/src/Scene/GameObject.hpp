@@ -24,6 +24,11 @@ public:
         return mTransform;
     }
 
+    void removeTransform()
+    {
+        mTransform = nullptr;
+    }
+
     std::shared_ptr<Sprite> addSprite()
     {
         mSprite = std::make_shared<Sprite>();
@@ -33,6 +38,11 @@ public:
     std::shared_ptr<Sprite> getSprite() const
     {
         return mSprite;
+    }
+
+    void removeSprite()
+    {
+        mSprite = nullptr;
     }
 
     virtual void update(float deltaTime){};
