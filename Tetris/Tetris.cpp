@@ -77,15 +77,7 @@ void Tetris::tick()
     {
         if (mGrid->isRowFull(mGrid->values[i]))
         {
-            for (auto tile : mLockedTiles)
-            {
-                if (tile->row == i)
-                {
-                    printf("%d", i);
-
-                    printf("did this.\n");
-                }
-            }
+            printf("Row %d is full.\n", i);
         }
     }
 
