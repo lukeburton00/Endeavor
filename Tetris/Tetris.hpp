@@ -16,6 +16,16 @@ private:
     float mTickLength;
     std::shared_ptr<Tetromino> mCurrTetromino;
     std::shared_ptr<Grid> mGrid;
+    std::vector<std::shared_ptr<Tile>> mLockedTiles;
 
-    void moveTetromino(float deltaTime);
+    void tick();
+    void updateGrid();
+    void spawnTetromino(Type type);
+    void clearTiles(int row);
+    bool checkForDownCollision();
+    bool checkForRightCollision();
+    bool checkForLeftCollision();
+
+    void withinBoundsX(Tile tile);
+
 };

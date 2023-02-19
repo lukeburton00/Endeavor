@@ -1,52 +1,62 @@
 #pragma once
 #include "Engine.hpp"
+#include "Tile.hpp"
 
 class Grid
 {
 public:
     int numColumns, numRows;
-    std::vector<std::vector<GameObject>> tiles;
-
+    std::vector<std::vector<Tile>> tiles;
+    std::vector<std::vector<int>> values;
 
     Grid(int width, int height)
     {
         numColumns = width;
         numRows = height;
-        tiles = std::vector<std::vector<GameObject>>(numColumns, std::vector<GameObject>(numRows));
-        mValues = std::vector<std::vector<int>>(numColumns, std::vector<int>(numRows));
+        tiles = std::vector<std::vector<Tile>>(numRows, std::vector<Tile>(numColumns));
+        values = std::vector<std::vector<int>>(numRows, std::vector<int>(numColumns));
 
-
-        for (int i = 0; i < tiles.size(); i++)
+        for (int i = 0; i < numRows; i++)
         {
-            for (int j = 0; j < tiles[i].size(); j++)
+            for (int j = 0; j < numColumns; j++)
             {
-                GameObject tile;
+                Tile tile;
+                tile.row = i;
+                tile.column = j;
+
                 auto sprite = tile.addSprite();
                 auto transform = tile.addTransform();
 
                 transform->setScale(glm::vec2(40.0f, 40.0f));
-                transform->setPosition(glm::vec2(i * transform->scale.x, j * transform->scale.y));
+                transform->setPosition(glm::vec2(j * transform->scale.x, i * transform->scale.y));
 
                 sprite->setColor(glm::vec4(0.5f, 0.5f, 0.5f, 0.5f));
 
                 tiles[i][j] = tile;
-                mValues[i][j] = 0;
-                printf("%d",mValues[i][j]);
+                values[i][j] = 0;
             }
-            printf("\n");
         }
     }
 
     int getValue(int i, int j)
     {
-        return mValues[i][j];
+        return values[i][j];
     }
 
     void setValue(int i, int j, int value)
     {
-        mValues[i][j] = value;
+        values[i][j] = value;
+    }
+
+    bool isRowFull(std::vector<int> row)
+    {
+        for (auto cell : row)
+        {
+            if (cell != 2)
+            return false;
+        }
+        return true;
     }
 
 private:
-    std::vector<std::vector<int>> mValues;
 };

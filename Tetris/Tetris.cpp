@@ -1,6 +1,5 @@
 #include "Tetris.hpp"
 
-
 void Tetris::start()
 {
     setWidth(400);
@@ -8,84 +7,203 @@ void Tetris::start()
     setTitle("Tetris");
 
     Scene scene;
+    setActiveScene(scene);
 
     Grid grid(10, 20);
-    for (int i = 0; i < grid.tiles.size(); i++)
+    for (auto& column : grid.tiles)
     {
-        for (int j = 0; j < grid.tiles[i].size(); j++)
+        for (auto& tile : column)
         {
-            scene.objects.push_back(std::make_shared<GameObject>(grid.tiles[i][j]));
+            activeScene->objects.push_back(std::make_shared<Tile>(tile));
         }
     }
-
-    Tetromino tetromino;
-    auto tet = std::make_shared<Tetromino>(tetromino);
-    mCurrTetromino = tet;
-    scene.objects.push_back(tet);
-
-    for (auto& tile : tetromino.tiles)
-    {
-        scene.objects.push_back(std::make_shared<GameObject>(tile));
-    }
-
     mGrid = std::make_shared<Grid>(grid);
 
-    setActiveScene(scene);
+    spawnTetromino(Type::O);
+
     mElapsedTime = 0;
     mTickLength = 1;
 }
 
 void Tetris::update(float deltaTime)
 {
-    moveTetromino(deltaTime);
-}
-
-void Tetris::moveTetromino(float deltaTime)
-{
-    auto tetTransform = mCurrTetromino->getTransform();
-    if (mElapsedTime >= mTickLength && tetTransform->position.y < 800 - tetTransform->scale.x)
+    if (Input::isKeyPressed("S"))
     {
-        mCurrTetromino->moveDown();
-        mCurrTetromino->updateTiles();
+        mTickLength = 0.1f;
+    }
 
-        for (int i = 0; i < mGrid->numColumns; i++)
-        {
-            for (int j = 0; j < mGrid->numRows; j++)
-            {
-                mGrid->setValue(i,j,0);
-                for (auto tile : mCurrTetromino->tiles)
-                {
-                    if (mGrid->tiles[i][j].getTransform()->position.x == tile.getTransform()->position.x && mGrid->tiles[i][j].getTransform()->position.y == tile.getTransform()->position.y)
-                    {
-                        mGrid->setValue(i,j,1);
-                        mGrid->tiles[i][j+1].getSprite()->setColor(glm::vec4(1.0f,1.0f,1.0f,1.0f));
-                    }
-                }
-                printf("%d",mGrid->getValue(i,j));
-            }
-            printf("\n");
-        }
-        mElapsedTime = 0;
+    else
+    {
+        mTickLength = 1.0f;
+    }
+
+    if (mElapsedTime >= mTickLength)
+    {
+        tick();
     }
 
     mElapsedTime += deltaTime;
-    if (Input::isKeyDown("A"))
+
+    if (Input::isKeyDown("A") && !checkForLeftCollision())
     {
-        for (auto tile : mCurrTetromino->tiles)
+        mCurrTetromino->moveLeft();
+    }
+
+    if (Input::isKeyDown("D") && !checkForRightCollision())
+    {
+        mCurrTetromino->moveRight();
+    }
+
+    for (auto tile : mCurrTetromino->tiles)
+    {
+        withinBoundsX(tile);
+    }
+    updateGrid();
+}
+
+void Tetris::tick()
+{
+    if (mCurrTetromino->getTransform()->position.y == getHeight() - (mCurrTetromino->getTransform()->scale.y) || checkForDownCollision())
+    {
+        for (auto& tile : mCurrTetromino->tiles)
         {
-            auto tileTransform = tile.getTransform();
-            tileTransform->position.x -= tileTransform->scale.x;
+            mLockedTiles.push_back(std::make_shared<Tile>(tile));
+            printf("%d, %d\n", tile.row, tile.column);
+        }
+        spawnTetromino(Type::I);
+    }
+
+    for (int i = 0; i < mGrid->numRows; i++)
+    {
+        if (mGrid->isRowFull(mGrid->values[i]))
+        {
+            for (auto tile : mLockedTiles)
+            {
+                if (tile->row == i)
+                {
+                    printf("%d", i);
+
+                    printf("did this.\n");
+                }
+            }
         }
     }
 
-    if (Input::isKeyDown("D"))
-    {
-        for (auto tile : mCurrTetromino->tiles)
-        {
-            auto tileTransform = tile.getTransform();
-            tileTransform->position.x += tileTransform->scale.x;
+    mCurrTetromino->moveDown();
+    mElapsedTime = 0;
+}
 
+
+void Tetris::spawnTetromino(Type type)
+{
+    Tetromino tetromino(type);
+    auto tet = std::make_shared<Tetromino>(tetromino);
+    mCurrTetromino = tet;
+
+    activeScene->objects.push_back(tet);
+
+    for (auto& tile : tetromino.tiles)
+    {
+        activeScene->objects.push_back(std::make_shared<Tile>(tile));
+    }
+
+    updateGrid();
+}
+
+void Tetris::updateGrid()
+{
+    for (int i = 0; i < mGrid->numRows; i++)
+    {
+        for (int j = 0; j < mGrid->numColumns; j++)
+        {
+            mGrid->setValue(i,j,0);
+            for (auto& tile : mCurrTetromino->tiles)
+            {
+                if (mGrid->tiles[i][j].getTransform()->position.x == tile.getTransform()->position.x && mGrid->tiles[i][j].getTransform()->position.y == tile.getTransform()->position.y)
+                {
+                    mGrid->setValue(i,j,1);
+                    tile.row = i;
+                    tile.column = j;
+                }
+            }
+
+            for (auto& tile : mLockedTiles)
+            {
+                if (mGrid->tiles[i][j].getTransform()->position.x == tile->getTransform()->position.x && mGrid->tiles[i][j].getTransform()->position.y == tile->getTransform()->position.y)
+                {
+                    mGrid->setValue(i,j,2);
+                    tile->row = i;
+                    tile->column = j;
+                }
+            }
         }
+    }
+}
+
+bool Tetris::checkForDownCollision()
+{
+    bool isCollided;
+    for (auto& tile : mCurrTetromino->tiles)
+    {
+        if ((mGrid->getValue(tile.row + 1,tile.column) == 2))
+        {
+            printf("%d, %d\n",tile.row - 1,tile.column);
+            printf("Collision detected.\n");
+            return isCollided = true;
+        }
+    }
+    return isCollided = false;
+}
+
+bool Tetris::checkForRightCollision()
+{
+    bool isCollided;
+    for (auto& tile : mCurrTetromino->tiles)
+    {
+        if ((mGrid->getValue(tile.row,tile.column + 1) == 2))
+        {
+            printf("%d, %d\n",tile.row,tile.column + 1);
+            printf("Collision detected.\n");
+            return isCollided = true;
+        }
+    }
+    return isCollided = false;
+}
+
+bool Tetris::checkForLeftCollision()
+{
+    bool isCollided;
+    for (auto& tile : mCurrTetromino->tiles)
+    {
+        if ((mGrid->getValue(tile.row,tile.column - 1) == 2))
+        {
+            printf("%d, %d\n",tile.row,tile.column - 1);
+            printf("Collision detected.\n");
+            return isCollided = true;
+        }
+    }
+    return isCollided = false;
+}
+
+void Tetris::withinBoundsX(Tile tile)
+{
+    auto transform = tile.getTransform();
+    if (transform->position.x + transform->scale.x > getWidth())
+    {
+        for (auto& t : mCurrTetromino->tiles)
+        {
+            t.getTransform()->position.x -= t.getTransform()->scale.x;
+        }
+        return;
+    }
+
+    if (transform->position.x < 0)
+    {
+        for (auto& t : mCurrTetromino->tiles)
+        {
+            t.getTransform()->position.x += t.getTransform()->scale.x;
+        }
+        return;
     }
 }
 

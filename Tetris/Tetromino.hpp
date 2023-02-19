@@ -1,13 +1,29 @@
 #pragma once
 #include "Engine.hpp"
+#include "Tile.hpp"
 #include <array>
+
+enum class Type
+{
+    I,
+    J,
+    L,
+    O,
+    S,
+    T,
+    Z
+};
 
 class Tetromino : public GameObject
 {
 public:
-    std::array<GameObject, 4> tiles;
-    Tetromino();
+    std::array<Tile, 4> tiles;
+    Tetromino(Type type);
     void moveDown();
-    void updateTiles();
+    void moveLeft();
+    void moveRight();
+    
 private:
+    void buildTiles();
+    Type mType;
 };
