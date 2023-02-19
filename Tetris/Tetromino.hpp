@@ -17,7 +17,7 @@ enum class Type
 class Tetromino : public GameObject
 {
 public:
-    std::array<Tile, 4> tiles;
+    std::array<std::shared_ptr<Tile>, 4> tiles;
     Tetromino(Type type);
     void moveDown();
     void moveLeft();

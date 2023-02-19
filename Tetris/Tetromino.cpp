@@ -17,7 +17,7 @@ void Tetromino::moveDown()
     transform->position.y += transform->scale.x;
     for (auto& tile : tiles)
     {
-        tile.getTransform()->position.y += transform->scale.x;
+        tile->getTransform()->position.y += transform->scale.x;
     }
 }
 
@@ -25,9 +25,9 @@ void Tetromino::moveLeft()
 {
     for (auto tile : tiles)
     {
-        auto transform = tile.getTransform();
+        auto transform = tile->getTransform();
         transform->position.x -= transform->scale.x;
-        tile.column -=1;
+        tile->column -=1;
     }
 }
 
@@ -35,9 +35,9 @@ void Tetromino::moveRight()
 {
     for (auto tile : tiles)
     {
-        auto transform = tile.getTransform();
+        auto transform = tile->getTransform();
         transform->position.x += transform->scale.x;
-        tile.column +=1;
+        tile->column +=1;
     }
 }
 
@@ -49,10 +49,10 @@ void Tetromino::buildTiles()
         {
             for (int i = 0; i < tiles.size(); i++)
             {
-                Tile tile;
-                tile.id = i;
-                auto tileTransform = tile.addTransform();
-                auto tileSprite = tile.addSprite();
+                auto tile = std::make_shared<Tile>();
+                tile->id = i;
+                auto tileTransform = tile->addTransform();
+                auto tileSprite = tile->addSprite();
 
                 tileTransform->setPosition(getTransform()->position);
                 tileTransform->setScale(getTransform()->scale);
@@ -67,10 +67,10 @@ void Tetromino::buildTiles()
         {
             for (int i = 0; i < tiles.size(); i++)
             {
-                Tile tile;
-                tile.id = i;
-                auto tileTransform = tile.addTransform();
-                auto tileSprite = tile.addSprite();
+                auto tile = std::make_shared<Tile>();
+                tile->id = i;
+                auto tileTransform = tile->addTransform();
+                auto tileSprite = tile->addSprite();
 
                 tileTransform->setPosition(getTransform()->position);
                 tileTransform->setScale(getTransform()->scale);
@@ -95,10 +95,10 @@ void Tetromino::buildTiles()
         {
             for (int i = 0; i < tiles.size(); i++)
             {
-                Tile tile;
-                tile.id = i;
-                auto tileTransform = tile.addTransform();
-                auto tileSprite = tile.addSprite();
+                auto tile = std::make_shared<Tile>();
+                tile->id = i;
+                auto tileTransform = tile->addTransform();
+                auto tileSprite = tile->addSprite();
 
                 tileTransform->setPosition(getTransform()->position);
                 tileTransform->setScale(getTransform()->scale);
@@ -114,10 +114,10 @@ void Tetromino::buildTiles()
         {
             for (int i = 0; i < tiles.size(); i++)
             {
-                Tile tile;
-                tile.id = i;
-                auto tileTransform = tile.addTransform();
-                auto tileSprite = tile.addSprite();
+                auto tile = std::make_shared<Tile>();
+                tile->id = i;
+                auto tileTransform = tile->addTransform();
+                auto tileSprite = tile->addSprite();
 
                 tileTransform->setPosition(getTransform()->position);
                 tileTransform->setScale(getTransform()->scale);
@@ -131,7 +131,6 @@ void Tetromino::buildTiles()
 
                 if (i == 3)
                 {
-                    printf("yeah\n");
                     getTransform()->position.y = tileTransform->position.y;
                 }
 
@@ -146,10 +145,10 @@ void Tetromino::buildTiles()
         {
             for (int i = 0; i < tiles.size(); i++)
             {
-                Tile tile;
-                tile.id = i;
-                auto tileTransform = tile.addTransform();
-                auto tileSprite = tile.addSprite();
+                auto tile = std::make_shared<Tile>();
+                tile->id = i;
+                auto tileTransform = tile->addTransform();
+                auto tileSprite = tile->addSprite();
 
                 tileTransform->setPosition(getTransform()->position);
                 tileTransform->setScale(getTransform()->scale);
@@ -166,10 +165,10 @@ void Tetromino::buildTiles()
         {
             for (int i = 0; i < tiles.size(); i++)
             {
-                Tile tile;
-                tile.id = i;
-                auto tileTransform = tile.addTransform();
-                auto tileSprite = tile.addSprite();
+                auto tile = std::make_shared<Tile>();
+                tile->id = i;
+                auto tileTransform = tile->addTransform();
+                auto tileSprite = tile->addSprite();
 
                 tileTransform->setPosition(getTransform()->position);
                 tileTransform->setScale(getTransform()->scale);
@@ -186,10 +185,10 @@ void Tetromino::buildTiles()
         {
             for (int i = 0; i < tiles.size(); i++)
             {
-                Tile tile;
-                tile.id = i;
-                auto tileTransform = tile.addTransform();
-                auto tileSprite = tile.addSprite();
+                auto tile = std::make_shared<Tile>();
+                tile->id = i;
+                auto tileTransform = tile->addTransform();
+                auto tileSprite = tile->addSprite();
 
                 tileTransform->setPosition(getTransform()->position);
                 tileTransform->setScale(getTransform()->scale);

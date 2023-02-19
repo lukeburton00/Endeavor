@@ -9,17 +9,16 @@ void Tetris::start()
     Scene scene;
     setActiveScene(scene);
 
-    Grid grid(10, 20);
-    for (auto& column : grid.tiles)
+    auto grid = std::make_shared<Grid>(10,20);
+    for (auto& column : grid->tiles)
     {
         for (auto& tile : column)
         {
-            activeScene->objects.push_back(std::make_shared<Tile>(tile));
+            activeScene->objects.push_back(tile);
         }
     }
-    mGrid = std::make_shared<Grid>(grid);
-
-    spawnTetromino(Type::O);
+    mGrid = grid;
+    spawnTetromino();
 
     mElapsedTime = 0;
     mTickLength = 1;
@@ -67,17 +66,39 @@ void Tetris::tick()
     {
         for (auto& tile : mCurrTetromino->tiles)
         {
-            mLockedTiles.push_back(std::make_shared<Tile>(tile));
-            printf("%d, %d\n", tile.row, tile.column);
+            mLockedTiles.push_back(tile);
+            printf("%d, %d\n", tile->row, tile->column);
         }
-        spawnTetromino(Type::I);
+        spawnTetromino();
     }
 
     for (int i = 0; i < mGrid->numRows; i++)
     {
         if (mGrid->isRowFull(mGrid->values[i]))
         {
-            printf("Row %d is full.\n", i);
+            for (auto it = mLockedTiles.begin(); it != mLockedTiles.end(); it++)
+            {
+                auto tile = it->get();
+                if (tile->row == i)
+                {
+                    tile->removeSprite();
+                    mLockedTiles.erase(it--);
+                }
+            }
+
+            for (int j = 0; j < mGrid->numColumns; j++)
+            {
+                mGrid->setValue(i,j,0);
+            }
+
+            for (auto it = mLockedTiles.begin(); it != mLockedTiles.end(); it++)
+            {
+                auto tile = it->get();
+                if (tile->row < i)
+                {
+                    tile->moveDown();
+                }
+            }
         }
     }
 
@@ -86,9 +107,10 @@ void Tetris::tick()
 }
 
 
-void Tetris::spawnTetromino(Type type)
+void Tetris::spawnTetromino()
 {
-    Tetromino tetromino(type);
+    Type random = static_cast<Type>(rand() % 4);
+    Tetromino tetromino(random);
     auto tet = std::make_shared<Tetromino>(tetromino);
     mCurrTetromino = tet;
 
@@ -96,7 +118,7 @@ void Tetris::spawnTetromino(Type type)
 
     for (auto& tile : tetromino.tiles)
     {
-        activeScene->objects.push_back(std::make_shared<Tile>(tile));
+        activeScene->objects.push_back(tile);
     }
 
     updateGrid();
@@ -111,17 +133,17 @@ void Tetris::updateGrid()
             mGrid->setValue(i,j,0);
             for (auto& tile : mCurrTetromino->tiles)
             {
-                if (mGrid->tiles[i][j].getTransform()->position.x == tile.getTransform()->position.x && mGrid->tiles[i][j].getTransform()->position.y == tile.getTransform()->position.y)
+                if (mGrid->tiles[i][j]->getTransform()->position.x == tile->getTransform()->position.x && mGrid->tiles[i][j]->getTransform()->position.y == tile->getTransform()->position.y)
                 {
                     mGrid->setValue(i,j,1);
-                    tile.row = i;
-                    tile.column = j;
+                    tile->row = i;
+                    tile->column = j;
                 }
             }
 
             for (auto& tile : mLockedTiles)
             {
-                if (mGrid->tiles[i][j].getTransform()->position.x == tile->getTransform()->position.x && mGrid->tiles[i][j].getTransform()->position.y == tile->getTransform()->position.y)
+                if (mGrid->tiles[i][j]->getTransform()->position.x == tile->getTransform()->position.x && mGrid->tiles[i][j]->getTransform()->position.y == tile->getTransform()->position.y)
                 {
                     mGrid->setValue(i,j,2);
                     tile->row = i;
@@ -137,9 +159,9 @@ bool Tetris::checkForDownCollision()
     bool isCollided;
     for (auto& tile : mCurrTetromino->tiles)
     {
-        if ((mGrid->getValue(tile.row + 1,tile.column) == 2))
+        if ((mGrid->getValue(tile->row + 1,tile->column) == 2))
         {
-            printf("%d, %d\n",tile.row - 1,tile.column);
+            printf("%d, %d\n",tile->row - 1,tile->column);
             printf("Collision detected.\n");
             return isCollided = true;
         }
@@ -152,9 +174,9 @@ bool Tetris::checkForRightCollision()
     bool isCollided;
     for (auto& tile : mCurrTetromino->tiles)
     {
-        if ((mGrid->getValue(tile.row,tile.column + 1) == 2))
+        if ((mGrid->getValue(tile->row,tile->column + 1) == 2))
         {
-            printf("%d, %d\n",tile.row,tile.column + 1);
+            printf("%d, %d\n",tile->row,tile->column + 1);
             printf("Collision detected.\n");
             return isCollided = true;
         }
@@ -167,9 +189,9 @@ bool Tetris::checkForLeftCollision()
     bool isCollided;
     for (auto& tile : mCurrTetromino->tiles)
     {
-        if ((mGrid->getValue(tile.row,tile.column - 1) == 2))
+        if ((mGrid->getValue(tile->row,tile->column - 1) == 2))
         {
-            printf("%d, %d\n",tile.row,tile.column - 1);
+            printf("%d, %d\n",tile->row,tile->column - 1);
             printf("Collision detected.\n");
             return isCollided = true;
         }
@@ -177,14 +199,14 @@ bool Tetris::checkForLeftCollision()
     return isCollided = false;
 }
 
-void Tetris::withinBoundsX(Tile tile)
+void Tetris::withinBoundsX(std::shared_ptr<Tile> tile)
 {
-    auto transform = tile.getTransform();
+    auto transform = tile->getTransform();
     if (transform->position.x + transform->scale.x > getWidth())
     {
         for (auto& t : mCurrTetromino->tiles)
         {
-            t.getTransform()->position.x -= t.getTransform()->scale.x;
+            t->getTransform()->position.x -= t->getTransform()->scale.x;
         }
         return;
     }
@@ -193,7 +215,7 @@ void Tetris::withinBoundsX(Tile tile)
     {
         for (auto& t : mCurrTetromino->tiles)
         {
-            t.getTransform()->position.x += t.getTransform()->scale.x;
+            t->getTransform()->position.x += t->getTransform()->scale.x;
         }
         return;
     }

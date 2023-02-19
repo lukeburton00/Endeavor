@@ -10,4 +10,5 @@ public:
 
 private:
     Time timer;
+    std::shared_ptr<GameObject> player;
 };

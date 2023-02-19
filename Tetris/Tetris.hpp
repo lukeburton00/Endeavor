@@ -20,12 +20,12 @@ private:
 
     void tick();
     void updateGrid();
-    void spawnTetromino(Type type);
+    void spawnTetromino();
     void clearTiles(int row);
     bool checkForDownCollision();
     bool checkForRightCollision();
     bool checkForLeftCollision();
 
-    void withinBoundsX(Tile tile);
+    void withinBoundsX(std::shared_ptr<Tile> tile);
 
 };
