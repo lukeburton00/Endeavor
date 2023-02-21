@@ -25,7 +25,7 @@ private:
     bool checkForDownCollision();
     bool checkForRightCollision();
     bool checkForLeftCollision();
-
-    void withinBoundsX(std::shared_ptr<Tile> tile);
+    bool rowIsFull(int row);
+    void checkBounds();
 
 };

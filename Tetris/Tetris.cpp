@@ -17,6 +17,7 @@ void Tetris::start()
             activeScene->objects.push_back(tile);
         }
     }
+
     mGrid = grid;
     spawnTetromino();
 
@@ -41,6 +42,7 @@ void Tetris::update(float deltaTime)
     if (mElapsedTime >= mTickLength)
     {
         tick();
+        updateGrid();
     }
 
     mElapsedTime += deltaTime;
@@ -48,61 +50,29 @@ void Tetris::update(float deltaTime)
     if (Input::isKeyDown("A") && !checkForLeftCollision())
     {
         mCurrTetromino->moveLeft();
+        checkBounds();
+        updateGrid();
+
     }
 
     if (Input::isKeyDown("D") && !checkForRightCollision())
     {
         mCurrTetromino->moveRight();
+        checkBounds();
+        updateGrid();
     }
-
-    for (auto tile : mCurrTetromino->tiles)
-    {
-        withinBoundsX(tile);
-    }
-
-    updateGrid();
 }
 
 void Tetris::tick()
 {
-    if (mCurrTetromino->getTransform()->position.y == getHeight() - (mCurrTetromino->getTransform()->scale.y) || checkForDownCollision())
+    bool hitBottom = ((mCurrTetromino->getTransform()->position.y == getHeight() - (mCurrTetromino->getTransform()->scale.y)) || checkForDownCollision());
+    if (hitBottom)
     {
         for (auto& tile : mCurrTetromino->tiles)
         {
             mLockedTiles.push_back(tile);
-            printf("%d, %d\n", tile->row, tile->column);
         }
         spawnTetromino();
-    }
-
-    for (int i = 0; i < mGrid->numRows; i++)
-    {
-        if (mGrid->isRowFull(mGrid->values[i]))
-        {
-            for (auto it = mLockedTiles.begin(); it < mLockedTiles.end(); it++)
-            {
-                auto tile = it->get();
-                if (tile->row == i)
-                {
-                    tile->removeSprite();
-                    mLockedTiles.erase(it--);
-                }
-            }
-
-            for (int j = 0; j < mGrid->numColumns; j++)
-            {
-                mGrid->setValue(i,j,0);
-            }
-
-            for (auto it = mLockedTiles.begin(); it < mLockedTiles.end(); it++)
-            {
-                auto tile = it->get();
-                if (tile->row < i)
-                {
-                    tile->moveDown();
-                }
-            }
-        }
     }
 
     mCurrTetromino->moveDown();
@@ -133,14 +103,13 @@ void Tetris::updateGrid()
     {
         for (int j = 0; j < mGrid->numColumns; j++)
         {
-			auto gridTileTransform = mGrid->tiles[i][j]->getTransform();
             mGrid->setValue(i,j,0);
+			auto gridTileTransform = mGrid->tiles[i][j]->getTransform();
+
             for (auto& tile : mCurrTetromino->tiles)
             {
-				auto tetrominoTileTransform = tile->getTransform();
-                if (gridTileTransform->position.x == tetrominoTileTransform->position.x && gridTileTransform->position.y == tetrominoTileTransform->position.y)
+                if (tile->getTransform()->position.x == gridTileTransform->position.x && tile->getTransform()->position.y == gridTileTransform->position.y)
                 {
-                    mGrid->setValue(i,j,1);
                     tile->row = i;
                     tile->column = j;
                 }
@@ -149,14 +118,55 @@ void Tetris::updateGrid()
             for (auto& tile : mLockedTiles)
             {
 				auto lockedTileTransform = tile->getTransform();
+                tile->row = i;
+                tile->column = j;
                 if (gridTileTransform->position.x == lockedTileTransform->position.x &&
 					gridTileTransform->position.y == lockedTileTransform->position.y)
                 {
                     mGrid->setValue(i,j,2);
-                    tile->row = i;
-                    tile->column = j;
                 }
             }
+        }
+    }
+
+    for (int i = 0; i < mGrid->numRows; i++)
+    {
+        if (rowIsFull(i)) clearTiles(i);
+    }
+}
+
+bool Tetris::rowIsFull(int row)
+{
+    if (mGrid->isRowFull(mGrid->values[row]))
+    {
+        return true;
+    }
+    return false;
+}
+
+void Tetris::clearTiles(int row)
+{
+    for (auto it = mLockedTiles.begin(); it < mLockedTiles.end(); it++)
+    {
+        auto tile = it->get();
+        if (tile->row == row)
+        {
+            tile->removeSprite();
+            mLockedTiles.erase(it--);
+        }
+    }
+
+    for (int j = 0; j < mGrid->numColumns; j++)
+    {
+        mGrid->setValue(row,j,0);
+    }
+
+    for (auto it = mLockedTiles.begin(); it < mLockedTiles.end(); it++)
+    {
+        auto tile = it->get();
+        if (tile->row < row)
+        {
+            tile->moveDown();
         }
     }
 }
@@ -168,8 +178,6 @@ bool Tetris::checkForDownCollision()
     {
         if ((mGrid->getValue(tile->row + 1,tile->column) == 2))
         {
-            printf("%d, %d\n",tile->row - 1,tile->column);
-            printf("Collision detected.\n");
             return isCollided = true;
         }
     }
@@ -206,25 +214,28 @@ bool Tetris::checkForLeftCollision()
     return isCollided = false;
 }
 
-void Tetris::withinBoundsX(std::shared_ptr<Tile> tile)
+void Tetris::checkBounds()
 {
-    auto transform = tile->getTransform();
-    if (transform->position.x + transform->scale.x > getWidth())
+    for (auto tile : mCurrTetromino->tiles)
     {
-        for (auto& t : mCurrTetromino->tiles)
+        auto transform = tile->getTransform();
+        if (transform->position.x + transform->scale.x > getWidth())
         {
-            t->getTransform()->position.x -= t->getTransform()->scale.x;
+            for (auto& t : mCurrTetromino->tiles)
+            {
+                t->getTransform()->position.x -= t->getTransform()->scale.x;
+            }
+            return;
         }
-        return;
-    }
 
-    if (transform->position.x < 0)
-    {
-        for (auto& t : mCurrTetromino->tiles)
+        if (transform->position.x < 0)
         {
-            t->getTransform()->position.x += t->getTransform()->scale.x;
+            for (auto& t : mCurrTetromino->tiles)
+            {
+                t->getTransform()->position.x += t->getTransform()->scale.x;
+            }
+            return;
         }
-        return;
     }
 }
 

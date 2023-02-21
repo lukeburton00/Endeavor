@@ -19,6 +19,7 @@ void Tetromino::moveDown()
     for (auto& tile : tiles)
     {
         tile->getTransform()->position.y += transform->scale.x;
+        tile->row -= 1;
     }
 }
 
