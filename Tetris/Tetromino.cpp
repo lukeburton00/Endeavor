@@ -8,6 +8,7 @@ Tetromino::Tetromino(Type type)
     transform->setScale(glm::vec2(40.0f, 40.0f));
     transform->setPosition(glm::vec2(120, 0));
 
+    tiles = std::array<std::shared_ptr<Tile>, 4>();
     buildTiles();
 }
 
@@ -53,7 +54,6 @@ void Tetromino::buildTiles()
                 tile->id = i;
                 auto tileTransform = tile->addTransform();
                 auto tileSprite = tile->addSprite();
-
                 tileTransform->setPosition(getTransform()->position);
                 tileTransform->setScale(getTransform()->scale);
                 tileTransform->position.x += getTransform()->scale.x * i;
@@ -112,6 +112,7 @@ void Tetromino::buildTiles()
 
         case Type::O:
         {
+            getTransform()->position.x += getTransform()->scale.x;
             for (int i = 0; i < tiles.size(); i++)
             {
                 auto tile = std::make_shared<Tile>();

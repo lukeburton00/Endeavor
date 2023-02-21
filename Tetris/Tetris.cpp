@@ -20,6 +20,8 @@ void Tetris::start()
     mGrid = grid;
     spawnTetromino();
 
+    mLockedTiles = std::vector<std::shared_ptr<Tile>>();
+
     mElapsedTime = 0;
     mTickLength = 1;
 }
@@ -51,7 +53,6 @@ void Tetris::update(float deltaTime)
     if (Input::isKeyDown("D") && !checkForRightCollision())
     {
         mCurrTetromino->moveRight();
-
     }
 
     for (auto tile : mCurrTetromino->tiles)
@@ -78,14 +79,13 @@ void Tetris::tick()
     {
         if (mGrid->isRowFull(mGrid->values[i]))
         {
-            for (int i = 0; i < mLockedTiles.size(); i++)
+            for (auto it = mLockedTiles.begin(); it < mLockedTiles.end(); it++)
             {
-                auto tile = mLockedTiles[i];
+                auto tile = it->get();
                 if (tile->row == i)
                 {
                     tile->removeSprite();
-                    mLockedTiles.erase(std::remove(mLockedTiles.begin(), mLockedTiles.end(), tile));
-                    i--;
+                    mLockedTiles.erase(it--);
                 }
             }
 
@@ -94,7 +94,7 @@ void Tetris::tick()
                 mGrid->setValue(i,j,0);
             }
 
-            for (auto it = mLockedTiles.begin(); it != mLockedTiles.end(); it++)
+            for (auto it = mLockedTiles.begin(); it < mLockedTiles.end(); it++)
             {
                 auto tile = it->get();
                 if (tile->row < i)
@@ -214,8 +214,8 @@ void Tetris::withinBoundsX(std::shared_ptr<Tile> tile)
         for (auto& t : mCurrTetromino->tiles)
         {
             t->getTransform()->position.x -= t->getTransform()->scale.x;
-            return;
         }
+        return;
     }
 
     if (transform->position.x < 0)
