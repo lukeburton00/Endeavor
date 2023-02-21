@@ -46,14 +46,11 @@ void Tetris::update(float deltaTime)
     if (Input::isKeyDown("A") && !checkForLeftCollision())
     {
         mCurrTetromino->moveLeft();
-        updateGrid();
-
     }
 
     if (Input::isKeyDown("D") && !checkForRightCollision())
     {
         mCurrTetromino->moveRight();
-        updateGrid();
 
     }
 
@@ -61,6 +58,8 @@ void Tetris::update(float deltaTime)
     {
         withinBoundsX(tile);
     }
+
+    updateGrid();
 }
 
 void Tetris::tick()
@@ -79,13 +78,14 @@ void Tetris::tick()
     {
         if (mGrid->isRowFull(mGrid->values[i]))
         {
-            for (auto it = mLockedTiles.begin(); it != mLockedTiles.end(); it++)
+            for (int i = 0; i < mLockedTiles.size(); i++)
             {
-                auto tile = it->get();
+                auto tile = mLockedTiles[i];
                 if (tile->row == i)
                 {
                     tile->removeSprite();
-                    mLockedTiles.erase(it--);
+                    mLockedTiles.erase(std::remove(mLockedTiles.begin(), mLockedTiles.end(), tile));
+                    i--;
                 }
             }
 
@@ -107,7 +107,6 @@ void Tetris::tick()
 
     mCurrTetromino->moveDown();
     mElapsedTime = 0;
-    updateGrid();
 }
 
 
@@ -215,10 +214,8 @@ void Tetris::withinBoundsX(std::shared_ptr<Tile> tile)
         for (auto& t : mCurrTetromino->tiles)
         {
             t->getTransform()->position.x -= t->getTransform()->scale.x;
+            return;
         }
-        updateGrid();
-
-        return;
     }
 
     if (transform->position.x < 0)
@@ -227,8 +224,6 @@ void Tetris::withinBoundsX(std::shared_ptr<Tile> tile)
         {
             t->getTransform()->position.x += t->getTransform()->scale.x;
         }
-        updateGrid();
-
         return;
     }
 }
