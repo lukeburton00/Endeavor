@@ -49,6 +49,41 @@ void Tetris::update(float deltaTime)
 
     mElapsedTime += deltaTime;
 
+    if (Input::isKeyDown("W"))
+    {
+        mCurrTetromino->rotate();
+        for (auto& tetTile : mCurrTetromino->tiles)
+        {
+            auto tetTileTransform = tetTile->getTransform();
+
+            if (tetTileTransform->position.x >= getWidth())
+            {
+                mCurrTetromino->moveLeft();
+            }
+
+            if (tetTileTransform->position.x < 0)
+            {
+                mCurrTetromino->moveRight();
+            }
+
+            if (tetTileTransform->position.y >= getHeight())
+            {
+                mCurrTetromino->undoRotation();
+            }
+            
+            for (auto& lockedTile : mLockedTiles)
+            {
+                auto lockedTileTransform = lockedTile->getTransform();
+                if ((lockedTileTransform->position == tetTileTransform->position))
+                {
+                    mCurrTetromino->undoRotation();
+                    return;
+                }
+            }
+        }
+        updateGrid();
+    }
+
     if (Input::isKeyDown("A") && !checkForLeftCollision())
     {
         mCurrTetromino->moveLeft();
@@ -135,7 +170,6 @@ void Tetris::updateGrid()
             }
         }
     }
-
     for (int i = 0; i < mGrid->numRows; i++)
     {
         if (rowIsFull(i))
@@ -143,7 +177,6 @@ void Tetris::updateGrid()
             clearTiles(i);
             moveStaticTilesDown(i);
         }
-
     }
 }
 

@@ -12,4 +12,10 @@ public:
         getTransform()->position.y += getTransform()->scale.y;
         row += 1;
     }
+
+    void moveUp()
+    {
+        getTransform()->position.y -= getTransform()->scale.y;
+        row += 1;
+    }
 };
