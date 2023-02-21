@@ -1,5 +1,5 @@
 #include "Tetris.hpp"
-
+#include <random>
 void Tetris::start()
 {
     setWidth(400);
@@ -19,7 +19,9 @@ void Tetris::start()
     }
 
     mGrid = grid;
-    spawnTetromino();
+    spawnTetromino(SDL_GetTicks64());
+    mCurrTetromino->moveDown();
+    updateGrid();
 
     mLockedTiles = std::vector<std::shared_ptr<Tile>>();
 
@@ -50,40 +52,44 @@ void Tetris::update(float deltaTime)
     if (Input::isKeyDown("A") && !checkForLeftCollision())
     {
         mCurrTetromino->moveLeft();
-        checkBounds();
         updateGrid();
-
     }
 
     if (Input::isKeyDown("D") && !checkForRightCollision())
     {
         mCurrTetromino->moveRight();
-        checkBounds();
         updateGrid();
     }
 }
 
 void Tetris::tick()
 {
-    bool hitBottom = ((mCurrTetromino->getTransform()->position.y == getHeight() - (mCurrTetromino->getTransform()->scale.y)) || checkForDownCollision());
+    bool hitBottom = checkForDownCollision();
     if (hitBottom)
     {
         for (auto& tile : mCurrTetromino->tiles)
         {
             mLockedTiles.push_back(tile);
         }
-        spawnTetromino();
+        spawnTetromino(SDL_GetTicks64());
     }
 
     mCurrTetromino->moveDown();
+
     mElapsedTime = 0;
 }
 
 
-void Tetris::spawnTetromino()
+void Tetris::spawnTetromino(int seed)
 {
-    Type random = static_cast<Type>(rand() % 4);
-    Tetromino tetromino(random);
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distr(0, 6);
+    int rand = distr(gen);
+    printf("%d\n", rand);
+
+    Type randomType = static_cast<Type>(rand);
+    Tetromino tetromino(randomType);
     auto tet = std::make_shared<Tetromino>(tetromino);
     mCurrTetromino = tet;
 
@@ -93,8 +99,6 @@ void Tetris::spawnTetromino()
     {
         activeScene->objects.push_back(tile);
     }
-
-    updateGrid();
 }
 
 void Tetris::updateGrid()
@@ -108,21 +112,24 @@ void Tetris::updateGrid()
 
             for (auto& tile : mCurrTetromino->tiles)
             {
-                if (tile->getTransform()->position.x == gridTileTransform->position.x && tile->getTransform()->position.y == gridTileTransform->position.y)
+                if (tile->getTransform()->position.x == gridTileTransform->position.x 
+                && tile->getTransform()->position.y == gridTileTransform->position.y)
                 {
                     tile->row = i;
                     tile->column = j;
+                    mGrid->setValue(i,j,1);
                 }
             }
 
             for (auto& tile : mLockedTiles)
             {
 				auto lockedTileTransform = tile->getTransform();
-                tile->row = i;
-                tile->column = j;
-                if (gridTileTransform->position.x == lockedTileTransform->position.x &&
-					gridTileTransform->position.y == lockedTileTransform->position.y)
+
+                if (gridTileTransform->position.x == lockedTileTransform->position.x 
+                && gridTileTransform->position.y == lockedTileTransform->position.y)
                 {
+                    tile->row = i;
+                    tile->column = j;
                     mGrid->setValue(i,j,2);
                 }
             }
@@ -131,7 +138,12 @@ void Tetris::updateGrid()
 
     for (int i = 0; i < mGrid->numRows; i++)
     {
-        if (rowIsFull(i)) clearTiles(i);
+        if (rowIsFull(i))
+        {
+            clearTiles(i);
+            moveStaticTilesDown(i);
+        }
+
     }
 }
 
@@ -146,6 +158,7 @@ bool Tetris::rowIsFull(int row)
 
 void Tetris::clearTiles(int row)
 {
+    printf("Clearing tiles on row %d\n", row);
     for (auto it = mLockedTiles.begin(); it < mLockedTiles.end(); it++)
     {
         auto tile = it->get();
@@ -160,10 +173,12 @@ void Tetris::clearTiles(int row)
     {
         mGrid->setValue(row,j,0);
     }
+}
 
-    for (auto it = mLockedTiles.begin(); it < mLockedTiles.end(); it++)
+void Tetris::moveStaticTilesDown(int row)
+{
+    for (auto tile : mLockedTiles)
     {
-        auto tile = it->get();
         if (tile->row < row)
         {
             tile->moveDown();
@@ -176,7 +191,12 @@ bool Tetris::checkForDownCollision()
     bool isCollided;
     for (auto& tile : mCurrTetromino->tiles)
     {
-        if ((mGrid->getValue(tile->row + 1,tile->column) == 2))
+        if (tile->row < mGrid->numRows - 1 && (mGrid->getValue(tile->row + 1,tile->column) == 2))
+        {
+            return isCollided = true;
+        }
+
+        if (tile->row == mGrid->numRows - 1)
         {
             return isCollided = true;
         }
@@ -189,10 +209,13 @@ bool Tetris::checkForRightCollision()
     bool isCollided;
     for (auto& tile : mCurrTetromino->tiles)
     {
-        if ((mGrid->getValue(tile->row,tile->column + 1) == 2))
+        if (tile->column < mGrid->numColumns - 1 && (mGrid->getValue(tile->row,tile->column + 1) == 2))
         {
-            printf("%d, %d\n",tile->row,tile->column + 1);
-            printf("Collision detected.\n");
+            return isCollided = true;
+        }
+
+        if (tile->column == mGrid->numColumns - 1)
+        {
             return isCollided = true;
         }
     }
@@ -204,39 +227,19 @@ bool Tetris::checkForLeftCollision()
     bool isCollided;
     for (auto& tile : mCurrTetromino->tiles)
     {
-        if ((mGrid->getValue(tile->row,tile->column - 1) == 2))
+        if (tile->column > 0 && (mGrid->getValue(tile->row,tile->column - 1) == 2))
         {
             printf("%d, %d\n",tile->row,tile->column - 1);
             printf("Collision detected.\n");
             return isCollided = true;
         }
+
+        if (tile->column == 0)
+        {
+            return isCollided = true;
+        }
     }
     return isCollided = false;
-}
-
-void Tetris::checkBounds()
-{
-    for (auto tile : mCurrTetromino->tiles)
-    {
-        auto transform = tile->getTransform();
-        if (transform->position.x + transform->scale.x > getWidth())
-        {
-            for (auto& t : mCurrTetromino->tiles)
-            {
-                t->getTransform()->position.x -= t->getTransform()->scale.x;
-            }
-            return;
-        }
-
-        if (transform->position.x < 0)
-        {
-            for (auto& t : mCurrTetromino->tiles)
-            {
-                t->getTransform()->position.x += t->getTransform()->scale.x;
-            }
-            return;
-        }
-    }
 }
 
 void Tetris::stop()

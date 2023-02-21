@@ -20,12 +20,11 @@ private:
 
     void tick();
     void updateGrid();
-    void spawnTetromino();
+    void spawnTetromino(int seed);
     void clearTiles(int row);
+    void moveStaticTilesDown(int row);
     bool checkForDownCollision();
     bool checkForRightCollision();
     bool checkForLeftCollision();
     bool rowIsFull(int row);
-    void checkBounds();
-
 };

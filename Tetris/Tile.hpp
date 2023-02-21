@@ -10,5 +10,6 @@ public:
     void moveDown()
     {
         getTransform()->position.y += getTransform()->scale.y;
+        row += 1;
     }
 };

@@ -18,8 +18,7 @@ void Tetromino::moveDown()
     transform->position.y += transform->scale.x;
     for (auto& tile : tiles)
     {
-        tile->getTransform()->position.y += transform->scale.x;
-        tile->row -= 1;
+        tile->moveDown();
     }
 }
 
@@ -29,7 +28,7 @@ void Tetromino::moveLeft()
     {
         auto transform = tile->getTransform();
         transform->position.x -= transform->scale.x;
-        tile->column -=1;
+        tile->column--;
     }
 }
 
@@ -39,169 +38,115 @@ void Tetromino::moveRight()
     {
         auto transform = tile->getTransform();
         transform->position.x += transform->scale.x;
-        tile->column +=1;
+        tile->column++;
     }
 }
 
 void Tetromino::buildTiles()
 {
-    switch(mType)
+    for (int i = 0; i < tiles.size(); i++)
     {
-        case Type::I:
+        auto tile = std::make_shared<Tile>();
+        tile->id = i;
+        auto tileTransform = tile->addTransform();
+        auto tileSprite = tile->addSprite();
+        tileTransform->setPosition(getTransform()->position);
+        tileTransform->setScale(getTransform()->scale);
+        tileTransform->position.x += getTransform()->scale.x * i;
+
+
+        switch (mType)
         {
-            for (int i = 0; i < tiles.size(); i++)
+            case Type::I:
             {
-                auto tile = std::make_shared<Tile>();
-                tile->id = i;
-                auto tileTransform = tile->addTransform();
-                auto tileSprite = tile->addSprite();
-                tileTransform->setPosition(getTransform()->position);
-                tileTransform->setScale(getTransform()->scale);
-                tileTransform->position.x += getTransform()->scale.x * i;
                 tileSprite->setColor(glm::vec4(0.0f,0.5f,1.0f,1.0f));
-                tiles[i] = tile;
+                break;
             }
-            break;
-        }
 
-        case Type::J:
-        {
-            for (int i = 0; i < tiles.size(); i++)
+            case Type::J:
             {
-                auto tile = std::make_shared<Tile>();
-                tile->id = i;
-                auto tileTransform = tile->addTransform();
-                auto tileSprite = tile->addSprite();
-
-                tileTransform->setPosition(getTransform()->position);
-                tileTransform->setScale(getTransform()->scale);
-
-                if (i == 1)
+                if (i == 3)
                 {
                     tileTransform->position.y -= getTransform()->scale.y;
+                    tileTransform->position.x -= getTransform()->scale.x;
                 }
 
-                if (i > 1)
+                tileSprite->setColor(glm::vec4(1.0f,0.5f,0.0f,1.0f));
+                break;
+            }
+
+            case Type::L:
+            {
+                if (i == 0)
                 {
-                    tileTransform->position.x += getTransform()->scale.x * (i - 1);
                     tileTransform->position.y -= getTransform()->scale.y;
+                    tileTransform->position.x += getTransform()->scale.x;
                 }
                 tileSprite->setColor(glm::vec4(0.0f,0.0f,1.0f,1.0f));
-                tiles[i] = tile;
+                break;
             }
-            break;
-        }
 
-        case Type::L:
-        {
-            for (int i = 0; i < tiles.size(); i++)
+            case Type::O:
             {
-                auto tile = std::make_shared<Tile>();
-                tile->id = i;
-                auto tileTransform = tile->addTransform();
-                auto tileSprite = tile->addSprite();
-
-                tileTransform->setPosition(getTransform()->position);
-                tileTransform->setScale(getTransform()->scale);
-                tileTransform->position.x += getTransform()->scale.x * i;
-
-                tileSprite->setColor(glm::vec4(0.0f,0.5f,1.0f,1.0f));
-                tiles[i] = tile;
-            }
-            break;
-        }
-
-        case Type::O:
-        {
-            getTransform()->position.x += getTransform()->scale.x;
-            for (int i = 0; i < tiles.size(); i++)
-            {
-                auto tile = std::make_shared<Tile>();
-                tile->id = i;
-                auto tileTransform = tile->addTransform();
-                auto tileSprite = tile->addSprite();
-
-                tileTransform->setPosition(getTransform()->position);
-                tileTransform->setScale(getTransform()->scale);
-                tileTransform->position.x += getTransform()->scale.x * i;
-
-                if (i >= 2)
+                if (i == 0)
                 {
-                    tileTransform->position.x -= tileTransform->scale.x * 2;
+                    tileTransform->position.x += tileTransform->scale.x;
                     tileTransform->position.y += tileTransform->scale.y;
                 }
 
                 if (i == 3)
                 {
-                    getTransform()->position.y = tileTransform->position.y;
+                    tileTransform->position.x -= tileTransform->scale.x;
+                    tileTransform->position.y += tileTransform->scale.y;
                 }
 
                 tileSprite->setColor(glm::vec4(1.0f,1.0f,0.0f,1.0f));
-                tiles[i] = tile;
+                break;
             }
-            break;
-
-        }
-
-        case Type::S:
-        {
-            for (int i = 0; i < tiles.size(); i++)
+            
+            case Type::S:
             {
-                auto tile = std::make_shared<Tile>();
-                tile->id = i;
-                auto tileTransform = tile->addTransform();
-                auto tileSprite = tile->addSprite();
+                if (i == 2 || i == 3)
+                {
+                    tileTransform->position.y += tileTransform->scale.x;
+                    tileTransform->position.x -= tileTransform->scale.x * 3;
+                }
 
-                tileTransform->setPosition(getTransform()->position);
-                tileTransform->setScale(getTransform()->scale);
-                tileTransform->position.x += getTransform()->scale.x * i;
-
-                tileSprite->setColor(glm::vec4(0.0f,0.5f,1.0f,1.0f));
-                tiles[i] = tile;
+                tileTransform->position.x += tileTransform->scale.x * 2;
+                tileSprite->setColor(glm::vec4(0.0f,1.0f,0.0f,1.0f));
+                break;
             }
-            break;
 
-        }
-
-        case Type::T:
-        {
-            for (int i = 0; i < tiles.size(); i++)
+            case Type::T:
             {
-                auto tile = std::make_shared<Tile>();
-                tile->id = i;
-                auto tileTransform = tile->addTransform();
-                auto tileSprite = tile->addSprite();
-
-                tileTransform->setPosition(getTransform()->position);
-                tileTransform->setScale(getTransform()->scale);
-                tileTransform->position.x += getTransform()->scale.x * i;
-
-                tileSprite->setColor(glm::vec4(0.0f,0.5f,1.0f,1.0f));
+                if (i == 0)
+                {
+                    tileTransform->position.y -= tileTransform->scale.y;
+                    tileTransform->position.x += tileTransform->scale.x * 2;
+                }
+                tileSprite->setColor(glm::vec4(1.0f,0.0f,1.0f,1.0f));
                 tiles[i] = tile;
+                break;
             }
-            break;
 
-        }
-
-        case Type::Z:
-        {
-            for (int i = 0; i < tiles.size(); i++)
+            case Type::Z:
             {
-                auto tile = std::make_shared<Tile>();
-                tile->id = i;
-                auto tileTransform = tile->addTransform();
-                auto tileSprite = tile->addSprite();
+                if (i == 0 || i == 1)
+                {
+                    tileTransform->position.y -= tileTransform->scale.x;
+                    tileTransform->position.x += tileTransform->scale.x;
+                }
 
-                tileTransform->setPosition(getTransform()->position);
-                tileTransform->setScale(getTransform()->scale);
-                tileTransform->position.x += getTransform()->scale.x * i;
-
-                tileSprite->setColor(glm::vec4(0.0f,0.5f,1.0f,1.0f));
-                tiles[i] = tile;
+                tileSprite->setColor(glm::vec4(1.0f,0.0f,1.0f,1.0f));
+                break;
             }
-            break;
+                default:
+                break;
         }
-
-        default: break;
+        if (i == 3)
+        {
+            getTransform()->setPosition(tileTransform->position);
+        }
+        tiles[i] = tile;
     }
 }
