@@ -46,18 +46,21 @@ void Tetris::update(float deltaTime)
     if (Input::isKeyDown("A") && !checkForLeftCollision())
     {
         mCurrTetromino->moveLeft();
+        updateGrid();
+
     }
 
     if (Input::isKeyDown("D") && !checkForRightCollision())
     {
         mCurrTetromino->moveRight();
+        updateGrid();
+
     }
 
     for (auto tile : mCurrTetromino->tiles)
     {
         withinBoundsX(tile);
     }
-    updateGrid();
 }
 
 void Tetris::tick()
@@ -104,6 +107,7 @@ void Tetris::tick()
 
     mCurrTetromino->moveDown();
     mElapsedTime = 0;
+    updateGrid();
 }
 
 
@@ -130,10 +134,12 @@ void Tetris::updateGrid()
     {
         for (int j = 0; j < mGrid->numColumns; j++)
         {
+			auto gridTileTransform = mGrid->tiles[i][j]->getTransform();
             mGrid->setValue(i,j,0);
             for (auto& tile : mCurrTetromino->tiles)
             {
-                if (mGrid->tiles[i][j]->getTransform()->position.x == tile->getTransform()->position.x && mGrid->tiles[i][j]->getTransform()->position.y == tile->getTransform()->position.y)
+				auto tetrominoTileTransform = tile->getTransform();
+                if (gridTileTransform->position.x == tetrominoTileTransform->position.x && gridTileTransform->position.y == tetrominoTileTransform->position.y)
                 {
                     mGrid->setValue(i,j,1);
                     tile->row = i;
@@ -143,7 +149,9 @@ void Tetris::updateGrid()
 
             for (auto& tile : mLockedTiles)
             {
-                if (mGrid->tiles[i][j]->getTransform()->position.x == tile->getTransform()->position.x && mGrid->tiles[i][j]->getTransform()->position.y == tile->getTransform()->position.y)
+				auto lockedTileTransform = tile->getTransform();
+                if (gridTileTransform->position.x == lockedTileTransform->position.x &&
+					gridTileTransform->position.y == lockedTileTransform->position.y)
                 {
                     mGrid->setValue(i,j,2);
                     tile->row = i;
@@ -208,6 +216,8 @@ void Tetris::withinBoundsX(std::shared_ptr<Tile> tile)
         {
             t->getTransform()->position.x -= t->getTransform()->scale.x;
         }
+        updateGrid();
+
         return;
     }
 
@@ -217,6 +227,8 @@ void Tetris::withinBoundsX(std::shared_ptr<Tile> tile)
         {
             t->getTransform()->position.x += t->getTransform()->scale.x;
         }
+        updateGrid();
+
         return;
     }
 }
