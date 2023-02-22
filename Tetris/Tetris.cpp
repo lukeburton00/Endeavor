@@ -19,6 +19,9 @@ void Tetris::start()
     }
 
     mGrid = grid;
+
+    auto factory = std::make_shared<TetrominoFactory>();
+    mFactory = factory;
     spawnTetromino(SDL_GetTicks64());
     mCurrTetromino->moveDown();
     updateGrid();
@@ -124,13 +127,13 @@ void Tetris::spawnTetromino(int seed)
     printf("%d\n", rand);
 
     Type randomType = static_cast<Type>(rand);
-    Tetromino tetromino(randomType);
-    auto tet = std::make_shared<Tetromino>(tetromino);
-    mCurrTetromino = tet;
+    auto tetromino = mFactory->getTetromino(randomType);
+    tetromino->buildTiles();
 
-    activeScene->objects.push_back(tet);
+    mCurrTetromino = tetromino;
+    activeScene->objects.push_back(tetromino);
 
-    for (auto& tile : tetromino.tiles)
+    for (auto& tile : tetromino->tiles)
     {
         activeScene->objects.push_back(tile);
     }

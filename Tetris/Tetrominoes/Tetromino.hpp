@@ -18,18 +18,19 @@ class Tetromino : public GameObject
 {
 public:
     std::array<std::shared_ptr<Tile>, 4> tiles;
-    Tetromino(Type type);
+    
+    Tetromino();
+    virtual void buildTiles() = 0;
+
     void moveUp();
     void moveDown();
     void moveLeft();
     void moveRight();
     void rotate();
     void undoRotation();
-    
-private:
-    void buildTiles();
-    void resolveRotations();
+
+protected:
+    virtual void resolveRotations() = 0;
     Type mType;
     int rotationState;
-
 };

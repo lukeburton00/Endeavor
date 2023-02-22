@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine.hpp"
-#include "Tetromino.hpp"
+#include "TetrominoFactory.hpp"
 #include "Grid.hpp"
 
 class Tetris : public Game
@@ -16,6 +16,7 @@ private:
     float mTickLength;
     std::shared_ptr<Tetromino> mCurrTetromino;
     std::shared_ptr<Grid> mGrid;
+    std::shared_ptr<TetrominoFactory> mFactory;
     std::vector<std::shared_ptr<Tile>> mLockedTiles;
 
     void tick();
