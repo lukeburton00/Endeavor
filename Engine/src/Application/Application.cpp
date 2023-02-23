@@ -22,6 +22,12 @@ void Application::start()
     title = "DefaultTexture";
     ResourceManager::loadTexture2D(title, "../engine/assets/2DTextures/default.jpg");
 
+    title = "GridTexture";
+    ResourceManager::loadTexture2D(title, "../engine/assets/2DTextures/grid.png");
+
+    title = "TileTexture";
+    ResourceManager::loadTexture2D(title, "../engine/assets/2DTextures/tile.png");
+
     Renderer renderer(glm::vec2(mActiveGame.getWidth(), mActiveGame.getHeight()));
     mRenderer = std::make_shared<Renderer>(renderer);
 
@@ -102,7 +108,7 @@ void Application::render()
         auto sprite = obj->getSprite();
         if (transform != nullptr && sprite != nullptr)
         {
-            mRenderer->drawQuad(transform->position, transform->scale, sprite->color);
+            mRenderer->drawQuad(transform->position, transform->scale, sprite->color, sprite->textureName);
         }
     }
 

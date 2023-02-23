@@ -37,11 +37,19 @@ class Sprite : public Component
 {
 public:
     glm::vec4 color;
+    std::string textureName;
+
     Sprite() : color(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)) {};
 
     void setColor(glm::vec4 colorVector)
     {
         color = colorVector;
+        textureName = "DefaultTexture";
+    }
+
+    void setTexture(std::string texture)
+    {
+        textureName = texture;
     }
 };
 

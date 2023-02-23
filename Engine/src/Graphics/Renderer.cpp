@@ -4,12 +4,14 @@ Renderer::Renderer(glm::vec2 dimensions)
 {
     createQuadPrimitive();
     setViewport(dimensions);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
 }
 
-void Renderer::drawQuad(const glm::vec2& position, const glm::vec2& scale, const glm::vec4& color)
+void Renderer::drawQuad(const glm::vec2& position, const glm::vec2& scale, const glm::vec4& color, std::string& textureName)
 {
     Shader shader = *ResourceManager::getShader("DefaultShader");
-    Texture2D texture = *ResourceManager::getTexture("DefaultTexture");
+    Texture2D texture = *ResourceManager::getTexture(textureName);
 
     texture.bind();
 
