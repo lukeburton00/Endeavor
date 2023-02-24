@@ -30,7 +30,8 @@ public:
                 transform->setScale(glm::vec2(40.0f, 40.0f));
                 transform->setPosition(glm::vec2(j * transform->scale.x, i * transform->scale.y));
 
-                sprite->setColor(glm::vec4(0.5f, 0.5f, 0.5f, 0.5f));
+                sprite->textureName = "GridTexture";
+                sprite->setColor(glm::vec4(0.5f,0.5f, 0.5f, 1.0f));
 
                 tiles[i][j] = tile;
                 values[i][j] = 0;

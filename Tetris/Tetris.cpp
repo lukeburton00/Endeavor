@@ -1,5 +1,5 @@
 #include "Tetris.hpp"
-#include <random>
+
 void Tetris::start()
 {
     setWidth(400);
@@ -14,6 +14,7 @@ void Tetris::start()
     {
         for (auto& tile : column)
         {
+            tile->getSprite()->textureName = "GridTexture";
             activeScene->objects.push_back(tile);
         }
     }
@@ -30,21 +31,24 @@ void Tetris::start()
 
     mElapsedTime = 0;
     mTickLength = 1;
+    totalRowsCleared = 0;
+    currentLevel = 1;
 }
 
 void Tetris::update(float deltaTime)
 {
+    float finalTickLength = mTickLength;
+    if (Input::isKeyDown("R"))
+    {
+        reset();
+    }
+
     if (Input::isKeyPressed("S"))
     {
-        mTickLength = 0.1f;
+        finalTickLength = 0.05;
     }
 
-    else
-    {
-        mTickLength = 1.0f;
-    }
-
-    if (mElapsedTime >= mTickLength)
+    if (mElapsedTime >= finalTickLength)
     {
         tick();
         updateGrid();
@@ -102,6 +106,7 @@ void Tetris::update(float deltaTime)
 
 void Tetris::tick()
 {
+    printf("%f", Random::randomIntInRange(0,100));
     bool hitBottom = checkForDownCollision();
     if (hitBottom)
     {
@@ -112,21 +117,22 @@ void Tetris::tick()
         spawnTetromino(SDL_GetTicks64());
     }
 
+    checkLoseCondition();
     mCurrTetromino->moveDown();
-
     mElapsedTime = 0;
 }
 
 
 void Tetris::spawnTetromino(int seed)
 {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distr(0, 6);
-    int rand = distr(gen);
-    printf("%d\n", rand);
 
-    Type randomType = static_cast<Type>(rand);
+    Type randomType = static_cast<Type>(Random::randomIntInRange(0,6));
+
+    while (randomType == previousType)
+    {
+        randomType = static_cast<Type>(Random::randomIntInRange(0,6));
+    }
+
     auto tetromino = mFactory->getTetromino(randomType);
     tetromino->buildTiles();
 
@@ -135,8 +141,11 @@ void Tetris::spawnTetromino(int seed)
 
     for (auto& tile : tetromino->tiles)
     {
+        tile->getSprite()->textureName = "TileTexture";
         activeScene->objects.push_back(tile);
     }
+
+    previousType = randomType;
 }
 
 void Tetris::updateGrid()
@@ -179,6 +188,11 @@ void Tetris::updateGrid()
         {
             clearTiles(i);
             moveStaticTilesDown(i);
+            totalRowsCleared++;
+            if (totalRowsCleared % 10 == 0)
+            {
+                levelUp();
+            }
         }
     }
 }
@@ -278,10 +292,53 @@ bool Tetris::checkForLeftCollision()
     return isCollided = false;
 }
 
+void Tetris::reset()
+{
+    printf("reset tetris\n");
+
+    mLockedTiles.clear();
+    activeScene->objects.clear();
+    mGrid = std::make_shared<Grid>(10,20);
+
+    for (auto& row : mGrid->tiles)
+    {
+        for (auto& tile : row)
+        {
+            tile->getSprite()->textureName = "GridTexture";
+            activeScene->objects.push_back(tile);
+        }
+    }
+    spawnTetromino(SDL_GetTicks64());
+    mCurrTetromino->moveDown();
+}
+
+void Tetris::levelUp()
+{
+    currentLevel++;
+    if (currentLevel < 29)
+    {
+        mTickLength -= 0.1f;
+    }
+}
+
+void Tetris::checkLoseCondition()
+{
+    for (auto& tile : mLockedTiles)
+    {
+        if (tile->row == 0)
+        {
+            reset();
+            mTickLength = 1;
+        }
+    }
+}
+
 void Tetris::stop()
 {
 
 }
+
+
 
 int main() 
 {

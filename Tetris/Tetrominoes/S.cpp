@@ -18,7 +18,10 @@ void S::buildTiles()
             tileTransform->position.x -= tileTransform->scale.x * 3;
         }
 
-        tileTransform->position.x += tileTransform->scale.x * 2;
+        tileTransform->position.x += tileTransform->scale.x;
+        tileTransform->position.y -= tileTransform->scale.y;
+
+        
         tileSprite->setColor(glm::vec4(0.0f,1.0f,0.0f,1.0f));
 
         if (i == 3)

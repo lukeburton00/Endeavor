@@ -8,7 +8,7 @@ void I::buildTiles()
         tile->id = i;
         auto tileTransform = tile->addTransform();
         auto tileSprite = tile->addSprite();
-        tileTransform->setPosition(getTransform()->position);
+        tileTransform->setPosition(glm::vec2(getTransform()->position.x, getTransform()->position.y - getTransform()->scale.y));
         tileTransform->setScale(getTransform()->scale);
         tileTransform->position.x += getTransform()->scale.x * i;
         tileSprite->setColor(glm::vec4(0.0f,0.5f,1.0f,1.0f));

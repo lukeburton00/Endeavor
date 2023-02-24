@@ -25,7 +25,7 @@ void O::buildTiles()
         }
 
         tileSprite->setColor(glm::vec4(1.0f,1.0f,0.0f,1.0f));
-
+        tileTransform->position.y -= tileTransform->scale.y;
         if (i == 3)
         {
             getTransform()->position.y = tileTransform->position.y;

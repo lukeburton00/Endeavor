@@ -2,6 +2,8 @@
 #include "Engine.hpp"
 #include "TetrominoFactory.hpp"
 #include "Grid.hpp"
+#include "ft2build.h"
+#include FT_FREETYPE_H
 
 class Tetris : public Game
 {
@@ -18,6 +20,9 @@ private:
     std::shared_ptr<Grid> mGrid;
     std::shared_ptr<TetrominoFactory> mFactory;
     std::vector<std::shared_ptr<Tile>> mLockedTiles;
+    int totalRowsCleared;
+    int currentLevel;
+    Type previousType;
 
     void tick();
     void updateGrid();
@@ -28,4 +33,8 @@ private:
     bool checkForRightCollision();
     bool checkForLeftCollision();
     bool rowIsFull(int row);
+
+    void levelUp();
+    void checkLoseCondition();
+    void reset();
 };
