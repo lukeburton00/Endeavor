@@ -7,15 +7,14 @@ void Sandbox::start()
     setTitle("Sandbox");
 
     Scene scene;
+    setActiveScene(scene);
 
     auto obj = std::make_shared<GameObject>();
-    obj->id = 1;
-    obj->addTransform();
-    obj->addSprite();
+    auto transform = obj->addTransform();
+    auto sprite = obj->addSprite();
 
-    scene.objects.push_back(obj);
+    activeScene->objects.push_back(obj);
     player = obj;
-    setActiveScene(scene);
 }
 
 void Sandbox::update(float deltaTime)
@@ -25,7 +24,7 @@ void Sandbox::update(float deltaTime)
 
     if (Input::isKeyPressed("W"))
     {
-        transform->position.y += 100 * deltaTime;
+        transform->position.y -= 100 * deltaTime;
     }
 
     if (Input::isKeyPressed("A"))
@@ -35,7 +34,7 @@ void Sandbox::update(float deltaTime)
 
     if (Input::isKeyPressed("S"))
     {
-        transform->position.y -= 100 * deltaTime;
+        transform->position.y += 100 * deltaTime;
     }
 
     if (Input::isKeyPressed("D"))
