@@ -39,12 +39,11 @@ public:
     glm::vec4 color;
     std::string textureName;
 
-    Sprite() : color(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)) {};
+    Sprite() : color(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)), textureName("DefaultTexture"){};
 
     void setColor(glm::vec4 colorVector)
     {
         color = colorVector;
-        textureName = "DefaultTexture";
     }
 
     void setTexture(std::string texture)

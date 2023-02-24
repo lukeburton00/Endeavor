@@ -28,8 +28,7 @@ void Application::start()
     title = "TileTexture";
     ResourceManager::loadTexture2D(title, "../engine/assets/2DTextures/tile.png");
 
-    Renderer renderer(glm::vec2(mActiveGame.getWidth(), mActiveGame.getHeight()));
-    mRenderer = std::make_shared<Renderer>(renderer);
+    mRenderer = std::make_shared<Renderer>(glm::vec2(mActiveGame.getWidth(), mActiveGame.getHeight()));
 
     loop();
 }
