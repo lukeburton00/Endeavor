@@ -6,10 +6,13 @@ class Grid
 {
 public:
     int numColumns, numRows;
+    float minPositionX, maxPositionX;
+    float minPositionY, maxPositionY;
+
     std::vector<std::vector<std::shared_ptr<Tile>>> tiles;
     std::vector<std::vector<int>> values;
 
-    Grid(int width, int height)
+    Grid(int width, int height, float tileScale)
     {
         numColumns = width;
         numRows = height;
@@ -27,7 +30,7 @@ public:
                 auto sprite = tile->addSprite();
                 auto transform = tile->addTransform();
 
-                transform->setScale(glm::vec2(40.0f, 40.0f));
+                transform->setScale(glm::vec2(tileScale, tileScale));
                 transform->setPosition(glm::vec2(j * transform->scale.x, i * transform->scale.y));
 
                 sprite->textureName = "GridTexture";
@@ -37,6 +40,11 @@ public:
                 values[i][j] = 0;
             }
         }
+
+        minPositionX = 0;
+        minPositionY = 0;
+        maxPositionX = (numColumns) * tileScale;
+        maxPositionY = (numRows) * tileScale;
     }
 
     int getValue(int i, int j)

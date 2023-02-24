@@ -9,7 +9,7 @@ void Tetris::start()
     Scene scene;
     setActiveScene(scene);
 
-    auto grid = std::make_shared<Grid>(10,20);
+    auto grid = std::make_shared<Grid>(10,20, 40.0f);
     for (auto& column : grid->tiles)
     {
         for (auto& tile : column)
@@ -59,21 +59,22 @@ void Tetris::update(float deltaTime)
     if (Input::isKeyDown("W"))
     {
         mCurrTetromino->rotate();
+        updateGrid();
         for (auto& tetTile : mCurrTetromino->tiles)
         {
             auto tetTileTransform = tetTile->getTransform();
 
-            if (tetTileTransform->position.x >= getWidth())
+            if (tetTileTransform->position.x >= mGrid->maxPositionX)
             {
                 mCurrTetromino->moveLeft();
             }
 
-            if (tetTileTransform->position.x < 0)
+            if (tetTileTransform->position.x < mGrid->minPositionX)
             {
                 mCurrTetromino->moveRight();
             }
 
-            if (tetTileTransform->position.y >= getHeight())
+            if (tetTileTransform->position.y >= mGrid->maxPositionY)
             {
                 mCurrTetromino->undoRotation();
             }
@@ -106,7 +107,6 @@ void Tetris::update(float deltaTime)
 
 void Tetris::tick()
 {
-    printf("%d\n", Random::randomIntInRange(0,100));
     bool hitBottom = checkForDownCollision();
     if (hitBottom)
     {
@@ -299,7 +299,7 @@ void Tetris::reset()
 
     mLockedTiles.clear();
     activeScene->objects.clear();
-    mGrid = std::make_shared<Grid>(10,20);
+    mGrid = std::make_shared<Grid>(10,20, 40.0f);
 
     for (auto& row : mGrid->tiles)
     {
