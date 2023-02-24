@@ -26,9 +26,12 @@ set(GLEW_INCLUDE_DIR "C:\\Dev\\glew-2.1.0\\include\\GL")
 set(GLEW_LIBRARIES "C:\\Dev\\glew-2.1.0\\lib\\Release\\x64\\glew32.lib")
 set(GLEW_SHAREDLIB "C:\\Dev\\glew-2.1.0\\bin\\Release\\x64\\glew32.dll")
 set(GLM_INCLUDE_DIRS "C:\\Dev\\vcpkg\\packages\\glm_x86-windows\\include\\glm")
+set(FREETYPE_INCLUDE_DIRS "C:\\Dev\\vcpkg\\packages\\freetype_x86-windows\\include")
+set(FREETYPE_LIBRARIES "C:\\Dev\\vcpkg\\packages\\freetype_x86-windows\\lib\\freetype.lib")
+
 find_package(GLM REQUIRED)
-target_include_directories(${PROJECT_NAME} PRIVATE ${GLM_INCLUDE_DIRS} )
-target_link_libraries(${PROJECT_NAME} PRIVATE ${GLEW_LIBRARIES})
+target_include_directories(${PROJECT_NAME} PRIVATE ${GLM_INCLUDE_DIRS} PRIVATE ${FREETYPE_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${GLEW_LIBRARIES} PRIVATE ${FREETYPE_LIBRARIES})
 
 add_custom_command(
     TARGET ${PROJECT_NAME} POST_BUILD
@@ -37,14 +40,13 @@ add_custom_command(
     VERBATIM)
 
 else()
+find_package(Freetype REQUIRED)
 find_package(GLEW REQUIRED)
-set(FREETYPE_LIB "/Engine/external/libfreetype.a")
 target_link_libraries(${PROJECT_NAME} PRIVATE GLEW::GLEW)
 endif()
 
 find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)
-find_package(Freetype REQUIRED)
 
 target_include_directories(${PROJECT_NAME} PRIVATE engine/src PRIVATE tetris PRIVATE tetris/tetrominoes
 PRIVATE engine/src/application PRIVATE engine/src/game PRIVATE engine/src/scene PRIVATE engine/src/core 

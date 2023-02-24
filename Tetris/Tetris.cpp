@@ -106,7 +106,7 @@ void Tetris::update(float deltaTime)
 
 void Tetris::tick()
 {
-    printf("%f", Random::randomIntInRange(0,100));
+    printf("%d\n", Random::randomIntInRange(0,100));
     bool hitBottom = checkForDownCollision();
     if (hitBottom)
     {
@@ -209,13 +209,14 @@ bool Tetris::rowIsFull(int row)
 void Tetris::clearTiles(int row)
 {
     printf("Clearing tiles on row %d\n", row);
-    for (auto it = mLockedTiles.begin(); it < mLockedTiles.end(); it++)
+    for (int i = 0; i < mLockedTiles.size(); i++)
     {
-        auto tile = it->get();
+        auto tile = mLockedTiles[i];
         if (tile->row == row)
         {
             tile->removeSprite();
-            mLockedTiles.erase(it--);
+            mLockedTiles.erase(std::remove(mLockedTiles.begin(), mLockedTiles.end(), tile));
+            i--;
         }
     }
 
