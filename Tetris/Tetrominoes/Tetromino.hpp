@@ -19,7 +19,7 @@ class Tetromino : public GameObject
 public:
     std::array<std::shared_ptr<Tile>, 4> tiles;
     
-    Tetromino();
+    Tetromino(float scale);
     virtual void buildTiles() = 0;
 
     void moveUp();

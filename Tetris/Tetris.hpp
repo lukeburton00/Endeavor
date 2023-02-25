@@ -23,6 +23,7 @@ private:
     int totalRowsCleared;
     int currentLevel;
     Type previousType;
+    float tileScale;
 
     void tick();
     void updateGrid();

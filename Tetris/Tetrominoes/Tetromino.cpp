@@ -1,9 +1,9 @@
 #include "Tetromino.hpp"
 
-Tetromino::Tetromino()
+Tetromino::Tetromino(float tileScale)
 {
     auto transform = addTransform();
-    transform->setScale(glm::vec2(40.0f, 40.0f));
+    transform->setScale(glm::vec2(tileScale, tileScale));
     transform->setPosition(glm::vec2(120, 0));
 
     tiles = std::array<std::shared_ptr<Tile>, 4>();

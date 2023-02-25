@@ -2,14 +2,18 @@
 
 void Tetris::start()
 {
-    setWidth(400);
-    setHeight(800);
+
     setTitle("Tetris");
+
+    tileScale = 20.0f;
+
+    setWidth(50 * tileScale);
+    setHeight(50 * tileScale);
 
     Scene scene;
     setActiveScene(scene);
 
-    auto grid = std::make_shared<Grid>(10,20, 40.0f);
+    auto grid = std::make_shared<Grid>(50,50, tileScale);
     for (auto& column : grid->tiles)
     {
         for (auto& tile : column)
@@ -133,7 +137,7 @@ void Tetris::spawnTetromino(int seed)
         randomType = static_cast<Type>(Random::randomIntInRange(0,6));
     }
 
-    auto tetromino = mFactory->getTetromino(randomType);
+    auto tetromino = mFactory->getTetromino(randomType, tileScale);
     tetromino->buildTiles();
 
     mCurrTetromino = tetromino;
@@ -299,7 +303,7 @@ void Tetris::reset()
 
     mLockedTiles.clear();
     activeScene->objects.clear();
-    mGrid = std::make_shared<Grid>(10,20, 40.0f);
+    auto grid = std::make_shared<Grid>(20,30, tileScale);
 
     for (auto& row : mGrid->tiles)
     {
