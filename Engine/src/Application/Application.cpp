@@ -1,9 +1,12 @@
 #include "Application.hpp"
+#include "entt/entt.hpp"
 
 Application::Application(Game& game) : mActiveGame(game) {};
 
 void Application::start()
 {
+    entt::registry registry;
+    auto entity = registry.create();
     #ifdef DEBUG
     printf("Initializing...\n");
     #endif
