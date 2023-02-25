@@ -5,15 +5,15 @@ void Tetris::start()
 
     setTitle("Tetris");
 
-    tileScale = 20.0f;
+    tileScale = 40.0f;
 
-    setWidth(50 * tileScale);
-    setHeight(50 * tileScale);
+    setWidth(10 * tileScale);
+    setHeight(20 * tileScale);
 
     Scene scene;
     setActiveScene(scene);
 
-    auto grid = std::make_shared<Grid>(50,50, tileScale);
+    auto grid = std::make_shared<Grid>(10,20, tileScale);
     for (auto& column : grid->tiles)
     {
         for (auto& tile : column)
@@ -303,7 +303,7 @@ void Tetris::reset()
 
     mLockedTiles.clear();
     activeScene->objects.clear();
-    auto grid = std::make_shared<Grid>(20,30, tileScale);
+    auto grid = std::make_shared<Grid>(10,20, tileScale);
 
     for (auto& row : mGrid->tiles)
     {

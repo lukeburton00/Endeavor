@@ -4,7 +4,7 @@ Tetromino::Tetromino(float tileScale)
 {
     auto transform = addTransform();
     transform->setScale(glm::vec2(tileScale, tileScale));
-    transform->setPosition(glm::vec2(120, 0));
+    transform->setPosition(glm::vec2(tileScale * 3, 0));
 
     tiles = std::array<std::shared_ptr<Tile>, 4>();
     rotationState = 0;
