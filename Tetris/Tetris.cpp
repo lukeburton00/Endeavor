@@ -2,7 +2,6 @@
 
 void Tetris::start()
 {
-
     setTitle("Tetris");
 
     tileScale = 40.0f;

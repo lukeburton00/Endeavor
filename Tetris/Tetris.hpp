@@ -2,8 +2,6 @@
 #include "Engine.hpp"
 #include "TetrominoFactory.hpp"
 #include "Grid.hpp"
-#include "ft2build.h"
-#include FT_FREETYPE_H
 
 class Tetris : public Game
 {
