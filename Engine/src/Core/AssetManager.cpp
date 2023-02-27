@@ -1,9 +1,9 @@
-#include "ResourceManager.hpp"
+#include "AssetManager.hpp"
 
-std::map<std::string, std::shared_ptr<Texture2D>> ResourceManager::mTextures;
-std::map<std::string, std::shared_ptr<Shader>> ResourceManager::mShaders;
+std::map<std::string, std::shared_ptr<Texture2D>> AssetManager::mTextures;
+std::map<std::string, std::shared_ptr<Shader>> AssetManager::mShaders;
 
-void ResourceManager::loadShader(std::string &name, const char * vertexPath, const char * fragmentPath)
+void AssetManager::loadShader(std::string &name, const char * vertexPath, const char * fragmentPath)
 {
 	std::string vertexCode;
 	std::string fragmentCode;
@@ -79,7 +79,7 @@ void ResourceManager::loadShader(std::string &name, const char * vertexPath, con
 	glDeleteShader(fragmentShader);
 }
 
-void ResourceManager::loadTexture2D(std::string &name, const char * texturePath)
+void AssetManager::loadTexture2D(std::string &name, const char * texturePath)
 {
 	stbi_set_flip_vertically_on_load(true);  
     std::shared_ptr<Texture2D> texture = std::make_shared<Texture2D>();
@@ -107,12 +107,12 @@ void ResourceManager::loadTexture2D(std::string &name, const char * texturePath)
     mTextures[name] = texture;
 }
 
-std::shared_ptr<Shader> ResourceManager::getShader(const std::string &name)
+std::shared_ptr<Shader> AssetManager::getShader(const std::string &name)
 {
     return mShaders[name];
 }
 
-std::shared_ptr<Texture2D> ResourceManager::getTexture(const std::string &name)
+std::shared_ptr<Texture2D> AssetManager::getTexture(const std::string &name)
 {
     return mTextures[name];
 }

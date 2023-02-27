@@ -14,7 +14,7 @@ tetris/tetrominoes/s.cpp tetris/tetrominoes/t.cpp tetris/tetrominoes/z.cpp
 engine/src/application/application.cpp 
 engine/src/core/events/subject.cpp engine/src/core/input/input.cpp
 engine/src/core/time/time.cpp engine/src/core/math/random.cpp 
-engine/src/core/resourcemanager.cpp 
+engine/src/core/assetmanager.cpp 
 engine/src/graphics/renderer.cpp engine/src/graphics/shader.cpp 
 engine/src/graphics/vao.cpp engine/src/graphics/texture2d.cpp engine/src/graphics/window.cpp
 engine/external/stb_impl.cpp)

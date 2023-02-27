@@ -4,7 +4,7 @@
 #include "Graphics/Window.hpp"
 #include "Input.hpp"
 #include "Time.hpp"
-#include "ResourceManager.hpp"
+#include "AssetManager.hpp"
 #include "Game.hpp"
 #include "Renderer.hpp"
 

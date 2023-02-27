@@ -2,7 +2,7 @@
 #include "Shader.hpp"
 #include "Texture2D.hpp"
 #include "VAO.hpp"
-#include "ResourceManager.hpp"
+#include "AssetManager.hpp"
 
 class Renderer
 {

@@ -5,8 +5,6 @@ Application::Application(Game& game) : mActiveGame(game) {};
 
 void Application::start()
 {
-    entt::registry registry;
-    auto entity = registry.create();
     #ifdef DEBUG
     printf("Initializing...\n");
     #endif
@@ -20,16 +18,16 @@ void Application::start()
     );
 
     std::string title = "DefaultShader";
-    ResourceManager::loadShader(title, "../engine/assets/shaders/default.vert", "../engine/assets/shaders/default.frag");
+    AssetManager::loadShader(title, "../engine/assets/shaders/default.vert", "../engine/assets/shaders/default.frag");
 
     title = "DefaultTexture";
-    ResourceManager::loadTexture2D(title, "../engine/assets/2DTextures/default.jpg");
+    AssetManager::loadTexture2D(title, "../engine/assets/2DTextures/default.jpg");
 
     title = "GridTexture";
-    ResourceManager::loadTexture2D(title, "../engine/assets/2DTextures/grid.png");
+    AssetManager::loadTexture2D(title, "../engine/assets/2DTextures/grid.png");
 
     title = "TileTexture";
-    ResourceManager::loadTexture2D(title, "../engine/assets/2DTextures/tile.png");
+    AssetManager::loadTexture2D(title, "../engine/assets/2DTextures/tile.png");
 
     mRenderer = std::make_shared<Renderer>(glm::vec2(mActiveGame.getWidth(), mActiveGame.getHeight()));
 

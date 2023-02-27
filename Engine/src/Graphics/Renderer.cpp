@@ -10,8 +10,8 @@ Renderer::Renderer(glm::vec2 dimensions)
 
 void Renderer::drawQuad(const glm::vec2& position, const glm::vec2& scale, const glm::vec4& color, std::string& textureName)
 {
-    Shader shader = *ResourceManager::getShader("DefaultShader");
-    Texture2D texture = *ResourceManager::getTexture(textureName);
+    Shader shader = *AssetManager::getShader("DefaultShader");
+    Texture2D texture = *AssetManager::getTexture(textureName);
 
     texture.bind();
 
