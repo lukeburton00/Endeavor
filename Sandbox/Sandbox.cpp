@@ -9,43 +9,14 @@ void Sandbox::start()
     Scene scene;
     setActiveScene(scene);
 
-    auto obj = std::make_shared<GameObject>();
-    auto transform = obj->addTransform();
-    auto sprite = obj->addSprite();
-
-    activeScene->objects.push_back(obj);
-    player = obj;
+    auto entity = activeScene->createEntity();
+    activeScene->addComponent<Transform>(entity);
+    activeScene->addComponent<Sprite>(entity);
 }
 
 void Sandbox::update(float deltaTime)
 {
-    std::shared_ptr<Scene> scene = getActiveScene();
-    std::shared_ptr<Transform> transform = player->getTransform();
 
-    if (Input::isKeyPressed("W"))
-    {
-        transform->position.y -= 100 * deltaTime;
-    }
-
-    if (Input::isKeyPressed("A"))
-    {
-        transform->position.x -= 100 * deltaTime;
-    }
-
-    if (Input::isKeyPressed("S"))
-    {
-        transform->position.y += 100 * deltaTime;
-    }
-
-    if (Input::isKeyPressed("D"))
-    {
-        transform->position.x += 100 * deltaTime;
-    }
-
-    if (Input::isKeyDown("X"))
-    {
-        player->removeSprite();
-    }
 }
 
 void Sandbox::stop()
@@ -54,10 +25,10 @@ void Sandbox::stop()
 }
 
 
-// int main() 
-// {
-//     Sandbox game;
-//     Application engine(game);
-//     engine.start();
-//     return 0;
-// }
+int main() 
+{
+    Sandbox game;
+    Application engine(game);
+    engine.start();
+    return 0;
+}
