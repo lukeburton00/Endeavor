@@ -2,10 +2,13 @@
 
 Renderer::Renderer(glm::vec2 dimensions)
 {
+    printf("Rendererer constructor\n");
     createQuadPrimitive();
     setViewport(dimensions);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
+    printf("Rendererer constructor finished\n");
+
 }
 
 void Renderer::drawQuad(const glm::vec2& position, const glm::vec2& scale, const glm::vec4& color, std::string& textureName)

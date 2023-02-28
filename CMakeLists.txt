@@ -8,13 +8,11 @@ project(Engine VERSION 0.1)
 add_definitions(-DDEBUG)
 
 add_executable(${PROJECT_NAME} sandbox/sandbox.cpp 
-tetris/tetris.cpp tetris/tetrominoes/tetromino.cpp
-tetris/tetrominoes/i.cpp tetris/tetrominoes/j.cpp tetris/tetrominoes/l.cpp tetris/tetrominoes/o.cpp 
-tetris/tetrominoes/s.cpp tetris/tetrominoes/t.cpp tetris/tetrominoes/z.cpp
 engine/src/application/application.cpp 
+engine/src/ecs/system/physicssystem.cpp engine/src/ecs/system/rendersystem.cpp 
 engine/src/core/events/subject.cpp engine/src/core/input/input.cpp
 engine/src/core/time/time.cpp engine/src/core/math/random.cpp 
-engine/src/core/assetmanager.cpp 
+engine/src/core/assetmanager.cpp engine/src/scene/scene.cpp
 engine/src/graphics/renderer.cpp engine/src/graphics/shader.cpp 
 engine/src/graphics/vao.cpp engine/src/graphics/texture2d.cpp engine/src/graphics/window.cpp
 engine/external/stb_impl.cpp)
@@ -48,10 +46,10 @@ endif()
 find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)
 
-target_include_directories(${PROJECT_NAME} PRIVATE engine/src PRIVATE tetris PRIVATE tetris/tetrominoes
-PRIVATE engine/src/application PRIVATE engine/src/game PRIVATE engine/src/scene PRIVATE engine/src/core 
-PRIVATE engine/src/core/time PRIVATE engine/src/core/input PRIVATE engine/src/core/math
-PRIVATE engine/src/core/events engine/src/graphics PRIVATE engine/external
+target_include_directories(${PROJECT_NAME} PRIVATE engine/src PRIVATE engine/src/ecs/system
+PRIVATE engine/src/ecs/component PRIVATE engine/src/application PRIVATE engine/src/game PRIVATE engine/src/scene 
+PRIVATE engine/src/core PRIVATE engine/src/core/time PRIVATE engine/src/core/input 
+PRIVATE engine/src/core/math PRIVATE engine/src/core/events engine/src/graphics PRIVATE engine/external
 PRIVATE ${FREETYPE_INCLUDE_DIRS} PRIVATE ${SDL2_INCLUDE_DIRS} PRIVATE ${GLEW_INCLUDE_DIR} PRIVATE ${OPENGL_INCLUDE_DIR})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2 PRIVATE ${OPENGL_LIBRARIES} PRIVATE ${FREETYPE_LIBRARIES})

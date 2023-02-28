@@ -9,6 +9,8 @@ void Application::start()
     printf("Initializing...\n");
     #endif
 
+    mPhysicsSystem = std::make_shared<PhysicsSystem>();
+
     mActiveGame.start();
     mWindow.create(
         mActiveGame.getWidth(), 
@@ -29,7 +31,8 @@ void Application::start()
     title = "TileTexture";
     AssetManager::loadTexture2D(title, "../engine/assets/2DTextures/tile.png");
 
-    mRenderer = std::make_shared<Renderer>(glm::vec2(mActiveGame.getWidth(), mActiveGame.getHeight()));
+    mRenderSystem = std::make_shared<RenderSystem>(glm::vec2(mActiveGame.getWidth(), mActiveGame.getHeight()));
+
 
     loop();
 }
@@ -87,12 +90,8 @@ void Application::processInput()
 
 void Application::update(float deltaTime)
 {
-    std::shared_ptr<Scene> scene = mActiveGame.getActiveScene();
-
-    for (auto& obj : scene->objects)
-    {
-        obj->update(deltaTime);
-    }
+    auto registry = mActiveGame.getActiveScene()->getRegistry();
+    mPhysicsSystem->update(registry, deltaTime);
 
     mActiveGame.update(deltaTime);
 }
@@ -100,17 +99,9 @@ void Application::update(float deltaTime)
 void Application::render()
 {
     mWindow.clear();
-    std::shared_ptr<Scene> scene = mActiveGame.getActiveScene();
 
-    for (auto const& obj : scene->objects)
-    {
-        auto transform = obj->getTransform();
-        auto sprite = obj->getSprite();
-        if (transform != nullptr && sprite != nullptr)
-        {
-            mRenderer->drawQuad(transform->position, transform->scale, sprite->color, sprite->textureName);
-        }
-    }
+    auto registry = mActiveGame.getActiveScene()->getRegistry();
+    mRenderSystem->update(registry);
 
     mWindow.swapBuffers();
 }

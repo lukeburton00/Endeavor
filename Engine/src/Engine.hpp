@@ -11,7 +11,12 @@
 #include "Time.hpp"
 #include "Random.hpp"
 #include "Game.hpp"
-#include "Scene.hpp"
+#include "Scene/Scene.hpp"
+
+/* ----- ECS ----- */
+#include "Transform.hpp"
+#include "RigidBody.hpp"
+#include "Sprite.hpp"
 
 /* ----- Events -----*/
 #include "Observer.hpp"

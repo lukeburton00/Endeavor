@@ -6,7 +6,8 @@
 #include "Time.hpp"
 #include "AssetManager.hpp"
 #include "Game.hpp"
-#include "Renderer.hpp"
+#include "PhysicsSystem.hpp"
+#include "RenderSystem.hpp"
 
 class Application
 {
@@ -20,7 +21,8 @@ private:
     Window mWindow;
     bool mGameIsRunning;
 
-    std::shared_ptr<Renderer> mRenderer;
+    std::shared_ptr<PhysicsSystem> mPhysicsSystem;
+    std::shared_ptr<RenderSystem> mRenderSystem;
 
     void loop();
 
