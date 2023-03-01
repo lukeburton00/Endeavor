@@ -19,7 +19,7 @@ void PhysicsSystem::update(std::shared_ptr<entt::registry> registry, float delta
         auto& transform = view.get<Transform>(entity);
 
         rb.velocity.y += 9.8f * deltaTime;
-
+        
         transform.position.x += rb.velocity.x * deltaTime;
         transform.position.y += rb.velocity.y * deltaTime;
         transform.position.z += rb.velocity.z * deltaTime;

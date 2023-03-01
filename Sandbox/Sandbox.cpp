@@ -17,12 +17,14 @@ void Sandbox::start()
     activeScene->addComponent<Sprite>(entity);
     activeScene->addComponent<Script>(entity, controller);
 
-    int numObjects = 10000;
+    int numObjects = 100;
 
     for (int i = 0; i < numObjects; ++i)
     {
         auto ent = activeScene->createEntity();
-        activeScene->addComponent<Transform>(ent);
+        activeScene->addComponent<Transform>(ent, glm::vec3(Random::randomFloatInRange(0.0f, getWidth()), Random::randomFloatInRange(0.0f, getHeight()), 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+        activeScene->addComponent<RigidBody>(ent);
+        activeScene->addComponent<Sprite>(ent);
     }
 }
 
