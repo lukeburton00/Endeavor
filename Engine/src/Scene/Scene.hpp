@@ -10,9 +10,9 @@ public:
     void destroyEntity(entt::entity entity);
     std::shared_ptr<entt::registry> getRegistry();
 
-    template<typename T> void addComponent(entt::entity entity)
+    template<typename T, typename... Args> void addComponent(entt::entity entity, Args &&...args)
     {
-        mRegistry->emplace_or_replace<T>(entity);
+        mRegistry->emplace_or_replace<T>(entity, args...);
     }
 
     template<typename T> void removeComponent(entt::entity entity)

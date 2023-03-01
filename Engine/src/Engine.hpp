@@ -12,11 +12,13 @@
 #include "Random.hpp"
 #include "Game.hpp"
 #include "Scene/Scene.hpp"
+#include "Behavior.hpp"
 
 /* ----- ECS ----- */
 #include "Transform.hpp"
 #include "RigidBody.hpp"
 #include "Sprite.hpp"
+#include "Script.hpp"
 
 /* ----- Events -----*/
 #include "Observer.hpp"

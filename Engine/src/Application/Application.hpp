@@ -8,6 +8,8 @@
 #include "Game.hpp"
 #include "PhysicsSystem.hpp"
 #include "RenderSystem.hpp"
+#include "ScriptSystem.hpp"
+
 
 class Application
 {
@@ -23,6 +25,9 @@ private:
 
     std::shared_ptr<PhysicsSystem> mPhysicsSystem;
     std::shared_ptr<RenderSystem> mRenderSystem;
+    std::shared_ptr<ScriptSystem> mScriptSystem;
+
+
 
     void loop();
 

@@ -10,6 +10,8 @@ void Application::start()
     #endif
 
     mPhysicsSystem = std::make_shared<PhysicsSystem>();
+    mScriptSystem = std::make_shared<ScriptSystem>();
+
 
     mActiveGame.start();
     mWindow.create(
@@ -91,9 +93,9 @@ void Application::processInput()
 void Application::update(float deltaTime)
 {
     auto registry = mActiveGame.getActiveScene()->getRegistry();
-    mPhysicsSystem->update(registry, deltaTime);
 
-    mActiveGame.update(deltaTime);
+    mPhysicsSystem->update(registry, deltaTime);
+    mScriptSystem->update(registry, deltaTime);
 }
 
 void Application::render()

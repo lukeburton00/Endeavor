@@ -6,8 +6,7 @@ class Game
 public:
     virtual ~Game(){}
     virtual void start() = 0;
-    virtual void update(float deltaTime) = 0;
-    virtual void stop() = 0;
+    virtual void stop(){};
 
     int getWidth() const { return mWidth; }
     int getHeight() const { return mHeight; }

@@ -9,7 +9,7 @@ add_definitions(-DDEBUG)
 
 add_executable(${PROJECT_NAME} sandbox/sandbox.cpp 
 engine/src/application/application.cpp 
-engine/src/ecs/system/physicssystem.cpp engine/src/ecs/system/rendersystem.cpp 
+engine/src/ecs/system/physicssystem.cpp engine/src/ecs/system/rendersystem.cpp engine/src/ecs/system/scriptsystem.cpp 
 engine/src/core/events/subject.cpp engine/src/core/input/input.cpp
 engine/src/core/time/time.cpp engine/src/core/math/random.cpp 
 engine/src/core/assetmanager.cpp engine/src/scene/scene.cpp
@@ -46,9 +46,9 @@ endif()
 find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)
 
-target_include_directories(${PROJECT_NAME} PRIVATE engine/src PRIVATE engine/src/ecs/system
+target_include_directories(${PROJECT_NAME} PRIVATE engine/src PRIVATE engine/src/ecs/system PRIVATE sandbox/scripts
 PRIVATE engine/src/ecs/component PRIVATE engine/src/application PRIVATE engine/src/game PRIVATE engine/src/scene 
-PRIVATE engine/src/core PRIVATE engine/src/core/time PRIVATE engine/src/core/input 
+PRIVATE engine/src/scripting PRIVATE engine/src/core PRIVATE engine/src/core/time PRIVATE engine/src/core/input 
 PRIVATE engine/src/core/math PRIVATE engine/src/core/events engine/src/graphics PRIVATE engine/external
 PRIVATE ${FREETYPE_INCLUDE_DIRS} PRIVATE ${SDL2_INCLUDE_DIRS} PRIVATE ${GLEW_INCLUDE_DIR} PRIVATE ${OPENGL_INCLUDE_DIR})
 

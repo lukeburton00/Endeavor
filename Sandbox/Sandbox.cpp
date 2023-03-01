@@ -1,4 +1,5 @@
 #include "Sandbox.hpp"
+#include "PlayerController.hpp"
 
 void Sandbox::start()
 {
@@ -10,20 +11,20 @@ void Sandbox::start()
     setActiveScene(scene);
 
     auto entity = activeScene->createEntity();
-    activeScene->addComponent<Transform>(entity);
+
+    std::shared_ptr<PlayerController> controller = std::make_shared<PlayerController>(entity, activeScene->getRegistry());
+    activeScene->addComponent<Transform>(entity, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(100.0f, 100.0f, 1.0f));
     activeScene->addComponent<Sprite>(entity);
+    activeScene->addComponent<Script>(entity, controller);
+
+    int numObjects = 10000;
+
+    for (int i = 0; i < numObjects; ++i)
+    {
+        auto ent = activeScene->createEntity();
+        activeScene->addComponent<Transform>(ent);
+    }
 }
-
-void Sandbox::update(float deltaTime)
-{
-
-}
-
-void Sandbox::stop()
-{
-    printf("Stopping Sandbox...\n");
-}
-
 
 int main() 
 {
