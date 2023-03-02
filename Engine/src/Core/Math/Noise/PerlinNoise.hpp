@@ -9,7 +9,7 @@ class PerlinNoise
 {
 public:
     PerlinNoise(int seed);
-    float noise(float x, float y, float z, float frequency, float amplitude, int octaves, float lacunarity, float persistence) const;
+    float noise(float x, float y, float z) const;
 
 private:
     std::vector<int> p;

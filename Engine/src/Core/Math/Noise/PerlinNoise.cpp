@@ -15,32 +15,9 @@ PerlinNoise::PerlinNoise(int seed)
     p.insert(p.end(), p.begin(), p.end());
 }
 
-float PerlinNoise::noise(float x, float y, float z, float frequency, float amplitude, int octaves, float lacunarity, float persistence) const 
+float PerlinNoise::noise(float x, float y, float z) const 
 {
-    float maxAmplitude = 0.0f;
-    float result = 0.0f;
-    float scale = 1.0f;
-
-    float center_x = 200.0f / 2.0f;
-    float center_y = 150.0f / 2.0f;
-    float radius = std::min(center_x, center_y);
-    printf("%f, %f\n", center_x, center_y);
-
-    for (int i = 0; i < octaves; ++i) {
-        result += noiseImpl(x * frequency, y * frequency, 0.0f) * scale;
-        maxAmplitude += scale;
-        scale *= amplitude;
-        frequency *= 2.0f;
-        amplitude *= persistence;
-    }
-
-    float dist_x = std::abs(x - center_x);
-    float dist_y = std::abs(y - center_y);
-    float dist = std::sqrt(dist_x * dist_x + dist_y * dist_y);
-
-    printf("%f\n", dist);
-
-    return result / maxAmplitude;
+    return noiseImpl(x, y, z);
 }
 
 float PerlinNoise::noiseImpl(float x, float y, float z) const
