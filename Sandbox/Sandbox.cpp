@@ -17,16 +17,8 @@ void Sandbox::start()
     activeScene->addComponent<Sprite>(player);
     activeScene->addComponent<Script>(player, controller);
 
-    int width = 400;
-    int height = 300;
-
-    float frequency = 0.1f;
-    float amplitude = 1.0f;
-    int octaves = 7;
-
-    float lacunarity = 2.0f;
-    float persistence = 0.5f;
-
+    int width = 200;
+    int height = 200;
     float threshold = 0.5f;
 
     std::vector<std::vector<float> > mapValues = std::vector<std::vector<float> >(width, std::vector<float>(height));
@@ -37,7 +29,7 @@ void Sandbox::start()
     {
         for (int j = 0; j < height; j++)
         {
-            mapValues[i][j] = (noiseGenerator.noise(i / 10.0f, j / 10.0f, 0.0f, frequency, amplitude, octaves, lacunarity, persistence));
+            mapValues[i][j] = (noiseGenerator.noise(i, j, 1));
             auto tile = activeScene->createEntity();
 
             printf("%f\n", mapValues[i][j]);
