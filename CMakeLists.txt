@@ -11,7 +11,7 @@ add_executable(${PROJECT_NAME} sandbox/sandbox.cpp
 engine/src/application/application.cpp 
 engine/src/ecs/system/physicssystem.cpp engine/src/ecs/system/rendersystem.cpp engine/src/ecs/system/scriptsystem.cpp 
 engine/src/core/events/subject.cpp engine/src/core/input/input.cpp
-engine/src/core/time/time.cpp engine/src/core/math/random.cpp 
+engine/src/core/time/time.cpp engine/src/core/math/random.cpp engine/src/core/math/noise/perlinnoise.cpp
 engine/src/core/assetmanager.cpp engine/src/scene/scene.cpp
 engine/src/graphics/renderer.cpp engine/src/graphics/shader.cpp 
 engine/src/graphics/vao.cpp engine/src/graphics/texture2d.cpp engine/src/graphics/window.cpp
