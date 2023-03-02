@@ -10,21 +10,46 @@ void Sandbox::start()
     Scene scene;
     setActiveScene(scene);
 
-    auto entity = activeScene->createEntity();
+    auto player = activeScene->createEntity();
 
-    std::shared_ptr<PlayerController> controller = std::make_shared<PlayerController>(entity, activeScene->getRegistry());
-    activeScene->addComponent<Transform>(entity, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(100.0f, 100.0f, 1.0f));
-    activeScene->addComponent<Sprite>(entity);
-    activeScene->addComponent<Script>(entity, controller);
+    std::shared_ptr<PlayerController> controller = std::make_shared<PlayerController>(player, activeScene->getRegistry());
+    activeScene->addComponent<Transform>(player, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(4.0f, 4.0f, 1.0f));
+    activeScene->addComponent<Sprite>(player);
+    activeScene->addComponent<Script>(player, controller);
 
-    int numObjects = 100;
+    int width = 400;
+    int height = 300;
 
-    for (int i = 0; i < numObjects; ++i)
+    float frequency = 0.1f;
+    float amplitude = 1.0f;
+    int octaves = 7;
+
+    float lacunarity = 2.0f;
+    float persistence = 0.5f;
+
+    float threshold = 0.5f;
+
+    std::vector<std::vector<float> > mapValues = std::vector<std::vector<float> >(width, std::vector<float>(height));
+
+    PerlinNoise noiseGenerator(Random::randomIntInRange(0, 100));
+
+    for (int i = 0; i < width; i++)
     {
-        auto ent = activeScene->createEntity();
-        activeScene->addComponent<Transform>(ent, glm::vec3(Random::randomFloatInRange(0.0f, getWidth()), Random::randomFloatInRange(0.0f, getHeight()), 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
-        activeScene->addComponent<RigidBody>(ent);
-        activeScene->addComponent<Sprite>(ent);
+        for (int j = 0; j < height; j++)
+        {
+            mapValues[i][j] = (noiseGenerator.noise(i / 10.0f, j / 10.0f, 0.0f, frequency, amplitude, octaves, lacunarity, persistence));
+            auto tile = activeScene->createEntity();
+
+            printf("%f\n", mapValues[i][j]);
+
+            activeScene->addComponent<Sprite>(tile, glm::vec4(mapValues[i][j], mapValues[i][j] + 1.0f, mapValues[i][j], 0.55f));
+
+            if (mapValues[i][j] < threshold)
+            {
+            activeScene->addComponent<Sprite>(tile, glm::vec4(mapValues[i][j], mapValues[i][j], mapValues[i][j] + 1.0f, 1.0f));
+            }
+            activeScene->addComponent<Transform>(tile, glm::vec3(i * 2.0f, j * 2.0f, 0.0f), glm::vec3(2.0f, 2.0f, 0.0f));
+        }
     }
 }
 
