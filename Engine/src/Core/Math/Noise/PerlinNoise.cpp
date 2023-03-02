@@ -17,7 +17,7 @@ PerlinNoise::PerlinNoise(int seed)
 
 float PerlinNoise::noise(float x, float y, float z) const 
 {
-    return noiseImpl(x, y, z);
+    return noiseImpl(x / 10, y / 10, z / 10);
 }
 
 float PerlinNoise::noiseImpl(float x, float y, float z) const
