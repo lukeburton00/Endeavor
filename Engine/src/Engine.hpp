@@ -10,6 +10,7 @@
 #include "Input.hpp"
 #include "Time.hpp"
 #include "Random.hpp"
+#include "Noise/PerlinNoise.hpp"
 #include "Game.hpp"
 #include "Scene/Scene.hpp"
 #include "Behavior.hpp"
