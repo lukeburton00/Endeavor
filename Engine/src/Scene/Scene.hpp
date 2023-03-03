@@ -1,25 +1,28 @@
 #pragma once
 #include "entt/entt.hpp"
 
+using Entity = entt::entity;
+using Registry = entt::registry;
+
 class Scene
 {
 public:
-    Scene() : mRegistry(std::make_shared<entt::registry>()){}
+    Scene() : mRegistry(std::make_shared<Registry>()){}
 
-    entt::entity createEntity();
-    void destroyEntity(entt::entity entity);
-    std::shared_ptr<entt::registry> getRegistry();
+    Entity createEntity();
+    void destroyEntity(Entity entity);
+    std::shared_ptr<Registry> getRegistry();
 
-    template<typename T, typename... Args> void addComponent(entt::entity entity, Args &&...args)
+    template<typename T, typename... Args> void addComponent(Entity entity, Args &&...args)
     {
         mRegistry->emplace_or_replace<T>(entity, args...);
     }
 
-    template<typename T> void removeComponent(entt::entity entity)
+    template<typename T> void removeComponent(Entity entity)
     {
         mRegistry->remove<T>(entity);
     }
 
 private:
-    std::shared_ptr<entt::registry> mRegistry;
+    std::shared_ptr<Registry> mRegistry;
 };

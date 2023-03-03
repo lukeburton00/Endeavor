@@ -1,31 +1,22 @@
 #pragma once
 #include "Scene.hpp"
 
+
 class Behavior
 {
 public:
 
-    Behavior(entt::entity entity, std::shared_ptr<Scene> scene)
+    Behavior(Entity entity, std::shared_ptr<Scene> scene)
     {
         parent = entity;
         mScene = scene;
     }
 
-    virtual void start()
-    {
-        #ifdef DEBUG
-        printf("Starting base behavior class...\n");
-        #endif
-    }
+    virtual void start(){}
 
-    virtual void update(float deltaTime)
-    {
-        #ifdef DEBUG
-        printf("Updating base behavior class...\n");
-        #endif
-    }
+    virtual void update(float deltaTime){}
 
 protected:
-    entt::entity parent;
+    Entity parent;
     std::shared_ptr<Scene> mScene;
 };
