@@ -5,7 +5,7 @@ class Grid : public Behavior
 {
     using Behavior::Behavior;
 
-    std::vector<entt::entity> tiles;
+    std::vector<Entity> tiles;
     int gridWidth, gridHeight;
     
     void start() override
@@ -26,6 +26,29 @@ class Grid : public Behavior
                 
                 tiles.push_back(tile);
             }
+        }
+    }
+
+    void update(float deltaTime) override
+    {
+        if (Input::isLeftMouseButtonPressed())
+        {
+            printf("Left mouse button pressed\n");
+        }
+
+        if (Input::isRightMouseButtonPressed())
+        {
+            printf("Right mouse button pressed\n");
+        }
+
+        if (Input::isLeftMouseButtonDown())
+        {
+            printf("Left mouse button down\n");
+        }
+
+        if (Input::isRightMouseButtonDown())
+        {
+            printf("Right mouse button down\n");
         }
     }
 };
