@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <vector>
 #include <iostream>
+#include "glm/glm.hpp"
 
 class Input
 {
@@ -20,6 +21,8 @@ public:
 
 	static bool isLeftMouseButtonDown();
 	static bool isRightMouseButtonDown();
+
+	static int mousePositionX, mousePositionY;
 
 private:
 	static bool leftMouseButtonDown;

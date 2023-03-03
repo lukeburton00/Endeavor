@@ -11,6 +11,8 @@ bool Input::rightMouseButtonDown = false;
 bool Input::leftMouseButtonPressed = false;
 bool Input::rightMouseButtonPressed = false;
 
+int Input::mousePositionX, Input::mousePositionY;
+
 void Input::processInput()
 {	
 	SDL_Keycode keyCodeDown;
@@ -24,6 +26,7 @@ void Input::processInput()
 
  	while (SDL_PollEvent(&event) != 0)
  	{
+		SDL_GetMouseState(&mousePositionX, &mousePositionY);
  		switch(event.type)
  		{
  			case SDL_KEYDOWN:
