@@ -13,12 +13,16 @@ public:
 
     virtual void start()
     {
+        #ifdef DEBUG
         printf("Starting base behavior class...\n");
+        #endif
     }
 
     virtual void update(float deltaTime)
     {
-        //printf("Updating base behavior class...\n");
+        #ifdef DEBUG
+        printf("Updating base behavior class...\n");
+        #endif
     }
 
 protected:

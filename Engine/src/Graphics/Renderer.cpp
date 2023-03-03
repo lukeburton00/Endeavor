@@ -2,12 +2,10 @@
 
 Renderer::Renderer(glm::vec2 dimensions)
 {
-    printf("Rendererer constructor\n");
     createQuadPrimitive();
     setViewport(dimensions);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
-    printf("Rendererer constructor finished\n");
 
 }
 
