@@ -59,6 +59,11 @@ class Grid : public Behavior
         elapsedTime += deltaTime;
         glm::vec2 mousePosition = glm::vec2(Input::mousePositionX, Input::mousePositionY);
 
+        if (Input::isKeyPressed("R"))
+        {
+            reset();
+        }
+
         if (state == State::CREATE)
         {
             if (Input::isKeyPressed("Space"))
@@ -172,7 +177,18 @@ class Grid : public Behavior
         {
             tickSpeed += 0.1f;
         }
-            }
+    }
+    }
 
+    void reset()
+    {
+        state = State::CREATE;
+        for (int i = 0; i < gridWidth; i++)
+        {
+            for (int j = 0; j < gridHeight; j++)
+            {
+                mScene->addComponent<Sprite>(tiles[i][j], glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "GridTexture");
+            }
+        }
     }
 };
