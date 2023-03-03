@@ -5,7 +5,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project(Engine VERSION 0.1)
 
-add_definitions(-DDEBUG)
+if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+    add_definitions(-DDEBUG)
+endif()
+
+message( msg ${CMAKE_BUILD_TYPE})
 
 add_executable(${PROJECT_NAME} sandbox/sandbox.cpp 
 engine/src/application/application.cpp 
@@ -18,29 +22,29 @@ engine/src/graphics/vao.cpp engine/src/graphics/texture2d.cpp engine/src/graphic
 engine/external/stb_impl.cpp)
 
 if (WIN32)
-list(APPEND CMAKE_PREFIX_PATH "C:\\Dev\\SDL-release-2.26.2\\build\\install\\cmake")
-list(APPEND CMAKE_PREFIX_PATH "C:\\Dev\\vcpkg\\packages\\glm_x86-windows\\share\\glm")
-set(GLEW_INCLUDE_DIR "C:\\Dev\\glew-2.1.0\\include\\GL")
-set(GLEW_LIBRARIES "C:\\Dev\\glew-2.1.0\\lib\\Release\\x64\\glew32.lib")
-set(GLEW_SHAREDLIB "C:\\Dev\\glew-2.1.0\\bin\\Release\\x64\\glew32.dll")
-set(GLM_INCLUDE_DIRS "C:\\Dev\\vcpkg\\packages\\glm_x86-windows\\include\\glm")
-set(FREETYPE_INCLUDE_DIRS "C:\\Dev\\vcpkg\\packages\\freetype_x86-windows\\include")
-set(FREETYPE_LIBRARIES "C:\\Dev\\vcpkg\\packages\\freetype_x86-windows\\lib\\freetype.lib")
+    list(APPEND CMAKE_PREFIX_PATH "C:\\Dev\\SDL-release-2.26.2\\build\\install\\cmake")
+    list(APPEND CMAKE_PREFIX_PATH "C:\\Dev\\vcpkg\\packages\\glm_x86-windows\\share\\glm")
+    set(GLEW_INCLUDE_DIR "C:\\Dev\\glew-2.1.0\\include\\GL")
+    set(GLEW_LIBRARIES "C:\\Dev\\glew-2.1.0\\lib\\Release\\x64\\glew32.lib")
+    set(GLEW_SHAREDLIB "C:\\Dev\\glew-2.1.0\\bin\\Release\\x64\\glew32.dll")
+    set(GLM_INCLUDE_DIRS "C:\\Dev\\vcpkg\\packages\\glm_x86-windows\\include\\glm")
+    set(FREETYPE_INCLUDE_DIRS "C:\\Dev\\vcpkg\\packages\\freetype_x86-windows\\include")
+    set(FREETYPE_LIBRARIES "C:\\Dev\\vcpkg\\packages\\freetype_x86-windows\\lib\\freetype.lib")
 
-find_package(GLM REQUIRED)
-target_include_directories(${PROJECT_NAME} PRIVATE ${GLM_INCLUDE_DIRS} PRIVATE ${FREETYPE_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${GLEW_LIBRARIES} PRIVATE ${FREETYPE_LIBRARIES})
+    find_package(GLM REQUIRED)
+    target_include_directories(${PROJECT_NAME} PRIVATE ${GLM_INCLUDE_DIRS} PRIVATE ${FREETYPE_INCLUDE_DIRS})
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${GLEW_LIBRARIES} PRIVATE ${FREETYPE_LIBRARIES})
 
-add_custom_command(
-    TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}> $<TARGET_FILE_DIR:${PROJECT_NAME}>
-    COMMAND ${CMAKE_COMMAND} -E copy ${GLEW_SHAREDLIB} $<TARGET_FILE_DIR:${PROJECT_NAME}>
-    VERBATIM)
+    add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}> $<TARGET_FILE_DIR:${PROJECT_NAME}>
+        COMMAND ${CMAKE_COMMAND} -E copy ${GLEW_SHAREDLIB} $<TARGET_FILE_DIR:${PROJECT_NAME}>
+        VERBATIM)
 
 else()
-find_package(Freetype REQUIRED)
-find_package(GLEW REQUIRED)
-target_link_libraries(${PROJECT_NAME} PRIVATE GLEW::GLEW)
+    find_package(Freetype REQUIRED)
+    find_package(GLEW REQUIRED)
+    target_link_libraries(${PROJECT_NAME} PRIVATE GLEW::GLEW)
 endif()
 
 find_package(OpenGL REQUIRED)

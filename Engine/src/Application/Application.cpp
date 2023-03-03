@@ -55,7 +55,7 @@ void Application::loop()
 
     auto registry = mActiveGame.getActiveScene()->getRegistry();
     mScriptSystem->start(registry);
-    
+
     while (mGameIsRunning)
     {
         timer.start();
