@@ -52,6 +52,10 @@ void Application::loop()
     float deltaTime = 0;
 
     mGameIsRunning = true;
+
+    auto registry = mActiveGame.getActiveScene()->getRegistry();
+    mScriptSystem->start(registry);
+    
     while (mGameIsRunning)
     {
         timer.start();
