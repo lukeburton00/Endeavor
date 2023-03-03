@@ -3,9 +3,9 @@
 
 void Sandbox::start()
 {
-    setWidth(800);
-    setHeight(600);
-    setTitle("Sandbox");
+    setWidth(1000);
+    setHeight(800);
+    setTitle("Life");
 
     Scene scene;
     setActiveScene(scene);
