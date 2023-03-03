@@ -100,84 +100,84 @@ class Grid : public Behavior
 
             if (elapsedTime > tickSpeed)
             {
-            for (int i = 0; i < gridWidth; i++)
-            {
-                for (int j = 0; j < gridHeight; j++)
+                for (int i = 0; i < gridWidth; i++)
                 {
-                    mScene->addComponent<Sprite>(nextTiles[i][j], mScene->getRegistry()->get<Sprite>(tiles[i][j]).color, mScene->getRegistry()->get<Sprite>(tiles[i][j]).textureTag);
-                }
-            }
-
-            for (int i = 0; i < gridWidth; i++)
-            {
-                for (int j = 0; j < gridHeight; j++)
-                {
-                    if ((i > 0 && j > 0) && (i < gridWidth - 1 && j < gridHeight - 1))
+                    for (int j = 0; j < gridHeight; j++)
                     {
-                        auto thisTile = tiles[i][j];
-                        int numLivingNeighbors = 0;
-                        std::vector<Entity> neighbors;
+                        mScene->addComponent<Sprite>(nextTiles[i][j], mScene->getRegistry()->get<Sprite>(tiles[i][j]).color, mScene->getRegistry()->get<Sprite>(tiles[i][j]).textureTag);
+                    }
+                }
 
-                        neighbors.push_back(tiles[i + 1][j]);
-                        neighbors.push_back(tiles[i][j + 1]);
-                        neighbors.push_back(tiles[i + 1][j + 1]);
-                        neighbors.push_back(tiles[i - 1][j]);
-                        neighbors.push_back(tiles[i][j - 1]);
-                        neighbors.push_back(tiles[i - 1][j - 1]);
-                        neighbors.push_back(tiles[i + 1][j - 1]);
-                        neighbors.push_back(tiles[i - 1][j + 1]);
-
-                        for (auto tile : neighbors)
+                for (int i = 0; i < gridWidth; i++)
+                {
+                    for (int j = 0; j < gridHeight; j++)
+                    {
+                        if ((i > 0 && j > 0) && (i < gridWidth - 1 && j < gridHeight - 1))
                         {
-                            if (mScene->getRegistry()->get<Sprite>(tile).textureTag == "TileTexture")
+                            auto thisTile = tiles[i][j];
+                            int numLivingNeighbors = 0;
+                            std::vector<Entity> neighbors;
+
+                            neighbors.push_back(tiles[i + 1][j]);
+                            neighbors.push_back(tiles[i][j + 1]);
+                            neighbors.push_back(tiles[i + 1][j + 1]);
+                            neighbors.push_back(tiles[i - 1][j]);
+                            neighbors.push_back(tiles[i][j - 1]);
+                            neighbors.push_back(tiles[i - 1][j - 1]);
+                            neighbors.push_back(tiles[i + 1][j - 1]);
+                            neighbors.push_back(tiles[i - 1][j + 1]);
+
+                            for (auto tile : neighbors)
                             {
-                                numLivingNeighbors++;
+                                if (mScene->getRegistry()->get<Sprite>(tile).textureTag == "TileTexture")
+                                {
+                                    numLivingNeighbors++;
+                                }
                             }
-                        }
 
-                        neighbors.clear();
+                            neighbors.clear();
 
-                        if ((mScene->getRegistry()->get<Sprite>(thisTile).textureTag == "TileTexture") && ((numLivingNeighbors == 3) || (numLivingNeighbors == 2)))
-                        {
-                            mScene->addComponent<Sprite>(nextTiles[i][j], glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), "TileTexture");
-                        }
+                            if ((mScene->getRegistry()->get<Sprite>(thisTile).textureTag == "TileTexture") && ((numLivingNeighbors == 3) || (numLivingNeighbors == 2)))
+                            {
+                                mScene->addComponent<Sprite>(nextTiles[i][j], glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), "TileTexture");
+                            }
 
-                        else if ((mScene->getRegistry()->get<Sprite>(thisTile).textureTag == "GridTexture") && (numLivingNeighbors == 3))
-                        {
-                            mScene->addComponent<Sprite>(nextTiles[i][j], glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), "TileTexture");
-                        }
+                            else if ((mScene->getRegistry()->get<Sprite>(thisTile).textureTag == "GridTexture") && (numLivingNeighbors == 3))
+                            {
+                                mScene->addComponent<Sprite>(nextTiles[i][j], glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), "TileTexture");
+                            }
 
-                        else 
-                        {
-                            mScene->addComponent<Sprite>(nextTiles[i][j], glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "GridTexture");
+                            else 
+                            {
+                                mScene->addComponent<Sprite>(nextTiles[i][j], glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "GridTexture");
+                            }
                         }
                     }
                 }
-            }
-            for (int i = 0; i < gridWidth; i++)
-            {
-                for (int j = 0; j < gridHeight; j++)
+                for (int i = 0; i < gridWidth; i++)
                 {
-                    mScene->addComponent<Sprite>(tiles[i][j], mScene->getRegistry()->get<Sprite>(nextTiles[i][j]).color, mScene->getRegistry()->get<Sprite>(nextTiles[i][j]).textureTag);
+                    for (int j = 0; j < gridHeight; j++)
+                    {
+                        mScene->addComponent<Sprite>(tiles[i][j], mScene->getRegistry()->get<Sprite>(nextTiles[i][j]).color, mScene->getRegistry()->get<Sprite>(nextTiles[i][j]).textureTag);
+                    }
+                }
+                elapsedTime = 0.0f;
+            }
+
+            if (Input::isKeyPressed("W"))
+            {
+                tickSpeed -= 0.1f;
+                if (tickSpeed < 0)
+                {
+                    tickSpeed = 0;
                 }
             }
-            elapsedTime = 0.0f;
-        }
 
-        if (Input::isKeyPressed("W"))
-        {
-            tickSpeed -= 0.1f;
-            if (tickSpeed < 0)
+            if (Input::isKeyPressed("S"))
             {
-                tickSpeed = 0;
+                tickSpeed += 0.1f;
             }
         }
-
-        if (Input::isKeyPressed("S"))
-        {
-            tickSpeed += 0.1f;
-        }
-    }
     }
 
     void reset()
