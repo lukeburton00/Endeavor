@@ -2,14 +2,15 @@
 
 Renderer::Renderer(glm::vec2 dimensions)
 {
+    printf("Renderer init\n");
     createQuadPrimitive();
     setViewport(dimensions);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
-
+    printf("Renderer init done\n");
 }
 
-void Renderer::drawQuad(const glm::vec2& position, const glm::vec2& scale, const glm::vec4& color, std::string& textureName)
+void Renderer::drawQuadImmediate(const glm::vec2& position, const glm::vec2& scale, const glm::vec4& color, std::string& textureName)
 {
     Shader shader = *AssetManager::getShader("DefaultShader");
     Texture2D texture = *AssetManager::getTexture(textureName);

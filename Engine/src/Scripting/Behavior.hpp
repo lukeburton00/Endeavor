@@ -14,7 +14,7 @@ public:
 
     virtual void start(){}
 
-    virtual void update(float deltaTime){}
+    virtual void update(const float& deltaTime){}
 
 protected:
     Entity parent;

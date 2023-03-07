@@ -1,7 +1,7 @@
 #include "ScriptSystem.hpp"
 #include "Script.hpp"
 
-void ScriptSystem::start(std::shared_ptr<entt::registry> registry)
+void ScriptSystem::start(std::shared_ptr<entt::registry> &registry)
 {
     auto view = registry->view<Script>();
 
@@ -12,7 +12,7 @@ void ScriptSystem::start(std::shared_ptr<entt::registry> registry)
     }
 }
 
-void ScriptSystem::update(std::shared_ptr<entt::registry> registry, float deltaTime)
+void ScriptSystem::update(std::shared_ptr<entt::registry> &registry, float &deltaTime)
 {
     auto view = registry->view<Script>();
 

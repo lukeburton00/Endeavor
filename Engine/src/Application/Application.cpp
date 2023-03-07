@@ -12,7 +12,6 @@ void Application::start()
     mPhysicsSystem = std::make_shared<PhysicsSystem>();
     mScriptSystem = std::make_shared<ScriptSystem>();
 
-
     mActiveGame.start();
     mWindow.create(
         mActiveGame.getWidth(), 
@@ -24,6 +23,9 @@ void Application::start()
     std::string title = "DefaultShader";
     AssetManager::loadShader(title, "../engine/assets/shaders/default.vert", "../engine/assets/shaders/default.frag");
 
+    title = "BatchShader";
+    AssetManager::loadShader(title, "../engine/assets/shaders/sprite_batch.vert", "../engine/assets/shaders/sprite_batch.frag");
+
     title = "DefaultTexture";
     AssetManager::loadTexture2D(title, "../engine/assets/2DTextures/default.jpg");
 
@@ -34,7 +36,6 @@ void Application::start()
     AssetManager::loadTexture2D(title, "../engine/assets/2DTextures/tile.png");
 
     mRenderSystem = std::make_shared<RenderSystem>(glm::vec2(mActiveGame.getWidth(), mActiveGame.getHeight()));
-
 
     loop();
 }

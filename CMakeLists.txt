@@ -5,11 +5,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project(Engine VERSION 0.1)
 
-if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-    add_definitions(-DDEBUG)
-endif()
-
-message( msg ${CMAKE_BUILD_TYPE})
+add_definitions(-DDEBUG)
 
 add_executable(${PROJECT_NAME} sandbox/sandbox.cpp 
 engine/src/application/application.cpp 
@@ -18,7 +14,7 @@ engine/src/core/events/subject.cpp engine/src/core/input/input.cpp
 engine/src/core/time/time.cpp engine/src/core/math/random.cpp engine/src/core/math/noise/perlinnoise.cpp
 engine/src/core/assetmanager.cpp engine/src/scene/scene.cpp
 engine/src/graphics/renderer.cpp engine/src/graphics/shader.cpp 
-engine/src/graphics/vao.cpp engine/src/graphics/texture2d.cpp engine/src/graphics/window.cpp
+engine/src/graphics/vao.cpp engine/src/graphics/texture2d.cpp engine/src/graphics/window.cpp engine/src/graphics/spritebatcher/spritebatcher.cpp
 engine/external/stb_impl.cpp)
 
 if (WIN32)
@@ -50,10 +46,15 @@ endif()
 find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)
 
-target_include_directories(${PROJECT_NAME} PRIVATE engine/src PRIVATE engine/src/ecs/system PRIVATE sandbox/scripts
-PRIVATE engine/src/ecs/component PRIVATE engine/src/application PRIVATE engine/src/game PRIVATE engine/src/scene 
-PRIVATE engine/src/scripting PRIVATE engine/src/core PRIVATE engine/src/core/time PRIVATE engine/src/core/input 
-PRIVATE engine/src/core/math PRIVATE engine/src/core/events engine/src/graphics PRIVATE engine/external
+target_include_directories(${PROJECT_NAME} PRIVATE engine/src 
+PRIVATE engine/src/ecs/system PRIVATE sandbox/scripts
+PRIVATE engine/src/ecs/component PRIVATE engine/src/application 
+PRIVATE engine/src/game PRIVATE engine/src/scene 
+PRIVATE engine/src/scripting PRIVATE engine/src/core 
+PRIVATE engine/src/core/time PRIVATE engine/src/core/input 
+PRIVATE engine/src/core/math PRIVATE engine/src/core/events 
+PRIVATE engine/src/graphics PRIVATE engine/src/graphics/spritebatcher 
+PRIVATE engine/external
 PRIVATE ${FREETYPE_INCLUDE_DIRS} PRIVATE ${SDL2_INCLUDE_DIRS} PRIVATE ${GLEW_INCLUDE_DIR} PRIVATE ${OPENGL_INCLUDE_DIR})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2 PRIVATE ${OPENGL_LIBRARIES} PRIVATE ${FREETYPE_LIBRARIES})

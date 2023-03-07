@@ -21,8 +21,8 @@ class Grid : public Behavior
     
     void start() override
     {
-        gridWidth = 100;
-        gridHeight = 80;
+        gridWidth = 400;
+        gridHeight = 400;
 
         tiles = std::vector<std::vector<Entity> >(gridWidth, std::vector<Entity>(gridHeight));
         nextTiles = std::vector<std::vector<Entity> >(gridWidth, std::vector<Entity>(gridHeight));
@@ -39,11 +39,13 @@ class Grid : public Behavior
 
                 mScene->addComponent<Transform>(tile, position, scale);
                 mScene->addComponent<Sprite>(tile, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "GridTexture");
+                mScene->addComponent<RigidBody>(tile);
+
 
                 tiles[i][j] = tile;
 
                 tile = mScene->createEntity();
-                mScene->addComponent<Sprite>(tile, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "GridTexture");
+
                 
                 nextTiles[i][j] = tile;
             }
@@ -54,7 +56,7 @@ class Grid : public Behavior
         elapsedTime = 0.0f;
     }
 
-    void update(float deltaTime) override
+    void update(const float& deltaTime) override
     {
         elapsedTime += deltaTime;
         glm::vec2 mousePosition = glm::vec2(Input::mousePositionX, Input::mousePositionY);
