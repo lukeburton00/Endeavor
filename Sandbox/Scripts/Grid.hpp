@@ -21,8 +21,8 @@ class Grid : public Behavior
     
     void start() override
     {
-        gridWidth = 400;
-        gridHeight = 400;
+        gridWidth = 200;
+        gridHeight = 200;
 
         tiles = std::vector<std::vector<Entity> >(gridWidth, std::vector<Entity>(gridHeight));
         nextTiles = std::vector<std::vector<Entity> >(gridWidth, std::vector<Entity>(gridHeight));
@@ -32,20 +32,18 @@ class Grid : public Behavior
         {
             for (int j = 0; j < gridHeight; j++)
             {
-                glm::vec3 scale = glm::vec3(10.0f, 10.0f, 1.0f);
+                glm::vec3 scale = glm::vec3(5.0f, 4.0f, 1.0f);
                 glm::vec3 position = glm::vec3(i * scale.x, j * scale.y, 0.0f);
 
                 auto tile = mScene->createEntity();
 
                 mScene->addComponent<Transform>(tile, position, scale);
                 mScene->addComponent<Sprite>(tile, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "GridTexture");
-                mScene->addComponent<RigidBody>(tile);
-
 
                 tiles[i][j] = tile;
 
                 tile = mScene->createEntity();
-
+                mScene->addComponent<Sprite>(tile, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "GridTexture");
                 
                 nextTiles[i][j] = tile;
             }
