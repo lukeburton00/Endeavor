@@ -11,11 +11,11 @@ RenderSystem::RenderSystem(glm::vec2 dimensions)
 
 void RenderSystem::update(std::shared_ptr<entt::registry> &registry)
 {
-    auto view = registry->view<Sprite, Transform>();
-    for (auto& entity : view)
+    auto group = registry->group<Transform, Sprite>();
+    for (auto& entity : group)
     {
-        auto &transform = view.get<Transform>(entity);
-        auto &sprite = view.get<Sprite>(entity);
+        auto &transform = group.get<Transform>(entity);
+        auto &sprite = group.get<Sprite>(entity);
 
         //mRenderer->drawQuadImmediate(glm::vec2(transform.position.x, transform.position.y), glm::vec2(transform.scale.x, transform.scale.y), sprite.color, sprite.textureTag);
         mSpriteBatcher->draw(glm::vec2(transform.position.x, transform.position.y), glm::vec2(transform.scale.x, transform.scale.y), sprite.color, sprite.textureTag);
