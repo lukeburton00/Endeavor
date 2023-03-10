@@ -11,12 +11,12 @@ PhysicsSystem::PhysicsSystem()
 void PhysicsSystem::update(std::shared_ptr<entt::registry> &registry, float deltaTime)
 {
     mElapsedTime += deltaTime;
-    auto view = registry->view<Transform, RigidBody>();
+    auto group = registry->group<Transform, RigidBody>();
 
-    for (auto entity : view)
+    for (auto entity : group)
     {
-        auto& rb = view.get<RigidBody>(entity);
-        auto& transform = view.get<Transform>(entity);
+        auto& rb = group.get<RigidBody>(entity);
+        auto& transform = group.get<Transform>(entity);
 
         rb.velocity.y += 9.8f * deltaTime;
         
