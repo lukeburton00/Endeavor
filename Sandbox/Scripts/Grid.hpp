@@ -9,6 +9,7 @@ enum class State
 
 class Grid : public Behavior
 {
+public:
     using Behavior::Behavior;
 
     std::vector<std::vector<Entity> > tiles;
@@ -180,6 +181,7 @@ class Grid : public Behavior
         }
     }
 
+private:
     void reset()
     {
         state = State::CREATE;
