@@ -35,7 +35,14 @@ void Application::start()
     title = "TileTexture";
     AssetManager::loadTexture2D(title, "../engine/assets/2DTextures/tile.png");
 
-    mRenderSystem = std::make_shared<RenderSystem>(glm::vec2(mActiveGame.getWidth(), mActiveGame.getHeight()));
+    mRenderSystem = std::make_shared<RenderSystem>();
+
+    float width = mActiveGame.getWidth();
+    float height = mActiveGame.getHeight();
+
+    glm::mat4 projection = glm::ortho(0.0f, width, height, 0.0f, -0.1f, 0.1f);
+
+    mRenderSystem->setProjection(projection);
 
     loop();
 }
@@ -99,6 +106,7 @@ void Application::update(float deltaTime)
 {
     auto registry = mActiveGame.getActiveScene()->getRegistry();
 
+    mRenderSystem->updateProjection(registry);
     mPhysicsSystem->update(registry, deltaTime);
     mScriptSystem->update(registry, deltaTime);
 }

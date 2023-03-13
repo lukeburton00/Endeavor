@@ -20,6 +20,7 @@
 #include "RigidBody.hpp"
 #include "Sprite.hpp"
 #include "Script.hpp"
+#include "Camera.hpp"
 
 /* ----- Events -----*/
 #include "Observer.hpp"

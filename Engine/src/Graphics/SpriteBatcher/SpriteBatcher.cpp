@@ -2,8 +2,6 @@
 
 SpriteBatcher::SpriteBatcher()
 {
-    printf("SpriteBatcher initialize\n");
-
     mVAO.generate();
     mVAO.bind();
     glGenBuffers(1, &mVBO);
@@ -20,20 +18,19 @@ SpriteBatcher::SpriteBatcher()
 
     mVAO.unbind();
 
-    mTextureName = "GridTexture";
-    printf("SpriteBatcher initialize finished\n");
+    mTextureName = "";
 
-    mViewProjection = glm::mat4(1.0f);
-    mViewProjection = glm::ortho(0.0f, 1000.0f, 800.0f, 0.0f, -0.1f, 0.1f);
+    mViewMatrix = glm::mat4(1.0f);
+    mProjectionMatrix = glm::mat4(1.0f);
 }
 
 void SpriteBatcher::draw(glm::vec2 pos, glm::vec2 scale, glm::vec4 color, std::string textureName)
 {
-    // if (mTextureName != textureName)
-    // {
-    //     flush();
-    //     mTextureName = textureName;
-    // }
+    if (mTextureName != textureName)
+    {
+        flush();
+        mTextureName = textureName;
+    }
 
     mVertexBuffer.push_back(Vertex(glm::vec2(pos.x, pos.y), glm::vec2(1.0f, 1.0f), color));
     mVertexBuffer.push_back(Vertex(glm::vec2(pos.x + scale.x, pos.y), glm::vec2(1.0f, 0.0f), color));
@@ -45,11 +42,10 @@ void SpriteBatcher::draw(glm::vec2 pos, glm::vec2 scale, glm::vec4 color, std::s
 
 void SpriteBatcher::flush()
 {
-    // if (mTextureName == "")
-    // {
-    //     printf("No texture name specified.\n");
-    //     return;
-    // }
+    if (mTextureName == "")
+    {
+        return;
+    }
 
     auto shader = AssetManager::getShader("BatchShader");
     auto texture = AssetManager::getTexture(mTextureName);
@@ -59,10 +55,22 @@ void SpriteBatcher::flush()
     glBindBuffer(GL_ARRAY_BUFFER, mVBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * mVertexBuffer.size(), &mVertexBuffer[0], GL_STATIC_DRAW);
 
-    shader->setMat4("view_projection", mViewProjection);
+    glm::mat4 viewProjection = mProjectionMatrix * mViewMatrix;
+
+    shader->setMat4("view_projection", viewProjection);
 
     glDrawArrays(GL_TRIANGLES, 0, mVertexBuffer.size());
 
     mVAO.unbind();
     mVertexBuffer.clear();
+}
+
+void SpriteBatcher::setProjectionMatrix(const glm::mat4& projection)
+{
+    mProjectionMatrix = projection;
+}
+
+void SpriteBatcher::setViewMatrix(const glm::mat4& view)
+{
+    mViewMatrix = view;
 }

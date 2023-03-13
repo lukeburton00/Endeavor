@@ -12,6 +12,8 @@ public:
         mScene = scene;
     }
 
+    virtual ~Behavior(){}
+
     virtual void start(){}
 
     virtual void update(const float& deltaTime){}

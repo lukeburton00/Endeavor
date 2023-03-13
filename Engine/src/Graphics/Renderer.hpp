@@ -8,12 +8,14 @@
 class Renderer
 {
 public:
-    Renderer(glm::vec2 dimensions);
+    Renderer();
     void drawQuadImmediate(const glm::vec2& position, const glm::vec2& scale, const glm::vec4& color, std::string& texture);
-    void setViewport(const glm::vec2& dimensions);
+    void setViewMatrix(const glm::mat4& viewMatrix);
+    void setProjectionMatrix(const glm::mat4& projectionMatrix);
 
 private:
     VAO mQuadVAO;
+    glm::mat4 mViewMatrix;
     glm::mat4 mProjectionMatrix;
     void createQuadPrimitive();
 };

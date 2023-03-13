@@ -1,13 +1,13 @@
 #include "Renderer.hpp"
 
-Renderer::Renderer(glm::vec2 dimensions)
+Renderer::Renderer()
 {
-    printf("Renderer init\n");
     createQuadPrimitive();
-    setViewport(dimensions);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
-    printf("Renderer init done\n");
+
+    mViewMatrix = glm::mat4(1.0f);
+    mProjectionMatrix = glm::mat4(1.0f);
 }
 
 void Renderer::drawQuadImmediate(const glm::vec2& position, const glm::vec2& scale, const glm::vec4& color, std::string& textureName)
@@ -71,7 +71,12 @@ void Renderer::createQuadPrimitive()
     mQuadVAO.unbind();
 }
 
-void Renderer::setViewport(const glm::vec2& dimensions)
+void Renderer::setProjectionMatrix(const glm::mat4& projectionMatrix)
 {
-    mProjectionMatrix = glm::ortho(0.0f, dimensions.x, dimensions.y, 0.0f, -1.0f, 1.0f);
+    mProjectionMatrix = projectionMatrix;
+}
+
+void Renderer::setViewMatrix(const glm::mat4& viewMatrix)
+{
+    mViewMatrix = viewMatrix;
 }
