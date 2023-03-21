@@ -7,7 +7,7 @@ project(Engine VERSION 0.1)
 
 add_definitions(-DDEBUG)
 
-add_executable(${PROJECT_NAME} sandbox/sandbox.cpp 
+add_executable(${PROJECT_NAME} GameOfLife/life.cpp 
 engine/src/application/application.cpp 
 engine/src/ecs/system/physicssystem.cpp engine/src/ecs/system/rendersystem.cpp engine/src/ecs/system/scriptsystem.cpp 
 engine/src/core/events/subject.cpp engine/src/core/input/input.cpp
@@ -47,7 +47,7 @@ find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)
 
 target_include_directories(${PROJECT_NAME} PRIVATE engine/src 
-PRIVATE engine/src/ecs/system PRIVATE sandbox/scripts
+PRIVATE engine/src/ecs/system PRIVATE gameoflife/scripts
 PRIVATE engine/src/ecs/component PRIVATE engine/src/ecs/entity PRIVATE engine/src/application 
 PRIVATE engine/src/game PRIVATE engine/src/scene 
 PRIVATE engine/src/scripting PRIVATE engine/src/core 

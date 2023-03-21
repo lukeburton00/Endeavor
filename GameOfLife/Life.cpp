@@ -1,4 +1,4 @@
-#include "Sandbox.hpp"
+#include "Life.hpp"
 #include "Grid.hpp"
 #include "CameraController.hpp"
 
