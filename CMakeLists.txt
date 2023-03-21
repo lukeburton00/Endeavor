@@ -48,7 +48,7 @@ find_package(SDL2 REQUIRED)
 
 target_include_directories(${PROJECT_NAME} PRIVATE engine/src 
 PRIVATE engine/src/ecs/system PRIVATE sandbox/scripts
-PRIVATE engine/src/ecs/component PRIVATE engine/src/application 
+PRIVATE engine/src/ecs/component PRIVATE engine/src/ecs/entity PRIVATE engine/src/application 
 PRIVATE engine/src/game PRIVATE engine/src/scene 
 PRIVATE engine/src/scripting PRIVATE engine/src/core 
 PRIVATE engine/src/core/time PRIVATE engine/src/core/input 
