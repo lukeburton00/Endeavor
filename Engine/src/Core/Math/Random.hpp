@@ -4,6 +4,5 @@ class Random
 {
 public:
     static int randomIntInRange(int min, int max);
-private:
-
+    static float randomFloatInRange(float min, float max);
 };

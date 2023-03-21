@@ -1,63 +1,32 @@
 #include "Sandbox.hpp"
+#include "Grid.hpp"
+#include "CameraController.hpp"
 
 void Sandbox::start()
 {
-    setWidth(800);
-    setHeight(600);
-    setTitle("Sandbox");
+    setWidth(1000);
+    setHeight(1000);
+    setTitle("Life");
 
     Scene scene;
     setActiveScene(scene);
 
-    auto obj = std::make_shared<GameObject>();
-    auto transform = obj->addTransform();
-    auto sprite = obj->addSprite();
+    auto grid = activeScene->createEntity();
+    std::shared_ptr<Grid> gridPtr = std::make_shared<Grid>(grid, activeScene);
+    grid.addComponent<Script>(gridPtr);
 
-    activeScene->objects.push_back(obj);
-    player = obj;
+    auto camera = activeScene->createEntity();
+    std::shared_ptr<CameraController> cameraPtr = std::make_shared<CameraController>(camera, activeScene);
+    camera.addComponent<Script>(cameraPtr);
+
+    camera.addComponent<Transform>();
+    camera.addComponent<Camera>(true);
 }
 
-void Sandbox::update(float deltaTime)
+int main() 
 {
-    std::shared_ptr<Scene> scene = getActiveScene();
-    std::shared_ptr<Transform> transform = player->getTransform();
-
-    if (Input::isKeyPressed("W"))
-    {
-        transform->position.y -= 100 * deltaTime;
-    }
-
-    if (Input::isKeyPressed("A"))
-    {
-        transform->position.x -= 100 * deltaTime;
-    }
-
-    if (Input::isKeyPressed("S"))
-    {
-        transform->position.y += 100 * deltaTime;
-    }
-
-    if (Input::isKeyPressed("D"))
-    {
-        transform->position.x += 100 * deltaTime;
-    }
-
-    if (Input::isKeyDown("X"))
-    {
-        player->removeSprite();
-    }
+    Sandbox sandbox;
+    Application engine(sandbox);
+    engine.start();
+    return 0;
 }
-
-void Sandbox::stop()
-{
-    printf("Stopping Sandbox...\n");
-}
-
-
-// int main() 
-// {
-//     Sandbox game;
-//     Application engine(game);
-//     engine.start();
-//     return 0;
-// }

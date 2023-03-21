@@ -9,6 +9,9 @@ void Application::start()
     printf("Initializing...\n");
     #endif
 
+    mPhysicsSystem = std::make_shared<PhysicsSystem>();
+    mScriptSystem = std::make_shared<ScriptSystem>();
+
     mActiveGame.start();
     mWindow.create(
         mActiveGame.getWidth(), 
@@ -20,6 +23,9 @@ void Application::start()
     std::string title = "DefaultShader";
     AssetManager::loadShader(title, "../engine/assets/shaders/default.vert", "../engine/assets/shaders/default.frag");
 
+    title = "BatchShader";
+    AssetManager::loadShader(title, "../engine/assets/shaders/sprite_batch.vert", "../engine/assets/shaders/sprite_batch.frag");
+
     title = "DefaultTexture";
     AssetManager::loadTexture2D(title, "../engine/assets/2DTextures/default.jpg");
 
@@ -29,7 +35,14 @@ void Application::start()
     title = "TileTexture";
     AssetManager::loadTexture2D(title, "../engine/assets/2DTextures/tile.png");
 
-    mRenderer = std::make_shared<Renderer>(glm::vec2(mActiveGame.getWidth(), mActiveGame.getHeight()));
+    mRenderSystem = std::make_shared<RenderSystem>();
+
+    float width = mActiveGame.getWidth();
+    float height = mActiveGame.getHeight();
+
+    glm::mat4 projection = glm::ortho(0.0f, width, height, 0.0f, -0.1f, 0.1f);
+
+    mRenderSystem->setProjection(projection);
 
     loop();
 }
@@ -47,6 +60,10 @@ void Application::loop()
     float deltaTime = 0;
 
     mGameIsRunning = true;
+
+    auto registry = mActiveGame.getActiveScene()->getRegistry();
+    mScriptSystem->start(registry);
+
     while (mGameIsRunning)
     {
         timer.start();
@@ -87,30 +104,19 @@ void Application::processInput()
 
 void Application::update(float deltaTime)
 {
-    std::shared_ptr<Scene> scene = mActiveGame.getActiveScene();
+    auto registry = mActiveGame.getActiveScene()->getRegistry();
 
-    for (auto& obj : scene->objects)
-    {
-        obj->update(deltaTime);
-    }
-
-    mActiveGame.update(deltaTime);
+    mRenderSystem->updateProjection(registry);
+    mPhysicsSystem->update(registry, deltaTime);
+    mScriptSystem->update(registry, deltaTime);
 }
 
 void Application::render()
 {
     mWindow.clear();
-    std::shared_ptr<Scene> scene = mActiveGame.getActiveScene();
 
-    for (auto const& obj : scene->objects)
-    {
-        auto transform = obj->getTransform();
-        auto sprite = obj->getSprite();
-        if (transform != nullptr && sprite != nullptr)
-        {
-            mRenderer->drawQuad(transform->position, transform->scale, sprite->color, sprite->textureName);
-        }
-    }
+    auto registry = mActiveGame.getActiveScene()->getRegistry();
+    mRenderSystem->update(registry);
 
     mWindow.swapBuffers();
 }
