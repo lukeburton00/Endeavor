@@ -33,18 +33,18 @@ public:
         {
             for (int j = 0; j < gridHeight; j++)
             {
-                glm::vec3 scale = glm::vec3(5.0f, 4.0f, 1.0f);
+                glm::vec3 scale = glm::vec3(5.0f, 5.0f, 1.0f);
                 glm::vec3 position = glm::vec3(i * scale.x, j * scale.y, 0.0f);
 
                 auto tile = mScene->createEntity();
 
-                mScene->addComponent<Transform>(tile, position, scale);
-                mScene->addComponent<Sprite>(tile, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "GridTexture");
+                tile.addComponent<Transform>(position, scale);
+                tile.addComponent<Sprite>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "GridTexture");
 
                 tiles[i][j] = tile;
 
                 tile = mScene->createEntity();
-                mScene->addComponent<Sprite>(tile, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "GridTexture");
+                tile.addComponent<Sprite>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "GridTexture");
                 
                 nextTiles[i][j] = tile;
             }
@@ -80,11 +80,11 @@ public:
                 {
                     for (int j = 0; j < gridHeight; j++)
                     {
-                        auto transform = mScene->getRegistry()->get<Transform>(tiles[i][j]);
+                        auto transform = tiles[i][j].getComponent<Transform>();
 
                         if ((mousePosition.x >= transform.position.x && mousePosition.x < (transform.position.x + transform.scale.x)) && (mousePosition.y >= transform.position.y && mousePosition.y < (transform.position.y + transform.scale.y)))
                         {
-                            mScene->addComponent<Sprite>(tiles[i][j], glm::vec4(0.0f,1.0f,0.0f,1.0f), "TileTexture");
+                            tiles[i][j].addComponent<Sprite>(glm::vec4(0.0f,1.0f,0.0f,1.0f), "TileTexture");
                         }
                     }
                 }
@@ -105,7 +105,7 @@ public:
                 {
                     for (int j = 0; j < gridHeight; j++)
                     {
-                        mScene->addComponent<Sprite>(nextTiles[i][j], mScene->getRegistry()->get<Sprite>(tiles[i][j]).color, mScene->getRegistry()->get<Sprite>(tiles[i][j]).textureTag);
+                        nextTiles[i][j].addComponent<Sprite>(tiles[i][j].getComponent<Sprite>().color, tiles[i][j].getComponent<Sprite>().textureTag);
                     }
                 }
 
@@ -130,7 +130,7 @@ public:
 
                             for (auto tile : neighbors)
                             {
-                                if (mScene->getRegistry()->get<Sprite>(tile).textureTag == "TileTexture")
+                                if (tile.getComponent<Sprite>().textureTag == "TileTexture")
                                 {
                                     numLivingNeighbors++;
                                 }
@@ -138,19 +138,19 @@ public:
 
                             neighbors.clear();
 
-                            if ((mScene->getRegistry()->get<Sprite>(thisTile).textureTag == "TileTexture") && ((numLivingNeighbors == 3) || (numLivingNeighbors == 2)))
+                            if ((thisTile.getComponent<Sprite>().textureTag == "TileTexture") && ((numLivingNeighbors == 3) || (numLivingNeighbors == 2)))
                             {
-                                mScene->addComponent<Sprite>(nextTiles[i][j], glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), "TileTexture");
+                                nextTiles[i][j].addComponent<Sprite>(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), "TileTexture");
                             }
 
-                            else if ((mScene->getRegistry()->get<Sprite>(thisTile).textureTag == "GridTexture") && (numLivingNeighbors == 3))
+                            else if ((thisTile.getComponent<Sprite>().textureTag == "GridTexture") && (numLivingNeighbors == 3))
                             {
-                                mScene->addComponent<Sprite>(nextTiles[i][j], glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), "TileTexture");
+                                nextTiles[i][j].addComponent<Sprite>(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), "TileTexture");
                             }
 
                             else 
                             {
-                                mScene->addComponent<Sprite>(nextTiles[i][j], glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "GridTexture");
+                                nextTiles[i][j].addComponent<Sprite>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "GridTexture");
                             }
                         }
                     }
@@ -159,7 +159,7 @@ public:
                 {
                     for (int j = 0; j < gridHeight; j++)
                     {
-                        mScene->addComponent<Sprite>(tiles[i][j], mScene->getRegistry()->get<Sprite>(nextTiles[i][j]).color, mScene->getRegistry()->get<Sprite>(nextTiles[i][j]).textureTag);
+                        tiles[i][j].addComponent<Sprite>(nextTiles[i][j].getComponent<Sprite>().color, nextTiles[i][j].getComponent<Sprite>().textureTag);
                     }
                 }
                 elapsedTime = 0.0f;
@@ -189,7 +189,7 @@ private:
         {
             for (int j = 0; j < gridHeight; j++)
             {
-                mScene->addComponent<Sprite>(tiles[i][j], glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "GridTexture");
+                tiles[i][j].addComponent<Sprite>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "GridTexture");
             }
         }
     }

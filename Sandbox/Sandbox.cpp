@@ -5,7 +5,7 @@
 void Sandbox::start()
 {
     setWidth(1000);
-    setHeight(800);
+    setHeight(1000);
     setTitle("Life");
 
     Scene scene;
@@ -13,14 +13,14 @@ void Sandbox::start()
 
     auto grid = activeScene->createEntity();
     std::shared_ptr<Grid> gridPtr = std::make_shared<Grid>(grid, activeScene);
-    activeScene->addComponent<Script>(grid, gridPtr);
+    grid.addComponent<Script>(gridPtr);
 
     auto camera = activeScene->createEntity();
     std::shared_ptr<CameraController> cameraPtr = std::make_shared<CameraController>(camera, activeScene);
-    activeScene->addComponent<Script>(camera, cameraPtr);
+    camera.addComponent<Script>(cameraPtr);
 
-    activeScene->addComponent<Transform>(camera);
-    activeScene->addComponent<Camera>(camera, true);
+    camera.addComponent<Transform>();
+    camera.addComponent<Camera>(true);
 }
 
 int main() 

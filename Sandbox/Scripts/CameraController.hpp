@@ -13,7 +13,7 @@ public:
 
     void update(const float& deltaTime) override
     {
-        auto& transform = mScene->getRegistry()->get<Transform>(parent);
+        auto& transform = parent.getComponent<Transform>();
 
         if (Input::isKeyDown("W"))
         {
