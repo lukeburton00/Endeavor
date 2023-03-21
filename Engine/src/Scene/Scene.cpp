@@ -1,16 +1,13 @@
 #include "Scene.hpp"
+#include "Entity.hpp"
 
 Entity Scene::createEntity()
 {
-    return mRegistry->create();
+    Entity entity(mRegistry->create(), this);
+    return entity;
 }
 
-void Scene::destroyEntity(Entity entity)
+void Scene::destroyEntity(entt::entity entity)
 {
     mRegistry->destroy(entity);
-}
-
-std::shared_ptr<Registry> Scene::getRegistry()
-{
-    return mRegistry;
 }

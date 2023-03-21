@@ -21,6 +21,7 @@
 #include "Sprite.hpp"
 #include "Script.hpp"
 #include "Camera.hpp"
+#include "Entity.hpp"
 
 /* ----- Events -----*/
 #include "Observer.hpp"
