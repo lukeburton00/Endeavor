@@ -5,7 +5,7 @@
 void Sandbox::start()
 {
     setWidth(1000);
-    setHeight(1000);
+    setHeight(800);
     setTitle("Life");
 
     Scene scene;

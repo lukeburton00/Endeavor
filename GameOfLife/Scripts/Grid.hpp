@@ -22,8 +22,8 @@ public:
     
     void start() override
     {
-        gridWidth = 200;
-        gridHeight = 200;
+        gridWidth = 150;
+        gridHeight = 150;
 
         tiles = std::vector<std::vector<Entity> >(gridWidth, std::vector<Entity>(gridHeight));
         nextTiles = std::vector<std::vector<Entity> >(gridWidth, std::vector<Entity>(gridHeight));
@@ -165,7 +165,7 @@ public:
                 elapsedTime = 0.0f;
             }
 
-            if (Input::isKeyPressed("W"))
+            if (Input::isKeyPressed("I"))
             {
                 tickSpeed -= 0.1f;
                 if (tickSpeed < 0)
@@ -174,7 +174,7 @@ public:
                 }
             }
 
-            if (Input::isKeyPressed("S"))
+            if (Input::isKeyPressed("K"))
             {
                 tickSpeed += 0.1f;
             }
