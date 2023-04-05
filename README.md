@@ -1,6 +1,6 @@
 # Endeavor Engine
 
-<p> Endeavor is an open source game engine I'm working on in my spare time. Endeavor is designed to be easy to use, and the codebase is designed to be easily understood. Its primary purpose is to expand my abilities as a programmer, but I hope to see it grow to become a viable tool in the development of simple 2D and 3D games. </p>
+<p> Endeavor is an open source game engine I'm working on in my spare time. Endeavor is designed to be easy to use, and the codebase is designed to be easily understood. Its primary purpose is to expand my abilities as a programmer, but I hope to see it grow to become a viable tool in the development of 2D games. </p>
 
 <h2> Performant </h2>
 <p> Endeavor's runtime environment is built on ECS (Entity-Component-System) architecture, implemented through the popular <a href="https://github.com/skypjack/entt"> EnTT </a> framework. You can read about the benefits of ECS over other approaches <a href="https://digitalcommons.calpoly.edu/cgi/viewcontent.cgi?article=1138&context=cpesp"> here.</a> In short, ECS provides a more modular approach to game logic and avoids common performance issues found in a more traditional object-oriented design.
