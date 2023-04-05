@@ -1,12 +1,12 @@
-#include "PerlinNoise.hpp"
-#include "Random.hpp"
+#include "Core/Math/Noise/PerlinNoise.hpp"
+
+#include "Core/Math/Random.hpp"
 
 #include <cmath>
 #include <algorithm>
 #include <random>
-#include <vector>
 
-PerlinNoise::PerlinNoise(int seed) 
+Endeavor::PerlinNoise::PerlinNoise(int seed) 
 {
     p.resize(256);
     std::iota(p.begin(), p.end(), 0);
@@ -15,12 +15,12 @@ PerlinNoise::PerlinNoise(int seed)
     p.insert(p.end(), p.begin(), p.end());
 }
 
-float PerlinNoise::noise(float x, float y, float z) const 
+float Endeavor::PerlinNoise::noise(float x, float y, float z) const 
 {
     return noiseImpl(x / 10, y / 10, z / 10);
 }
 
-float PerlinNoise::noiseImpl(float x, float y, float z) const
+float Endeavor::PerlinNoise::noiseImpl(float x, float y, float z) const
 {
 
     int X = static_cast<int>(std::floor(x)) & 255;
@@ -54,17 +54,17 @@ float PerlinNoise::noiseImpl(float x, float y, float z) const
 }
 
 
-float PerlinNoise::fade(float t) 
+float Endeavor::PerlinNoise::fade(float t) 
 {
     return t * t * t * (t * (t * 6 - 15) + 10);
 }
 
-float PerlinNoise::lerp(float t, float a, float b) 
+float Endeavor::PerlinNoise::lerp(float t, float a, float b) 
 {
     return a + t * (b - a);
 }
 
-float PerlinNoise::grad(int hash, float x, float y, float z) 
+float Endeavor::PerlinNoise::grad(int hash, float x, float y, float z) 
 {
     int h = hash & 15;
     float u = h < 8 ? x : y;

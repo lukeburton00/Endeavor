@@ -1,13 +1,14 @@
-#include "Scene.hpp"
-#include "Entity.hpp"
+#include "Scene/Scene.hpp"
 
-Entity Scene::createEntity()
+#include "ECS/Entity/Entity.hpp"
+
+Endeavor::Entity Endeavor::Scene::createEntity()
 {
     Entity entity(mRegistry->create(), this);
     return entity;
 }
 
-void Scene::destroyEntity(entt::entity entity)
+void Endeavor::Scene::destroyEntity(entt::entity entityHandle)
 {
-    mRegistry->destroy(entity);
+    mRegistry->destroy(entityHandle);
 }

@@ -1,6 +1,6 @@
-#include "Window.hpp"
+#include "Graphics/Window.hpp"
 
-void Window::create(const int &windowWidth, const int &windowHeight, const char * title, const GLuint &flags)
+void Endeavor::Window::create(const int &windowWidth, const int &windowHeight, const char * title, const GLuint &flags)
 {
     #ifdef DEBUG
     printf("Creating window...\n");
@@ -44,18 +44,18 @@ void Window::create(const int &windowWidth, const int &windowHeight, const char 
     #endif
 }
 
-void Window::clear()
+void Endeavor::Window::clear()
 {
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Window::swapBuffers()
+void Endeavor::Window::swapBuffers()
 {
 	SDL_GL_SwapWindow(mWindow);
 }
 
-void Window::destroy()
+void Endeavor::Window::destroy()
 {
     #ifdef DEBUG
     printf("\nDestroying Window...\n");
@@ -69,7 +69,7 @@ void Window::destroy()
     #endif
 }
 
-void Window::onWindowResized(float width, float height)
+void Endeavor::Window::onWindowResized(float width, float height)
 {
     glViewport(0, 0, width, height);
 }

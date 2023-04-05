@@ -1,9 +1,10 @@
-#include "Application.hpp"
+#include "Application/Application.hpp"
+
 #include "entt/entt.hpp"
 
-Application::Application(Game& game) : mActiveGame(game) {};
+Endeavor::Application::Application(Game& game) : mActiveGame(game) {};
 
-void Application::start()
+void Endeavor::Application::start()
 {
     #ifdef DEBUG
     printf("Initializing...\n");
@@ -43,7 +44,7 @@ void Application::start()
     loop();
 }
 
-void Application::loop()
+void Endeavor::Application::loop()
 {
     #ifdef DEBUG
     printf("Running...\n\n");
@@ -87,13 +88,13 @@ void Application::loop()
     #endif
 }
 
-void Application::processInput()
+void Endeavor::Application::processInput()
 {
     Input::processInput();
     if(Input::quit){ quit(); return; }
 } 
 
-void Application::update(float deltaTime)
+void Endeavor::Application::update(float deltaTime)
 {
     auto registry = mActiveGame.getActiveScene()->getRegistry();
 
@@ -102,7 +103,7 @@ void Application::update(float deltaTime)
     mScriptSystem->update(registry, deltaTime);
 }
 
-void Application::render()
+void Endeavor::Application::render()
 {
     mWindow.clear();
 
@@ -112,7 +113,7 @@ void Application::render()
     mWindow.swapBuffers();
 }
 
-void Application::quit()
+void Endeavor::Application::quit()
 {
     mActiveGame.stop();
     mGameIsRunning = false;

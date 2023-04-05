@@ -1,9 +1,15 @@
-#include "AssetManager.hpp"
+#include "Core/AssetManager.hpp"
 
-std::map<std::string, std::shared_ptr<Texture2D>> AssetManager::mTextures;
-std::map<std::string, std::shared_ptr<Shader>> AssetManager::mShaders;
+#include "stb_image.h"
 
-void AssetManager::loadShader(std::string &name, const char * vertexPath, const char * fragmentPath)
+#include <iostream>
+#include <sstream>
+#include <fstream>
+
+std::map<std::string, std::shared_ptr<Endeavor::Texture2D>> Endeavor::AssetManager::mTextures;
+std::map<std::string, std::shared_ptr<Endeavor::Shader>> Endeavor::AssetManager::mShaders;
+
+void Endeavor::AssetManager::loadShader(std::string &name, const char * vertexPath, const char * fragmentPath)
 {
 	std::string vertexCode;
 	std::string fragmentCode;
@@ -79,7 +85,7 @@ void AssetManager::loadShader(std::string &name, const char * vertexPath, const 
 	glDeleteShader(fragmentShader);
 }
 
-void AssetManager::loadTexture2D(std::string &name, const char * texturePath)
+void Endeavor::AssetManager::loadTexture2D(std::string &name, const char * texturePath)
 {
 	stbi_set_flip_vertically_on_load(true);  
     std::shared_ptr<Texture2D> texture = std::make_shared<Texture2D>();
@@ -107,12 +113,12 @@ void AssetManager::loadTexture2D(std::string &name, const char * texturePath)
     mTextures[name] = texture;
 }
 
-std::shared_ptr<Shader> AssetManager::getShader(const std::string &name)
+std::shared_ptr<Endeavor::Shader> Endeavor::AssetManager::getShader(const std::string &name)
 {
     return mShaders[name];
 }
 
-std::shared_ptr<Texture2D> AssetManager::getTexture(const std::string &name)
+std::shared_ptr<Endeavor::Texture2D> Endeavor::AssetManager::getTexture(const std::string &name)
 {
     return mTextures[name];
 }

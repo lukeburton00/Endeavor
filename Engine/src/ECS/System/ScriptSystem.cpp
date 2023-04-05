@@ -1,7 +1,7 @@
-#include "ScriptSystem.hpp"
-#include "Script.hpp"
+#include "ECS/System/ScriptSystem.hpp"
+#include "ECS/Component/Script.hpp"
 
-void ScriptSystem::start(std::shared_ptr<entt::registry> &registry)
+void Endeavor::ScriptSystem::start(std::shared_ptr<entt::registry> &registry)
 {
     auto view = registry->view<Script>();
 
@@ -12,7 +12,7 @@ void ScriptSystem::start(std::shared_ptr<entt::registry> &registry)
     }
 }
 
-void ScriptSystem::update(std::shared_ptr<entt::registry> &registry, float &deltaTime)
+void Endeavor::ScriptSystem::update(std::shared_ptr<entt::registry> &registry, float &deltaTime)
 {
     auto view = registry->view<Script>();
 

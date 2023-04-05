@@ -1,12 +1,12 @@
-#include "Time.hpp"
+#include "Core/Time/Time.hpp"
 
-void Time::start()
+void Endeavor::Time::start()
 {
     mIsStarted = true;
-    mStartTime = chronoTime::now();
+    mStartTime = std::chrono::high_resolution_clock::now();
 }
 
-void Time::stop()
+void Endeavor::Time::stop()
 {
     if (!mIsStarted)
     {
@@ -16,20 +16,20 @@ void Time::stop()
 
 
     mIsStarted = false;
-    mStopTime = chronoTime::now();
+    mStopTime = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration<float> elapsed = mStopTime - mStartTime;
     mElapsedTime = elapsed.count();
 }
 
-void Time::reset()
+void Endeavor::Time::reset()
 {
-    mStartTime = chronoTime::now();
+    mStartTime = std::chrono::high_resolution_clock::now();
 }
 
-float Time::getElapsedTime()
+float Endeavor::Time::getElapsedTime()
 {
-    std::chrono::duration<float> elapsed = chronoTime::now() - mStartTime;
+    std::chrono::duration<float> elapsed = std::chrono::high_resolution_clock::now() - mStartTime;
     mElapsedTime = elapsed.count();
     return mElapsedTime;
 }

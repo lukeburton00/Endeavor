@@ -1,14 +1,16 @@
-#include "PhysicsSystem.hpp"
-#include "Transform.hpp"
-#include "RigidBody.hpp"
+#include "ECS/System/PhysicsSystem.hpp"
+
+#include "ECS/Component/Transform.hpp"
+#include "ECS/Component/RigidBody.hpp"
+
 #include <iostream>
 
-PhysicsSystem::PhysicsSystem()
+Endeavor::PhysicsSystem::PhysicsSystem()
 {
     mElapsedTime = 0;
 }
 
-void PhysicsSystem::update(std::shared_ptr<entt::registry> &registry, float deltaTime)
+void Endeavor::PhysicsSystem::update(std::shared_ptr<entt::registry> &registry, float deltaTime)
 {
     mElapsedTime += deltaTime;
     auto group = registry->group<Transform, RigidBody>();
@@ -25,6 +27,4 @@ void PhysicsSystem::update(std::shared_ptr<entt::registry> &registry, float delt
         transform.position.z += rb.velocity.z * deltaTime;
 
     }
-
-
 }

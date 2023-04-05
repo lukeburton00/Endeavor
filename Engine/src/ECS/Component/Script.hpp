@@ -1,9 +1,13 @@
 #pragma once
-#include "Behavior.hpp"
 
-struct Script
+#include "Scripting/Behavior.hpp"
+
+namespace Endeavor
 {
-    std::shared_ptr<Behavior> script;
+    struct Script
+    {
+        std::shared_ptr<Behavior> script;
 
-    Script(std::shared_ptr<Behavior> behavior) : script(behavior){}
-};
+        Script(std::shared_ptr<Behavior> behavior) : script(behavior){}
+    };
+} // namespace Endeavor

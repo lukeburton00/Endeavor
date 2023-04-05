@@ -1,8 +1,8 @@
-#include "Random.hpp"
+#include "Core/Math/Random.hpp"
+
 #include <random>
 
-
-int Random::randomIntInRange(int min, int max)
+int Endeavor::Random::randomIntInRange(int min, int max)
 {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -11,7 +11,7 @@ int Random::randomIntInRange(int min, int max)
     return rand;
 }
 
-float Random::randomFloatInRange(float min, float max)
+float Endeavor::Random::randomFloatInRange(float min, float max)
 {
     std::random_device rd;
     std::mt19937 gen(rd());

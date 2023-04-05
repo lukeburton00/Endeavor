@@ -1,6 +1,10 @@
-#include "Renderer.hpp"
+#include "Graphics/Renderer.hpp"
 
-Renderer::Renderer()
+#include "Graphics/Shader.hpp"
+#include "Graphics/Texture2D.hpp"
+#include "Core/AssetManager.hpp"
+
+Endeavor::Renderer::Renderer()
 {
     createQuadPrimitive();
     glEnable(GL_BLEND);
@@ -10,7 +14,7 @@ Renderer::Renderer()
     mProjectionMatrix = glm::mat4(1.0f);
 }
 
-void Renderer::drawQuadImmediate(const glm::vec2& position, const glm::vec2& scale, const glm::vec4& color, std::string& textureName)
+void Endeavor::Renderer::drawQuadImmediate(const glm::vec2& position, const glm::vec2& scale, const glm::vec4& color, std::string& textureName)
 {
     Shader shader = *AssetManager::getShader("DefaultShader");
     Texture2D texture = *AssetManager::getTexture(textureName);
@@ -34,7 +38,7 @@ void Renderer::drawQuadImmediate(const glm::vec2& position, const glm::vec2& sca
     mQuadVAO.unbind();
 }
 
-void Renderer::createQuadPrimitive()
+void Endeavor::Renderer::createQuadPrimitive()
 {
     float vertices[] = {
         // Position  // Texture
@@ -71,12 +75,12 @@ void Renderer::createQuadPrimitive()
     mQuadVAO.unbind();
 }
 
-void Renderer::setProjectionMatrix(const glm::mat4& projectionMatrix)
+void Endeavor::Renderer::setProjectionMatrix(const glm::mat4& projectionMatrix)
 {
     mProjectionMatrix = projectionMatrix;
 }
 
-void Renderer::setViewMatrix(const glm::mat4& viewMatrix)
+void Endeavor::Renderer::setViewMatrix(const glm::mat4& viewMatrix)
 {
     mViewMatrix = viewMatrix;
 }

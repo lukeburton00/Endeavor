@@ -1,16 +1,19 @@
 #pragma once
+
 #include "glm/glm.hpp"
 
-struct Transform
+namespace Endeavor 
 {
-    glm::vec3 position;
-    glm::vec3 scale;
-
-    Transform() : position(glm::vec3(0.0f, 0.0f, 0.0f)), scale(glm::vec3(10.0f, 10.0f, 10.0f)){}
-    Transform(glm::vec3 positionParam, glm::vec3 scaleParam)
+    struct Transform
     {
-        position = positionParam;
-        scale = scaleParam;
-    }
+        glm::vec3 position;
+        glm::vec3 scale;
 
-};
+        Transform() : position(glm::vec3(0.0f, 0.0f, 0.0f)), scale(glm::vec3(10.0f, 10.0f, 10.0f)){}
+        Transform(glm::vec3 positionParam, glm::vec3 scaleParam)
+        {
+            position = positionParam;
+            scale = scaleParam;
+        }
+    };
+} // namespace Endeavor

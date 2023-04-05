@@ -1,24 +1,28 @@
 #pragma once
-#include "Scene.hpp"
-#include "Entity.hpp"
 
-class Behavior
+#include "Scene/Scene.hpp"
+#include "ECS/Entity/Entity.hpp"
+
+namespace Endeavor
 {
-public:
-
-    Behavior(Entity entity, std::shared_ptr<Scene> scene)
+    class Behavior
     {
-        parent = entity;
-        mScene = scene;
-    }
+    public:
 
-    virtual ~Behavior(){}
+        Behavior(Entity entity, std::shared_ptr<Scene> scene)
+        {
+            parent = entity;
+            mScene = scene;
+        }
 
-    virtual void start(){}
+        virtual ~Behavior(){}
 
-    virtual void update(const float& deltaTime){}
+        virtual void start(){}
 
-protected:
-    Entity parent;
-    std::shared_ptr<Scene> mScene;
-};
+        virtual void update(const float& deltaTime){}
+
+    protected:
+        Entity parent;
+        std::shared_ptr<Scene> mScene;
+    };
+} // namespace Endeavor

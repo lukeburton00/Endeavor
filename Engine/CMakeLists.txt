@@ -9,8 +9,7 @@ add_definitions(-DDEBUG)
 
 add_library(${PROJECT_NAME} STATIC
 src/application/application.cpp 
-src/ecs/system/physicssystem.cpp src/ecs/system/rendersystem.cpp src/ecs/system/scriptsystem.cpp 
-src/core/events/subject.cpp src/core/input/input.cpp
+src/ecs/system/physicssystem.cpp src/ecs/system/rendersystem.cpp src/ecs/system/scriptsystem.cpp src/core/input/input.cpp
 src/core/time/time.cpp src/core/math/random.cpp src/core/math/noise/perlinnoise.cpp
 src/core/assetmanager.cpp src/scene/scene.cpp
 src/graphics/renderer.cpp src/graphics/shader.cpp 
@@ -48,12 +47,7 @@ find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)
 
 target_include_directories(${PROJECT_NAME} 
-PUBLIC src 
-PUBLIC src/ecs/system PUBLIC src/ecs/component PUBLIC src/ecs/entity 
-PUBLIC src/application PUBLIC src/game PUBLIC src/scene PUBLIC src/scripting 
-PUBLIC src/core PUBLIC src/core/time PUBLIC src/core/input 
-PUBLIC src/core/math PUBLIC src/core/events 
-PUBLIC src/graphics PUBLIC src/graphics/spritebatcher 
+PUBLIC src
 PUBLIC external
 PUBLIC ${FREETYPE_INCLUDE_DIRS} PUBLIC ${SDL2_INCLUDE_DIRS} 
 PUBLIC ${GLEW_INCLUDE_DIR} PUBLIC ${OPENGL_INCLUDE_DIR})

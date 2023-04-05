@@ -1,16 +1,16 @@
 #include "VAO.hpp"
 
-void VAO::generate()
+void Endeavor::VAO::generate()
 {
     glGenVertexArrays(1, &mID);
 }
 
-void VAO::bind()
+void Endeavor::VAO::bind()
 {
     glBindVertexArray(mID);
 }
 
-void VAO::unbind()
+void Endeavor::VAO::unbind()
 {
     glBindVertexArray(0);
 }

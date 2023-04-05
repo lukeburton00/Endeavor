@@ -1,14 +1,18 @@
 #pragma once
+
 #ifdef _WIN32
 #include <glew.h>
 #else
 #include <GL/glew.h>
 #endif
 
-class Texture2D
+namespace Endeavor
 {
-public:
-    GLuint mID;
+    class Texture2D
+    {
+    public:
+        GLuint mID;
 
-    void bind();
-};
+        void bind();
+    };
+} // namespace Endeavor

@@ -1,16 +1,17 @@
-#include "RenderSystem.hpp"
-#include "Sprite.hpp"
-#include "Transform.hpp"
-#include "Camera.hpp"
-#include "Input.hpp"
+#include "ECS/System/RenderSystem.hpp"
 
-RenderSystem::RenderSystem()
+#include "ECS/Component/Sprite.hpp"
+#include "ECS/Component/Transform.hpp"
+#include "ECS/Component/Camera.hpp"
+#include "Core/Input/Input.hpp"
+
+Endeavor::RenderSystem::RenderSystem()
 {
     mRenderer = std::make_unique<Renderer>();
     mSpriteBatcher = std::make_unique<SpriteBatcher>();
 }
 
-void RenderSystem::updateProjection(std::shared_ptr<entt::registry> &registry)
+void Endeavor::RenderSystem::updateProjection(std::shared_ptr<entt::registry> &registry)
 {
     auto cameraGroup = registry->group<Camera>(entt::get<Transform>);
     for (auto& entity : cameraGroup)
@@ -28,7 +29,7 @@ void RenderSystem::updateProjection(std::shared_ptr<entt::registry> &registry)
     }
 }
 
-void RenderSystem::update(std::shared_ptr<entt::registry> &registry)
+void Endeavor::RenderSystem::update(std::shared_ptr<entt::registry> &registry)
 {
     auto spriteGroup = registry->group<Sprite>(entt::get<Transform>);
     for (auto& entity : spriteGroup)
@@ -43,7 +44,7 @@ void RenderSystem::update(std::shared_ptr<entt::registry> &registry)
     mSpriteBatcher->flush();
 }
 
-void RenderSystem::setOrthographicProjectionMatrix(const float& width, const float& height)
+void Endeavor::RenderSystem::setOrthographicProjectionMatrix(const float& width, const float& height)
 {
     glm::mat4 projection = glm::ortho(0.0f, width, height, 0.0f, -0.1f, 0.1f);
     mRenderer->setProjectionMatrix(projection);

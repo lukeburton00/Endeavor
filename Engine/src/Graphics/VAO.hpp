@@ -5,13 +5,16 @@
 #include <GL/glew.h>
 #endif
 
-class VAO
+namespace Endeavor
 {
-public:
-    void generate();
-    void bind();
-    void unbind();
+    class VAO
+    {
+    public:
+        void generate();
+        void bind();
+        void unbind();
 
-private:
-    GLuint mID;
-};
+    private:
+        GLuint mID;
+    };
+} // namespace Endeavor

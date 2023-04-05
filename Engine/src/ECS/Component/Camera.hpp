@@ -1,9 +1,12 @@
 #pragma once
 
-struct Camera
+namespace Endeavor
 {
-    bool isPrimary;
+    struct Camera
+    {
+        bool isPrimary;
 
-    Camera() : isPrimary(false){}
-    Camera(bool isPrimary) : isPrimary(isPrimary) {}
-};
+        Camera() : isPrimary(false){}
+        Camera(bool isPrimary) : isPrimary(isPrimary) {}
+    };
+} // namespace Endeavor

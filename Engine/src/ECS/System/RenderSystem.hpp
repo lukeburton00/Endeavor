@@ -1,18 +1,25 @@
 #pragma once
+
 #include "entt/entt.hpp"
-#include "Renderer.hpp"
-#include "SpriteBatcher.hpp"
+#include "Graphics/Renderer.hpp"
+#include "Graphics/SpriteBatcher/SpriteBatcher.hpp"
 
-class RenderSystem
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
+namespace Endeavor
 {
-public:
-    RenderSystem();
-    void update(std::shared_ptr<entt::registry> &registry);
-    void updateProjection(std::shared_ptr<entt::registry> &registry);
-    void setOrthographicProjectionMatrix(const float& width, const float& height);
+    class RenderSystem
+    {
+    public:
+        RenderSystem();
+        void update(std::shared_ptr<entt::registry> &registry);
+        void updateProjection(std::shared_ptr<entt::registry> &registry);
+        void setOrthographicProjectionMatrix(const float& width, const float& height);
 
-private:
-    std::unique_ptr<Renderer> mRenderer;
-    std::unique_ptr<SpriteBatcher> mSpriteBatcher;
+    private:
+        std::unique_ptr<Renderer> mRenderer;
+        std::unique_ptr<SpriteBatcher> mSpriteBatcher;
 
-};
+    };
+} // namespace Endeavor

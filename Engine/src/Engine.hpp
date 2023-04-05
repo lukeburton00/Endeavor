@@ -7,25 +7,22 @@
 
 /* ----- Core ----- */
 #include "Application/Application.hpp"
-#include "Input.hpp"
-#include "Time.hpp"
-#include "Random.hpp"
-#include "Noise/PerlinNoise.hpp"
-#include "Game.hpp"
+#include "Core/Input/Input.hpp"
+#include "Core/Time/Time.hpp"
+#include "Core/Math/Random.hpp"
+#include "Core/Math/Noise/PerlinNoise.hpp"
+#include "Game/Game.hpp"
 #include "Scene/Scene.hpp"
-#include "Behavior.hpp"
+#include "Scripting/Behavior.hpp"
 
 /* ----- ECS ----- */
-#include "Transform.hpp"
-#include "RigidBody.hpp"
-#include "Sprite.hpp"
-#include "Script.hpp"
-#include "Camera.hpp"
-#include "Entity.hpp"
+#include "ECS/Component/Camera.hpp"
+#include "ECS/Component/RigidBody.hpp"
+#include "ECS/Component/Script.hpp"
+#include "ECS/Component/Sprite.hpp"
+#include "ECS/Component/Transform.hpp"
 
-/* ----- Events -----*/
-#include "Observer.hpp"
-#include "Subject.hpp"
+#include "ECS/Entity/Entity.hpp"
 
 /* ----- Graphics ----- */
-#include "AssetManager.hpp"
+#include "Core/AssetManager.hpp"

@@ -1,33 +1,37 @@
 #pragma once
+
 #include "entt/entt.hpp"
 #include "Scene/Scene.hpp"
 
-class Entity
+namespace Endeavor
 {
-public:
-    std::string name;
-
-    Entity() : name("Entity") {}
-    Entity(entt::entity handle, Scene* scene) : name("Entity"), mHandle(handle), mScene(scene){}
-
-    template<typename T, typename... Args> T& addComponent(Args &&...args)
+    class Entity
     {
-        return mScene->addComponent<T>(mHandle, args...);
-    }
+    public:
+        std::string name;
 
-    template<typename T> void removeComponent()
-    {
-        mScene->removeComponent<T>(mHandle);
-    }
+        Entity() : name("Entity") {}
+        Entity(entt::entity handle, Scene* scene) : name("Entity"), mHandle(handle), mScene(scene){}
 
-    template<typename T> T& getComponent()
-    {
-        return mScene->getComponent<T>(mHandle);
-    }
+        template<typename T, typename... Args> T& addComponent(Args &&...args)
+        {
+            return mScene->addComponent<T>(mHandle, args...);
+        }
 
-    entt::entity getHandle() const { return mHandle; }
+        template<typename T> void removeComponent()
+        {
+            mScene->removeComponent<T>(mHandle);
+        }
 
-private:
-    entt::entity mHandle;
-    Scene* mScene;
-};
+        template<typename T> T& getComponent()
+        {
+            return mScene->getComponent<T>(mHandle);
+        }
+
+        entt::entity getHandle() const { return mHandle; }
+
+    private:
+        entt::entity mHandle;
+        Scene* mScene;
+    };
+} // namespace Endeavor

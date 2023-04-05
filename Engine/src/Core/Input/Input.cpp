@@ -1,19 +1,23 @@
-#include "Input.hpp"
+#include "Core/Input/Input.hpp"
 
-std::vector<SDL_Keycode> Input::pressedKeys;	
-std::vector<SDL_Keycode> Input::releasedKeys;
-std::vector<SDL_Keycode> Input::downKeys;
-bool Input::quit = false;
+#include <stdio.h>
+#include <iostream>
 
-bool Input::leftMouseButtonDown = false;
-bool Input::rightMouseButtonDown = false;
+std::vector<SDL_Keycode> Endeavor::Input::pressedKeys;	
+std::vector<SDL_Keycode> Endeavor::Input::releasedKeys;
+std::vector<SDL_Keycode> Endeavor::Input::downKeys;
 
-bool Input::leftMouseButtonPressed = false;
-bool Input::rightMouseButtonPressed = false;
+bool Endeavor::Input::quit = false;
 
-int Input::mousePositionX, Input::mousePositionY;
+bool Endeavor::Input::leftMouseButtonDown = false;
+bool Endeavor::Input::rightMouseButtonDown = false;
 
-void Input::processInput()
+bool Endeavor::Input::leftMouseButtonPressed = false;
+bool Endeavor::Input::rightMouseButtonPressed = false;
+
+int Endeavor::Input::mousePositionX, Endeavor::Input::mousePositionY;
+
+void Endeavor::Input::processInput()
 {	
 	SDL_Keycode keyCodeDown;
 	SDL_Keycode keyCodeUp;
@@ -121,43 +125,43 @@ void Input::processInput()
  	}
  }
 
-bool Input::isKeyDown(const char * keyName)
+bool Endeavor::Input::isKeyDown(const char * keyName)
 {
     bool keyWasPressed = count(pressedKeys.begin(), pressedKeys.end(), SDL_GetKeyFromName(keyName));
 
  	return keyWasPressed;
 }
 
-bool Input::isKeyReleased(const char * keyName)
+bool Endeavor::Input::isKeyReleased(const char * keyName)
 {
 	bool keyWasReleased = count(releasedKeys.begin(), releasedKeys.end(), SDL_GetKeyFromName(keyName));
 
  	return keyWasReleased;
 }
 
-bool Input::isKeyPressed(const char * keyName)
+bool Endeavor::Input::isKeyPressed(const char * keyName)
 {
 	bool keyDown = count(downKeys.begin(), downKeys.end(), SDL_GetKeyFromName(keyName));
 
  	return keyDown;
 }
 
-bool Input::isLeftMouseButtonPressed()
+bool Endeavor::Input::isLeftMouseButtonPressed()
 {
 	return leftMouseButtonPressed;
 }
 
-bool Input::isRightMouseButtonPressed()
+bool Endeavor::Input::isRightMouseButtonPressed()
 {
 	return rightMouseButtonPressed;
 }
 
-bool Input::isLeftMouseButtonDown()
+bool Endeavor::Input::isLeftMouseButtonDown()
 {
 	return leftMouseButtonDown;
 }
 
-bool Input::isRightMouseButtonDown()
+bool Endeavor::Input::isRightMouseButtonDown()
 {
 	return rightMouseButtonDown;
 }

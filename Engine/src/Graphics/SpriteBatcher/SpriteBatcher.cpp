@@ -1,6 +1,8 @@
-#include "SpriteBatcher.hpp"
+#include "Graphics/SpriteBatcher/SpriteBatcher.hpp"
 
-SpriteBatcher::SpriteBatcher()
+#include "Core/AssetManager.hpp"
+
+Endeavor::SpriteBatcher::SpriteBatcher()
 {
     mVAO.generate();
     mVAO.bind();
@@ -24,7 +26,7 @@ SpriteBatcher::SpriteBatcher()
     mProjectionMatrix = glm::mat4(1.0f);
 }
 
-void SpriteBatcher::draw(glm::vec2 pos, glm::vec2 scale, glm::vec4 color, std::string textureName)
+void Endeavor::SpriteBatcher::draw(glm::vec2 pos, glm::vec2 scale, glm::vec4 color, std::string textureName)
 {
     if (mTextureName != textureName)
     {
@@ -40,7 +42,7 @@ void SpriteBatcher::draw(glm::vec2 pos, glm::vec2 scale, glm::vec4 color, std::s
     mVertexBuffer.push_back(Vertex(glm::vec2(pos.x + scale.x, pos.y + scale.y), glm::vec2(1.0f, 1.0f), color));
 }
 
-void SpriteBatcher::flush()
+void Endeavor::SpriteBatcher::flush()
 {
     if (mTextureName == "")
     {
@@ -65,12 +67,12 @@ void SpriteBatcher::flush()
     mVertexBuffer.clear();
 }
 
-void SpriteBatcher::setProjectionMatrix(const glm::mat4& projection)
+void Endeavor::SpriteBatcher::setProjectionMatrix(const glm::mat4& projection)
 {
     mProjectionMatrix = projection;
 }
 
-void SpriteBatcher::setViewMatrix(const glm::mat4& view)
+void Endeavor::SpriteBatcher::setViewMatrix(const glm::mat4& view)
 {
     mViewMatrix = view;
 }
