@@ -2,7 +2,7 @@
 #include "Grid.hpp"
 #include "CameraController.hpp"
 
-void Sandbox::start()
+void Life::start()
 {
     setWidth(1000);
     setHeight(800);
@@ -25,8 +25,8 @@ void Sandbox::start()
 
 int main() 
 {
-    Sandbox sandbox;
-    Application engine(sandbox);
+    Life life;
+    Application engine(life);
     engine.start();
     return 0;
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine.hpp"
 
-class Sandbox : public Game
+class Life : public Game
 {
 public:
     void start() override;
