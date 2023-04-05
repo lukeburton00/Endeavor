@@ -43,8 +43,9 @@ void RenderSystem::update(std::shared_ptr<entt::registry> &registry)
     mSpriteBatcher->flush();
 }
 
-void RenderSystem::setProjection(const glm::mat4 &projection)
+void RenderSystem::setOrthographicProjectionMatrix(const float& width, const float& height)
 {
+    glm::mat4 projection = glm::ortho(0.0f, width, height, 0.0f, -0.1f, 0.1f);
     mRenderer->setProjectionMatrix(projection);
     mSpriteBatcher->setProjectionMatrix(projection);
 }

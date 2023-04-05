@@ -8,9 +8,9 @@
 
 struct Vertex
 {
-    glm::vec4 color;
     glm::vec2 position;
     glm::vec2 texCoord;
+    glm::vec4 color;
 
     Vertex(glm::vec2 positionParam, glm::vec2 texCoordParam, glm::vec4 colorParam)
     {

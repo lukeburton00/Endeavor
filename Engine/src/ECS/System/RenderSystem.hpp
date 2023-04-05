@@ -9,7 +9,7 @@ public:
     RenderSystem();
     void update(std::shared_ptr<entt::registry> &registry);
     void updateProjection(std::shared_ptr<entt::registry> &registry);
-    void setProjection(const glm::mat4 &projection);
+    void setOrthographicProjectionMatrix(const float& width, const float& height);
 
 private:
     std::unique_ptr<Renderer> mRenderer;

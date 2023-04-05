@@ -5,8 +5,10 @@
 class Entity
 {
 public:
-    Entity() = default;
-    Entity(entt::entity handle, Scene* scene) : mHandle(handle), mScene(scene){}
+    std::string name;
+
+    Entity() : name("Entity") {}
+    Entity(entt::entity handle, Scene* scene) : name("Entity"), mHandle(handle), mScene(scene){}
 
     template<typename T, typename... Args> T& addComponent(Args &&...args)
     {

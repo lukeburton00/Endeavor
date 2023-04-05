@@ -21,28 +21,24 @@ void Application::start()
     );
 
     std::string title = "DefaultShader";
-    AssetManager::loadShader(title, "../engine/assets/shaders/default.vert", "../engine/assets/shaders/default.frag");
+    AssetManager::loadShader(title, "../../engine/assets/shaders/default.vert", "../../engine/assets/shaders/default.frag");
 
     title = "BatchShader";
-    AssetManager::loadShader(title, "../engine/assets/shaders/sprite_batch.vert", "../engine/assets/shaders/sprite_batch.frag");
+    AssetManager::loadShader(title, "../../engine/assets/shaders/sprite_batch.vert", "../../engine/assets/shaders/sprite_batch.frag");
 
     title = "DefaultTexture";
-    AssetManager::loadTexture2D(title, "../engine/assets/2DTextures/default.jpg");
+    AssetManager::loadTexture2D(title, "../../engine/assets/2DTextures/default.jpg");
 
     title = "GridTexture";
-    AssetManager::loadTexture2D(title, "../engine/assets/2DTextures/grid.png");
+    AssetManager::loadTexture2D(title, "../../engine/assets/2DTextures/grid.png");
 
     title = "TileTexture";
-    AssetManager::loadTexture2D(title, "../engine/assets/2DTextures/tile.png");
+    AssetManager::loadTexture2D(title, "../../engine/assets/2DTextures/tile.png");
 
     mRenderSystem = std::make_shared<RenderSystem>();
-
     float width = mActiveGame.getWidth();
     float height = mActiveGame.getHeight();
-
-    glm::mat4 projection = glm::ortho(0.0f, width, height, 0.0f, -0.1f, 0.1f);
-
-    mRenderSystem->setProjection(projection);
+    mRenderSystem->setOrthographicProjectionMatrix(width, height);
 
     loop();
 }
@@ -95,11 +91,6 @@ void Application::processInput()
 {
     Input::processInput();
     if(Input::quit){ quit(); return; }
-
-    if (Input::isKeyPressed("Escape"))
-    {
-        quit();
-    }
 } 
 
 void Application::update(float deltaTime)
