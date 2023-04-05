@@ -1,5 +1,8 @@
 #pragma once
+
 #include "Engine.hpp"
+
+using namespace Endeavor;
 
 enum class State 
 {

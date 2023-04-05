@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine.hpp"
 
+using namespace Endeavor;
+
 class Life : public Game
 {
 public:

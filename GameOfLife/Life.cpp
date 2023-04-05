@@ -1,4 +1,5 @@
 #include "Life.hpp"
+
 #include "Grid.hpp"
 #include "CameraController.hpp"
 
