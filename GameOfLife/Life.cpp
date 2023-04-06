@@ -12,11 +12,11 @@ void Life::start()
     Scene scene;
     setActiveScene(scene);
 
-    auto grid = activeScene->createEntity();
+    auto grid = activeScene->createEntity("Grid");
     std::shared_ptr<Grid> gridPtr = std::make_shared<Grid>(grid, activeScene);
     grid.addComponent<Script>(gridPtr);
 
-    auto camera = activeScene->createEntity();
+    auto camera = activeScene->createEntity("Camera");
     std::shared_ptr<CameraController> cameraPtr = std::make_shared<CameraController>(camera, activeScene);
     camera.addComponent<Script>(cameraPtr);
 

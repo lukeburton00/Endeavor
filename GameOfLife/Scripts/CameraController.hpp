@@ -14,7 +14,7 @@ public:
 
     void update(const float& deltaTime) override
     {
-        auto& transform = parent.getComponent<Transform>();
+        auto& transform = self.getComponent<Transform>();
 
         if (Input::isKeyDown("W"))
         {

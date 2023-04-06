@@ -4,14 +4,15 @@
 
 using namespace Endeavor;
 
+class Grid : public Behavior
+{
+
 enum class State 
 {
     CREATE,
     PLAY
 };
 
-class Grid : public Behavior
-{
 public:
     using Behavior::Behavior;
 
@@ -39,14 +40,14 @@ public:
                 glm::vec3 scale = glm::vec3(5.0f, 5.0f, 1.0f);
                 glm::vec3 position = glm::vec3(i * scale.x, j * scale.y, 0.0f);
 
-                auto tile = mScene->createEntity();
+                auto tile = mScene->createEntity("Tile");
 
                 tile.addComponent<Transform>(position, scale);
                 tile.addComponent<Sprite>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "GridTexture");
 
                 tiles[i][j] = tile;
 
-                tile = mScene->createEntity();
+                tile = mScene->createEntity("Tile");
                 tile.addComponent<Sprite>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "GridTexture");
                 
                 nextTiles[i][j] = tile;
