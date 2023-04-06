@@ -2,16 +2,17 @@
 
 #include "entt/entt.hpp"
 #include "Scene/Scene.hpp"
+#include "ECS/Component/Transform.hpp"
 
 namespace Endeavor
 {
     class Entity
     {
     public:
-        std::string name;
 
-        Entity() : name("Entity") {}
-        Entity(entt::entity handle, Scene* scene) : name("Entity"), mHandle(handle), mScene(scene){}
+        Entity(){}
+
+        Entity(entt::entity handle, Scene* scene) : mHandle(handle), mScene(scene){}
 
         template<typename T, typename... Args> T& addComponent(Args &&...args)
         {

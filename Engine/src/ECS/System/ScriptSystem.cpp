@@ -8,7 +8,7 @@ void Endeavor::ScriptSystem::start(std::shared_ptr<entt::registry> &registry)
     for (auto entity : view)
     {
         auto &script = view.get<Script>(entity);
-        script.script->start();
+        script.behavior->start();
     }
 }
 
@@ -20,6 +20,6 @@ void Endeavor::ScriptSystem::update(std::shared_ptr<entt::registry> &registry, f
     {
         auto &script = view.get<Script>(entity);
 
-        script.script->update(deltaTime);
+        script.behavior->update(deltaTime);
     }
 }

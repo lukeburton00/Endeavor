@@ -11,7 +11,7 @@ namespace Endeavor
 
         Behavior(Entity entity, std::shared_ptr<Scene> scene)
         {
-            parent = entity;
+            self = entity;
             mScene = scene;
         }
 
@@ -22,7 +22,7 @@ namespace Endeavor
         virtual void update(const float& deltaTime){}
 
     protected:
-        Entity parent;
+        Entity self;
         std::shared_ptr<Scene> mScene;
     };
 } // namespace Endeavor

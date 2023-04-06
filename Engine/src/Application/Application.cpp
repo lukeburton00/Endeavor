@@ -100,6 +100,7 @@ void Endeavor::Application::update(float deltaTime)
 
     mRenderSystem->updateProjection(registry);
     mPhysicsSystem->update(registry, deltaTime);
+    mActiveGame.update(deltaTime);
     mScriptSystem->update(registry, deltaTime);
 }
 

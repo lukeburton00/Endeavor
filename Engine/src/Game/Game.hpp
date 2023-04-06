@@ -9,6 +9,7 @@ namespace Endeavor
     public:
         virtual ~Game(){}
         virtual void start() = 0;
+        virtual void update(float deltaTime){}
         virtual void stop(){};
 
         int getWidth() const { return mWidth; }
@@ -19,6 +20,7 @@ namespace Endeavor
 
     protected:
         std::shared_ptr<Scene> activeScene;
+        std::vector<std::shared_ptr<Scene> > scenes;
         void setWidth(int w) { mWidth = w; }
         void setHeight(int h) { mHeight = h; }
         void setTitle(const char * title) { mTitle = title; }

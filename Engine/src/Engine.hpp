@@ -21,6 +21,7 @@
 #include "ECS/Component/Script.hpp"
 #include "ECS/Component/Sprite.hpp"
 #include "ECS/Component/Transform.hpp"
+#include "ECS/Component/Tag.hpp"
 
 #include "ECS/Entity/Entity.hpp"
 

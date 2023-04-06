@@ -6,8 +6,8 @@ namespace Endeavor
 {
     struct Script
     {
-        std::shared_ptr<Behavior> script;
+        std::shared_ptr<Behavior> behavior;
 
-        Script(std::shared_ptr<Behavior> behavior) : script(behavior){}
+        Script(std::shared_ptr<Behavior> behaviorPtr) : behavior(behaviorPtr){}
     };
 } // namespace Endeavor

@@ -2,6 +2,8 @@
 
 #include "entt/entt.hpp"
 
+#include <string>
+
 namespace Endeavor
 {
     class Entity;
@@ -10,11 +12,10 @@ namespace Endeavor
     public:
         Scene() : mRegistry(std::make_shared<entt::registry>()){}
 
-        Entity createEntity();
-        void destroyEntity(entt::entity entity);
+        Entity createEntity(const std::string& name);
+        void destroyEntity(Entity entity);
 
         std::shared_ptr<entt::registry> getRegistry() { return mRegistry; }
-
 
     private:
         std::shared_ptr<entt::registry> mRegistry;
