@@ -19,6 +19,7 @@ namespace Endeavor
     public:
         Application(Game& game);
         void start();
+        void loadAssets();
         
     private:
         Game& mActiveGame;

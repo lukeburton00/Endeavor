@@ -9,6 +9,7 @@ namespace Endeavor
     public:
         virtual ~Game(){}
         virtual void start() = 0;
+        virtual void loadAssets(){};
         virtual void update(float deltaTime){}
         virtual void stop(){};
 

@@ -10,38 +10,40 @@ void Endeavor::Application::start()
     printf("Initializing...\n");
     #endif
 
-    mPhysicsSystem = std::make_shared<PhysicsSystem>();
-    mScriptSystem = std::make_shared<ScriptSystem>();
-
     mActiveGame.start();
+    float width = mActiveGame.getWidth();
+    float height = mActiveGame.getHeight();
+    const char * title = mActiveGame.getTitle();
+
     mWindow.create(
-        mActiveGame.getWidth(), 
-        mActiveGame.getHeight(), 
-        mActiveGame.getTitle(), 
+        width, 
+        height, 
+        title, 
         (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL)
     );
 
-    std::string title = "DefaultShader";
-    AssetManager::loadShader(title, "../../engine/assets/shaders/default.vert", "../../engine/assets/shaders/default.frag");
-
-    title = "BatchShader";
-    AssetManager::loadShader(title, "../../engine/assets/shaders/sprite_batch.vert", "../../engine/assets/shaders/sprite_batch.frag");
-
-    title = "DefaultTexture";
-    AssetManager::loadTexture2D(title, "../../engine/assets/2DTextures/default.jpg");
-
-    title = "GridTexture";
-    AssetManager::loadTexture2D(title, "../../engine/assets/2DTextures/grid.png");
-
-    title = "TileTexture";
-    AssetManager::loadTexture2D(title, "../../engine/assets/2DTextures/tile.png");
-
+    mPhysicsSystem = std::make_shared<PhysicsSystem>();
+    mScriptSystem = std::make_shared<ScriptSystem>();
     mRenderSystem = std::make_shared<RenderSystem>();
-    float width = mActiveGame.getWidth();
-    float height = mActiveGame.getHeight();
+
     mRenderSystem->setOrthographicProjectionMatrix(width, height);
 
+    loadAssets();
     loop();
+}
+
+void Endeavor::Application::loadAssets()
+{
+    std::string assetName = "DefaultShader";
+    AssetManager::loadShader(assetName, "../../engine/assets/shaders/default.vert", "../../engine/assets/shaders/default.frag");
+
+    assetName = "BatchShader";
+    AssetManager::loadShader(assetName, "../../engine/assets/shaders/sprite_batch.vert", "../../engine/assets/shaders/sprite_batch.frag");
+
+    assetName = "DefaultTexture";
+    AssetManager::loadTexture2D(assetName, "../../engine/assets/2DTextures/default.jpg");
+
+    mActiveGame.loadAssets();
 }
 
 void Endeavor::Application::loop()
