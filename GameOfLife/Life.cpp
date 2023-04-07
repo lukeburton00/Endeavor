@@ -22,6 +22,17 @@ void Life::start()
 
     camera.addComponent<Transform>();
     camera.addComponent<Camera>(true);
+
+}
+
+void Life::loadAssets()
+{
+
+    std::string title = "GridTexture";
+    AssetManager::loadTexture2D(title, "../assets/2DTextures/grid.png");
+
+    title = "TileTexture";
+    AssetManager::loadTexture2D(title, "../assets/2DTextures/tile.png");
 }
 
 int main() 

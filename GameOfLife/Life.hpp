@@ -7,6 +7,7 @@ class Life : public Game
 {
 public:
     void start() override;
+    void loadAssets() override;
 
 private:
     Time timer;
