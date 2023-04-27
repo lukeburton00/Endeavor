@@ -22,7 +22,6 @@ void Endeavor::Input::processInput()
 	SDL_Keycode keyCodeDown;
 	SDL_Keycode keyCodeUp;
 	SDL_Event event;
-	quit = false;
  	releasedKeys.clear();
 	downKeys.clear();
 	leftMouseButtonPressed = false;
@@ -124,6 +123,11 @@ void Endeavor::Input::processInput()
  		}
  	}
  }
+
+void Endeavor::Input::stop()
+{
+	quit = true;
+}
 
 bool Endeavor::Input::isKeyDown(const char * keyName)
 {

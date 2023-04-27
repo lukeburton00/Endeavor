@@ -13,6 +13,7 @@ namespace Endeavor
 		static bool quit;
 
 		static void processInput();
+		static void stop();
 
 		static bool isKeyPressed(const char * key);
 		static bool isKeyReleased(const char * key);
