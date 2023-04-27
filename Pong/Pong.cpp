@@ -16,6 +16,14 @@ void Pong::start()
     createPlayers();
 }
 
+void Pong::update(float dt)
+{
+    if (Input::isKeyPressed("Escape"))
+    {
+        Input::stop();
+    }
+}
+
 void Pong::createPlayers()
 {
     Entity paddle = activeScene->createEntity("PlayerOne");

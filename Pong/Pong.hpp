@@ -7,6 +7,6 @@ using namespace Endeavor;
 class Pong : public Game
 {
     void start() override;
-    void update(float deltaTime) override;
+    void update(float dt) override;
     void createPlayers();
 };

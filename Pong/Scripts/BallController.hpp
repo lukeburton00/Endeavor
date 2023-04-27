@@ -69,8 +69,8 @@ private:
         auto transform = self.getComponent<Transform>();
         auto playerTwoTransform = paddleTwo->getComponent<Transform>();
 
-        if (transform.position.x + transform.scale.x > playerTwoTransform.position.x
-        && transform.position.x + playerTwoTransform.position.x)
+        if (((transform.position.x + transform.scale.x) > playerTwoTransform.position.x)
+            && (transform.position.x < (playerTwoTransform.position.x + playerTwoTransform.scale.x)))
         {
             if (transform.position.y > playerTwoTransform.position.y 
             && transform.position.y < playerTwoTransform.position.y + playerTwoTransform.scale.y)
