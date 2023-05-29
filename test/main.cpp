@@ -1,4 +1,5 @@
 #include "endeavor.hpp"
+#include "player.hpp"
 
 #include <iostream>
 
@@ -18,8 +19,17 @@ int main (int argc, char **argv)
     batch.setProjectionMatrix( projectionMatrix );
     batch.setViewMatrix( viewMatrix );
 
+    Player player;
+    player.scale = glm::vec2(50,50);
+    player.moveSpeed = 100.0f;
+
+    Endeavor::Time time;
+    float deltaTime = 0;
+
     while (true)
     {
+        time.start();
+
         Endeavor::Input::processInput();
 
         if (Endeavor::Input::isKeyDown("Q") || Endeavor::Input::quit)
@@ -27,14 +37,18 @@ int main (int argc, char **argv)
             break;
         }
 
+        player.update(deltaTime);
+
         window.clear();
 
-        batch.draw( glm::vec2(0, 0), glm::vec2(100, 100), glm::vec4 (1, 1, 1, 1), "default_tex", "default_shader");
+        batch.draw( player.position, player.scale, glm::vec4 (1, 1, 1, 1), "default_tex", "default_shader");
 
         batch.flush();
-        // draw here
 
         window.swapBuffers();
+
+        time.stop();
+        deltaTime = time.getElapsedTime();
     }
 
     window.destroy();
