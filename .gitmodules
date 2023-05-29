@@ -1,0 +1,3 @@
+[submodule "endeavor/vendor/sdl2"]
+	path = endeavor/vendor/sdl2
+	url = https://github.com/libsdl-org/SDL

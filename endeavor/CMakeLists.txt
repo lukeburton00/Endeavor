@@ -17,9 +17,10 @@ vendor/stb_image.cpp)
 
 add_library(${PROJECT_NAME} STATIC ${SRC})
 
+add_subdirectory(vendor/sdl2)
+
 find_package(GLEW REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(SDL2 REQUIRED)
 
 target_include_directories(${PROJECT_NAME} 
 PUBLIC src
