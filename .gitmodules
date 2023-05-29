@@ -1,3 +1,6 @@
 [submodule "endeavor/vendor/sdl2"]
 	path = endeavor/vendor/sdl2
 	url = https://github.com/libsdl-org/SDL
+[submodule "endeavor/vendor/glew"]
+	path = endeavor/vendor/glew
+	url = https://github.com/Perlmint/glew-cmake

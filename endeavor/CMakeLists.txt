@@ -18,16 +18,20 @@ vendor/stb_image.cpp)
 add_library(${PROJECT_NAME} STATIC ${SRC})
 
 add_subdirectory(vendor/sdl2)
+add_subdirectory(vendor/glew)
+add_subdirectory(vendor/glm)
 
-find_package(GLEW REQUIRED)
 find_package(OpenGL REQUIRED)
 
 target_include_directories(${PROJECT_NAME} 
 PUBLIC src
 PUBLIC vendor
-PUBLIC ${SDL2_INCLUDE_DIRS} 
-PUBLIC ${GLEW_INCLUDE_DIR} PUBLIC ${OPENGL_INCLUDE_DIR})
+PUBLIC vendor/glm
+PUBLIC vendor/glew/include
+PUBLIC vendor/sdl2/include
+
+PUBLIC ${OPENGL_INCLUDE_DIR})
 
 target_link_libraries(${PROJECT_NAME} 
-PRIVATE SDL2::SDL2 PRIVATE GLEW::GLEW PRIVATE 
+PRIVATE SDL2::SDL2 PRIVATE libglew_static PRIVATE 
 ${OPENGL_LIBRARIES})
