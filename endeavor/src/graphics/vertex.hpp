@@ -1,10 +1,6 @@
 #pragma once
 
-#ifdef _WIN32
-#include "glm.hpp"
-#else
 #include "glm/glm.hpp"
-#endif
 
 namespace Endeavor
 {

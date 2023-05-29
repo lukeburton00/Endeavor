@@ -1,11 +1,6 @@
 #pragma once
 
-#ifdef _WIN32
-#include <glew.h>
-#else
 #include <GL/glew.h>
-#endif
-
 #include <SDL.h>
 #include <SDL_opengl.h>
 

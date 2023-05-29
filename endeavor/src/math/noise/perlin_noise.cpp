@@ -5,6 +5,7 @@
 #include <cmath>
 #include <algorithm>
 #include <random>
+#include <numeric>
 
 Endeavor::PerlinNoise::PerlinNoise(int seed) 
 {
