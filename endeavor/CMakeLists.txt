@@ -13,21 +13,20 @@ src/graphics/sprite_batch.cpp src/graphics/renderer.cpp
 src/graphics/shader.cpp src/graphics/vao.cpp src/graphics/texture_2d.cpp 
 src/graphics/window.cpp 
 
-external/stb_impl.cpp)
+vendor/stb_image.cpp)
 
 add_library(${PROJECT_NAME} STATIC ${SRC})
 
-find_package(Freetype REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)
 
 target_include_directories(${PROJECT_NAME} 
 PUBLIC src
-PUBLIC external
-PUBLIC ${FREETYPE_INCLUDE_DIRS} PUBLIC ${SDL2_INCLUDE_DIRS} 
+PUBLIC vendor
+PUBLIC ${SDL2_INCLUDE_DIRS} 
 PUBLIC ${GLEW_INCLUDE_DIR} PUBLIC ${OPENGL_INCLUDE_DIR})
 
 target_link_libraries(${PROJECT_NAME} 
 PRIVATE SDL2::SDL2 PRIVATE GLEW::GLEW PRIVATE 
-${OPENGL_LIBRARIES} PRIVATE ${FREETYPE_LIBRARIES})
+${OPENGL_LIBRARIES})
