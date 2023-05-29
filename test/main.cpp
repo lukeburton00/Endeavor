@@ -3,6 +3,11 @@
 
 #include <iostream>
 
+#ifdef _WIN32
+#include <SDL.h>
+#undef main
+#endif
+
 int main (int argc, char **argv)
 {
     Endeavor::Window window;
