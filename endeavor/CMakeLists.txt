@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.25.1)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-project(Endeavor VERSION 0.2)
+project(Endeavor)
 
 set(SRC 
 src/input/input.cpp src/time/time.cpp 
@@ -33,5 +33,5 @@ PUBLIC vendor/sdl2/include
 PUBLIC ${OPENGL_INCLUDE_DIR})
 
 target_link_libraries(${PROJECT_NAME} 
-PRIVATE SDL2::SDL2 PRIVATE libglew_static PRIVATE 
+PRIVATE SDL2::SDL2-static PRIVATE libglew_static PRIVATE 
 ${OPENGL_LIBRARIES})
