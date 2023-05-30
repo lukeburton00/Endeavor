@@ -11,7 +11,7 @@ public:
 
     float moveSpeed;
 
-    Player() : position(glm::vec2(0,0)), scale(glm::vec2(100,100)), color(glm::vec4(1,1,1,1)){}
+    Player() : position(glm::vec2(0,0)), scale(glm::vec2(50,50)), color(glm::vec4(1,1,1,1)){}
 
     void update(float deltaTime)
     {

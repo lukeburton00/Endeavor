@@ -2,6 +2,8 @@
 
 #include "graphics/asset_manager.hpp"
 
+int Endeavor::SpriteBatch::numDrawCalls = 0;
+
 Endeavor::SpriteBatch::SpriteBatch()
 {
     mVAO.generate();
@@ -109,6 +111,7 @@ void Endeavor::SpriteBatch::flush()
     shader->setMat4("view_projection", viewProjection);
 
     glDrawElements(GL_TRIANGLES, mIndexBuffer.size(), GL_UNSIGNED_INT, 0);
+    numDrawCalls++;
 
     mVAO.unbind();
     mVertexBuffer.clear();

@@ -26,7 +26,6 @@ int main (int argc, char **argv)
     batch.setViewMatrix( viewMatrix );
 
     Player player;
-    player.scale = glm::vec2(50,50);
     player.moveSpeed = 100.0f;
 
     int frames = 0;
@@ -50,8 +49,8 @@ int main (int argc, char **argv)
 
         window.clear();
 
+        batch.drawSubTexture(glm::vec2(100,100),glm::vec2(50,50), glm::vec4(1,1,1,1), "dungeon_sheet", glm::vec2(0,6), glm::vec2(16,16), "default_shader"); 
         player.draw(batch);
-
         batch.flush();
 
         window.swapBuffers();
@@ -64,14 +63,14 @@ int main (int argc, char **argv)
 
         if (elapsed_time > 1)
         {
-            std::cout << frames / elapsed_time << " FPS" << std::endl;
+            std::cout << frames / elapsed_time << " FPS, Draw Calls: " << Endeavor::SpriteBatch::numDrawCalls << std::endl;
             elapsed_time = 0;
             frames = 0;
         }
 
+        Endeavor::SpriteBatch::numDrawCalls = 0;
 
     }
-
     window.destroy();
 
     return 0;

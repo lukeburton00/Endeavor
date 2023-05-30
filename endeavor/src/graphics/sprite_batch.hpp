@@ -11,6 +11,9 @@ namespace Endeavor
     class SpriteBatch
     {
     public:
+
+        static int numDrawCalls;
+
         SpriteBatch();
         void draw(const glm::vec2& pos, const glm::vec2& scale, const glm::vec4& color, const std::string& textureName, const std::string& shaderName);
         void drawSubTexture(const glm::vec2& pos, const glm::vec2& scale, const glm::vec4& color, const std::string& textureName, const glm::vec2& spriteOffset, const glm::vec2& spriteSize, const std::string& shaderName);
