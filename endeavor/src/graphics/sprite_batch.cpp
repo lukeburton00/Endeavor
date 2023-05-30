@@ -45,10 +45,36 @@ void Endeavor::SpriteBatch::draw(const glm::vec2& pos, const glm::vec2& scale, c
         mTextureName = textureName;
     }
 
-    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x + scale.x, pos.y), glm::vec2(1.0f, 1.0f), color));
+    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x + scale.x, pos.y),           glm::vec2(1.0f, 1.0f), color));
     mVertexBuffer.push_back(Vertex(glm::vec2(pos.x + scale.x, pos.y + scale.y), glm::vec2(1.0f, 0.0f), color));
-    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x, pos.y + scale.y), glm::vec2(0.0f, 0.0f), color));
-    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x, pos.y), glm::vec2(0.0f, 1.0f), color));
+    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x, pos.y + scale.y),           glm::vec2(0.0f, 0.0f), color));
+    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x, pos.y),                     glm::vec2(0.0f, 1.0f), color));
+
+    mIndexBuffer.push_back(quadNum + 0);
+    mIndexBuffer.push_back(quadNum + 1);
+    mIndexBuffer.push_back(quadNum + 3);
+    mIndexBuffer.push_back(quadNum + 1);
+    mIndexBuffer.push_back(quadNum + 2);
+    mIndexBuffer.push_back(quadNum + 3);
+
+    quadNum += 4;
+}
+
+void Endeavor::SpriteBatch::drawSubTexture(const glm::vec2& pos, const glm::vec2& scale, const glm::vec4& color, const std::string& textureName, const glm::vec2& spriteOffset, const glm::vec2& spriteSize, const std::string& shaderName)
+{
+
+    if (mTextureName != textureName)
+    {
+        flush();
+        mTextureName = textureName;
+    }
+
+    auto texture = AssetManager::getTexture(textureName);
+
+    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x + scale.x, pos.y),           glm::vec2(((spriteOffset.x + 1) * spriteSize.x) / texture->width, ((spriteOffset.y + 1) * spriteSize.y) / texture->height), color));
+    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x + scale.x, pos.y + scale.y), glm::vec2(((spriteOffset.x + 1) * spriteSize.x) / texture->width, ((spriteOffset.y) * spriteSize.y) / texture->height), color));
+    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x, pos.y + scale.y),           glm::vec2(((spriteOffset.x) * spriteSize.x) / texture->width, ((spriteOffset.y) * spriteSize.y) / texture->height), color));
+    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x, pos.y),                     glm::vec2(((spriteOffset.x) * spriteSize.x) / texture->width, ((spriteOffset.y + 1) * spriteSize.y) / texture->height), color));
 
     mIndexBuffer.push_back(quadNum + 0);
     mIndexBuffer.push_back(quadNum + 1);
