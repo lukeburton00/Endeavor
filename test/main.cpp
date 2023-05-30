@@ -28,6 +28,9 @@ int main (int argc, char **argv)
     player.scale = glm::vec2(50,50);
     player.moveSpeed = 100.0f;
 
+    int frames = 0;
+    float elapsed_time = 0;
+
     Endeavor::Time time;
     float deltaTime = 0;
 
@@ -46,7 +49,7 @@ int main (int argc, char **argv)
 
         window.clear();
 
-        batch.draw( player.position, player.scale, glm::vec4 (1, 1, 1, 1), "default_tex", "default_shader");
+        player.draw(batch);
 
         batch.flush();
 
@@ -54,6 +57,18 @@ int main (int argc, char **argv)
 
         time.stop();
         deltaTime = time.getElapsedTime();
+
+        elapsed_time += deltaTime;
+        frames++;
+
+        if (elapsed_time > 1)
+        {
+            std::cout << frames / elapsed_time << " FPS" << std::endl;
+            elapsed_time = 0;
+            frames = 0;
+        }
+
+
     }
 
     window.destroy();

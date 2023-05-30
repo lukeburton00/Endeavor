@@ -7,9 +7,11 @@ class Player
 public:
     glm::vec2 position;
     glm::vec2 scale;
+    glm::vec4 color;
+
     float moveSpeed;
 
-    Player() : position(glm::vec2(0,0)), scale(glm::vec2(100,100)){}
+    Player() : position(glm::vec2(0,0)), scale(glm::vec2(100,100)), color(glm::vec4(1,1,1,1)){}
 
     void update(float deltaTime)
     {
@@ -32,5 +34,10 @@ public:
         {
             position.x += moveSpeed * deltaTime;
         }
+    }
+
+    void draw(Endeavor::SpriteBatch& batch)
+    {
+        batch.draw( position, scale, color, "default_tex", "default_shader");
     }
 };
