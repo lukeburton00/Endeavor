@@ -16,6 +16,7 @@ int main (int argc, char **argv)
     Endeavor::SpriteBatch batch;
 
     Endeavor::AssetManager::loadTexture2D("default_tex", "../assets/2DTextures/default.jpg");
+    Endeavor::AssetManager::loadTexture2D("dungeon_sheet", "../assets/2DTextures/Tilemap/tilemap_packed.png");
     Endeavor::AssetManager::loadShader("default_shader", "../assets/shaders/sprite_batch.vert", "../assets/shaders/sprite_batch.frag");
 
     glm::mat4 projectionMatrix = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -0.1f, 0.1f);
