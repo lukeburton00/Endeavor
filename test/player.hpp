@@ -38,6 +38,6 @@ public:
 
     void draw(Endeavor::SpriteBatch& batch)
     {
-        batch.draw( position, scale, color, "default_tex", "default_shader");
+        batch.drawSubTexture(position, scale, color, "dungeon_sheet", glm::vec2(0,2), glm::vec2(16,16), "default_shader");
     }
 };
