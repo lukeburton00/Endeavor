@@ -8,6 +8,7 @@ namespace Endeavor
     {
     public:
         GLuint mID;
+        float width, height;
 
         void bind();
     };
