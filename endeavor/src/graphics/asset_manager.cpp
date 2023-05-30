@@ -103,6 +103,8 @@ void Endeavor::AssetManager::loadTexture2D(const std::string &name, const char *
     {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
+		texture->width = width;
+		texture->height = height;
     }
     else
     {
