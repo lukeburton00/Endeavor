@@ -9,9 +9,9 @@ set(SRC
 src/input/input.cpp src/time/time.cpp 
 src/math/random.cpp src/math/noise/perlin_noise.cpp
 src/graphics/asset_manager.cpp
-src/graphics/sprite_batch.cpp src/graphics/renderer.cpp 
+src/graphics/sprite_batch.cpp
 src/graphics/shader.cpp src/graphics/vao.cpp src/graphics/texture_2d.cpp 
-src/graphics/window.cpp 
+src/graphics/window.cpp  src/graphics/camera.cpp
 
 vendor/stb_image.cpp)
 
@@ -34,4 +34,4 @@ PUBLIC ${OPENGL_INCLUDE_DIR})
 
 target_link_libraries(${PROJECT_NAME} 
 PRIVATE SDL2::SDL2-static PRIVATE libglew_static PRIVATE 
-${OPENGL_LIBRARIES})
+${OPENGL_LIBRARIES} glm::glm)

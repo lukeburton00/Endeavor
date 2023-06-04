@@ -10,3 +10,4 @@
 #include "graphics/window.hpp"
 #include "graphics/asset_manager.hpp"
 #include "graphics/sprite_batch.hpp"
+#include "graphics/camera.hpp"

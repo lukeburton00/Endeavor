@@ -4,7 +4,7 @@
 
 int Endeavor::SpriteBatch::numDrawCalls = 0;
 
-Endeavor::SpriteBatch::SpriteBatch()
+Endeavor::SpriteBatch::SpriteBatch(std::shared_ptr<Camera>& camera) : mCamera(camera)
 {
     mVAO.generate();
     mVAO.bind();
@@ -30,10 +30,6 @@ Endeavor::SpriteBatch::SpriteBatch()
 
     mTextureName = "";
     mShaderName = "";
-
-
-    mViewMatrix = glm::mat4(1.0f);
-    mProjectionMatrix = glm::mat4(1.0f);
 
     quadNum = 0;
 }
@@ -106,7 +102,7 @@ void Endeavor::SpriteBatch::flush()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * mIndexBuffer.size(), &mIndexBuffer[0], GL_STATIC_DRAW);
 
-    glm::mat4 viewProjection = mProjectionMatrix * mViewMatrix;
+    glm::mat4 viewProjection = mCamera->getProjectionMatrix() * mCamera->getViewMatrix();
 
     shader->setMat4("view_projection", viewProjection);
 
