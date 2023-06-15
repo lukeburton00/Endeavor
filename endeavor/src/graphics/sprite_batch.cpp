@@ -6,6 +6,13 @@ int Endeavor::SpriteBatch::numDrawCalls = 0;
 
 Endeavor::SpriteBatch::SpriteBatch()
 {
+    mTextureName = "";
+    mShaderName = "";
+    numVertices = 0;
+}
+
+void Endeavor::SpriteBatch::init()
+{
     mVAO.generate();
     mVAO.bind();
     glGenBuffers(1, &mVBO);
@@ -27,13 +34,7 @@ Endeavor::SpriteBatch::SpriteBatch()
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
-
-    mTextureName = "";
-    mShaderName = "";
-
-    numVertices = 0;
 }
-
 void Endeavor::SpriteBatch::begin(std::shared_ptr<Camera>& camera)
 {
     setViewMatrix(camera->getViewMatrix());

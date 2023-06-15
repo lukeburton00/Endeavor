@@ -16,6 +16,8 @@ namespace Endeavor
         static int numDrawCalls;
 
         SpriteBatch();
+
+        void init();
         
         void begin(std::shared_ptr<Camera>& camera);
 
