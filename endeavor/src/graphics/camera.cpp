@@ -18,7 +18,7 @@ void Endeavor::Camera::updateMatrices()
     mView = glm::translate(mView, glm::vec3(-position.x, -position.y, 0.0f));
 }
 
-glm::vec2 Endeavor::Camera::getWorldPositionFromScreen(glm::vec2 screenPos, glm::vec2 screenDimensions)
+glm::vec2 Endeavor::Camera::getWorldFromScreen(glm::vec2 screenPos, glm::vec2 screenDimensions)
 {
     glm::vec2 pos = glm::unProject(glm::vec3(screenPos.x, screenPos.y, 0), mView, mProjection, glm::vec4(0,screenDimensions.y,screenDimensions.x,-screenDimensions.y));
     return pos;

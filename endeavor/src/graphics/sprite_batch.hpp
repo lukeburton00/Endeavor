@@ -15,9 +15,15 @@ namespace Endeavor
 
         static int numDrawCalls;
 
-        SpriteBatch(std::shared_ptr<Camera>& camera);
+        SpriteBatch();
+        
+        void begin(std::shared_ptr<Camera>& camera);
+
         void draw(const glm::vec2& pos, const glm::vec2& scale, const glm::vec4& color, const std::string& textureName, const std::string& shaderName);
-        void drawSubTexture(const glm::vec2& pos, const glm::vec2& scale, const glm::vec4& color, const std::string& textureName, const glm::vec2& spriteOffset, const glm::vec2& spriteSize, const std::string& shaderName);
+
+        void drawSubTexture(const glm::vec2& pos, const glm::vec2& scale, const glm::vec4& color, 
+            const std::string& textureName, const glm::vec2& spriteOffset, const glm::vec2& spriteSize, 
+            const std::string& shaderName);
 
         void flush();
 
@@ -30,7 +36,7 @@ namespace Endeavor
         GLuint mVBO;
         GLuint mEBO;
 
-        int quadNum;
+        int numVertices;
 
         std::string mTextureName;
         std::string mShaderName;
@@ -40,8 +46,6 @@ namespace Endeavor
         
         glm::mat4 mProjectionMatrix;
         glm::mat4 mViewMatrix;
-
-        std::shared_ptr<Camera>& mCamera;
     };
 } // namespace Endeavor
 

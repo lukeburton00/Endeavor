@@ -16,7 +16,7 @@ namespace Endeavor
         glm::mat4 getViewMatrix() const { return mView; }
         glm::mat4 getProjectionMatrix() const { return mProjection; }
 
-        glm::vec2 getWorldPositionFromScreen(glm::vec2 screenPos, glm::vec2 screenDimensions);
+        glm::vec2 getWorldFromScreen(glm::vec2 screenPos, glm::vec2 screenDimensions);
 
         void updateMatrices();
 
