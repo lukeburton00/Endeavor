@@ -11,7 +11,7 @@ namespace Endeavor
         float screenWidth, screenHeight;
         glm::vec2 position;
 
-        Camera(glm::vec2 pos, float width = 40, float height = 30);
+        Camera(glm::vec2 pos = glm::vec2(0.0f, 0.0f), float width = 40, float height = 30);
 
         glm::mat4 getViewMatrix() const { return mView; }
         glm::mat4 getProjectionMatrix() const { return mProjection; }
