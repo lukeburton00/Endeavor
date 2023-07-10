@@ -72,14 +72,22 @@ void Endeavor::SpriteBatch::drawSubTexture(const glm::vec2& pos, const glm::vec2
     {
         flush();
         mTextureName = textureName;
+        mTexture = AssetManager::getTexture(textureName);
+        mTexture->bind();
     }
 
-    auto texture = AssetManager::getTexture(textureName);
+    if (mShaderName != shaderName)
+    {
+        flush();
+        mShaderName = shaderName;
+        mShader = AssetManager::getShader(shaderName);
+        mShader->use();
+    }
 
-    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x + scale.x, pos.y),           glm::vec2(((spriteOffset.x + 1) * spriteSize.x) / texture->width, ((spriteOffset.y + 1) * spriteSize.y) / texture->height), color));
-    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x + scale.x, pos.y + scale.y), glm::vec2(((spriteOffset.x + 1) * spriteSize.x) / texture->width, ((spriteOffset.y) * spriteSize.y) / texture->height), color));
-    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x, pos.y + scale.y),           glm::vec2(((spriteOffset.x) * spriteSize.x) / texture->width, ((spriteOffset.y) * spriteSize.y) / texture->height), color));
-    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x, pos.y),                     glm::vec2(((spriteOffset.x) * spriteSize.x) / texture->width, ((spriteOffset.y + 1) * spriteSize.y) / texture->height), color));
+    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x + scale.x, pos.y),           glm::vec2(((spriteOffset.x + 1) * spriteSize.x) / mTexture->width, ((spriteOffset.y + 1) * spriteSize.y) / mTexture->height), color));
+    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x + scale.x, pos.y + scale.y), glm::vec2(((spriteOffset.x + 1) * spriteSize.x) / mTexture->width, ((spriteOffset.y) * spriteSize.y) / mTexture->height), color));
+    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x, pos.y + scale.y),           glm::vec2(((spriteOffset.x) * spriteSize.x) / mTexture->width, ((spriteOffset.y) * spriteSize.y) / mTexture->height), color));
+    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x, pos.y),                     glm::vec2(((spriteOffset.x) * spriteSize.x) / mTexture->width, ((spriteOffset.y + 1) * spriteSize.y) / mTexture->height), color));
 
     mIndexBuffer.push_back(numVertices + 0);
     mIndexBuffer.push_back(numVertices + 1);
@@ -93,15 +101,11 @@ void Endeavor::SpriteBatch::drawSubTexture(const glm::vec2& pos, const glm::vec2
 
 void Endeavor::SpriteBatch::flush()
 {
-    if (mTextureName == "")
+    if (mTextureName == "" || mShaderName == "")
     {
         return;
     }
 
-    auto shader = AssetManager::getShader("default_shader");
-    auto texture = AssetManager::getTexture(mTextureName);
-    shader->use();
-    texture->bind();
     mVAO.bind();
     glBindBuffer(GL_ARRAY_BUFFER, mVBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * mVertexBuffer.size(), &mVertexBuffer[0], GL_STATIC_DRAW);
@@ -111,7 +115,7 @@ void Endeavor::SpriteBatch::flush()
 
     glm::mat4 viewProjection = mProjectionMatrix * mViewMatrix;
 
-    shader->setMat4("view_projection", viewProjection);
+    mShader->setMat4("view_projection", viewProjection);
 
     glDrawElements(GL_TRIANGLES, mIndexBuffer.size(), GL_UNSIGNED_INT, 0);
     numDrawCalls++;

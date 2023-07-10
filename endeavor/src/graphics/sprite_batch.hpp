@@ -10,6 +10,9 @@
 
 namespace Endeavor
 {
+    class Texture2D;
+    class Shader;
+    
     class SpriteBatch
     {
     public:
@@ -38,6 +41,9 @@ namespace Endeavor
         VAO mVAO;
         GLuint mVBO;
         GLuint mEBO;
+        std::shared_ptr<Texture2D> mTexture;
+        std::shared_ptr<Shader> mShader;
+
 
         int numVertices;
 
