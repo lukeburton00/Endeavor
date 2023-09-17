@@ -6,4 +6,4 @@
 
 <p> I've used previous iterations of Endeavor to build clones of Pong, Tetris, Conway's Game of Life, and a Falling Sand simulation, and I'm currently working through the tutorials promoted by r/RogueLikeDev using my sprite batcher as a renderer backend. </p>
 
-  <p> In the future, I hope to build a separate engine utilizing Endeavor as its core library. I plan to include several systems that Endeavor used to support, including scenes and entities, as well as adding a level editor. Stay tuned! </p>
+<p> In the future, I hope to build a separate engine utilizing Endeavor as its core library. I plan to include several systems that Endeavor used to support, including scenes and entities, as well as adding a level editor. Stay tuned! </p>
