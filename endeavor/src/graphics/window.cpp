@@ -2,10 +2,6 @@
 
 void Endeavor::Window::create(const int &windowWidth, const int &windowHeight, const char * title)
 {
-    #ifdef DEBUG
-    printf("Creating window...\n");
-    #endif
-
     mWindowWidth = windowWidth;
     mWindowHeight = windowHeight;
     mWindowFlags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL;
@@ -38,10 +34,6 @@ void Endeavor::Window::create(const int &windowWidth, const int &windowHeight, c
         glewExperimental = GL_TRUE;
         glewInit();
     }
-
-    #ifdef DEBUG
-    printf("Window created.\n");
-    #endif
 }
 
 void Endeavor::Window::clear()
@@ -56,17 +48,9 @@ void Endeavor::Window::swapBuffers()
 }
 
 void Endeavor::Window::destroy()
-{
-    #ifdef DEBUG
-    printf("\nDestroying Window...\n");
-    #endif
-    
+{    
     SDL_DestroyWindow(mWindow);
     SDL_GL_DeleteContext(mContext);
-
-    #ifdef DEBUG
-    printf("Window destroyed.\n");
-    #endif
 }
 
 void Endeavor::Window::onWindowResized(float width, float height)
