@@ -3,6 +3,8 @@
 #include "graphics/vao.hpp"
 #include "graphics/vertex.hpp"
 #include "graphics/camera.hpp"
+#include "graphics/texture_2d.hpp"
+#include "graphics/shader.hpp"
 
 #include <string>
 #include <vector>
@@ -25,11 +27,11 @@ namespace Endeavor
         
         void begin(std::shared_ptr<Camera>& camera);
 
-        void draw(const glm::vec2& pos, const glm::vec2& scale, const glm::vec4& color, const std::string& textureName, const std::string& shaderName);
+        void draw(const glm::vec2& pos, const glm::vec2& scale, const glm::vec4& color, std::shared_ptr<Texture2D> texture, std::shared_ptr<Shader> shader);
 
         void drawSubTexture(const glm::vec2& pos, const glm::vec2& scale, const glm::vec4& color, 
-            const std::string& textureName, const glm::vec2& spriteOffset, const glm::vec2& spriteSize, 
-            const std::string& shaderName);
+            std::shared_ptr<Texture2D> texture, std::shared_ptr<Shader> shader, 
+            const glm::vec2& spriteOffset, const glm::vec2& spriteSize);
 
         void flush();
 
@@ -41,14 +43,10 @@ namespace Endeavor
         VAO mVAO;
         GLuint mVBO;
         GLuint mEBO;
-        std::shared_ptr<Texture2D> mTexture;
-        std::shared_ptr<Shader> mShader;
-
-
         int numVertices;
 
-        std::string mTextureName;
-        std::string mShaderName;
+        std::shared_ptr<Texture2D> mCurrentTexture;
+        std::shared_ptr<Shader> mCurrentShader;
 
         std::vector<Vertex> mVertexBuffer;
         std::vector<int> mIndexBuffer;

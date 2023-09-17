@@ -1,13 +1,11 @@
 #include "graphics/sprite_batch.hpp"
 
-#include "graphics/asset_manager.hpp"
-
 int Endeavor::SpriteBatch::numDrawCalls = 0;
 
 Endeavor::SpriteBatch::SpriteBatch()
 {
-    mTextureName = "";
-    mShaderName = "";
+    mCurrentShader = nullptr;
+    mCurrentTexture = nullptr;
     numVertices = 0;
 }
 
@@ -41,13 +39,20 @@ void Endeavor::SpriteBatch::begin(std::shared_ptr<Camera>& camera)
     setProjectionMatrix(camera->getProjectionMatrix());
 }
 
-void Endeavor::SpriteBatch::draw(const glm::vec2& pos, const glm::vec2& scale, const glm::vec4& color, const std::string& textureName, const std::string& shaderName)
+void Endeavor::SpriteBatch::draw(const glm::vec2& pos, const glm::vec2& scale, const glm::vec4& color, std::shared_ptr<Endeavor::Texture2D> texture, std::shared_ptr<Endeavor::Shader> shader)
 {
-
-    if (mTextureName != textureName)
+    if (mCurrentTexture != texture)
     {
         flush();
-        mTextureName = textureName;
+        mCurrentTexture = texture;
+        mCurrentTexture->bind();
+    }
+
+    if (mCurrentShader != shader)
+    {
+        flush();
+        mCurrentShader = shader;
+        mCurrentShader->use();
     }
 
     mVertexBuffer.push_back(Vertex(glm::vec2(pos.x + scale.x, pos.y),           glm::vec2(1.0f, 1.0f), color));
@@ -65,29 +70,28 @@ void Endeavor::SpriteBatch::draw(const glm::vec2& pos, const glm::vec2& scale, c
     numVertices += 4;
 }
 
-void Endeavor::SpriteBatch::drawSubTexture(const glm::vec2& pos, const glm::vec2& scale, const glm::vec4& color, const std::string& textureName, const glm::vec2& spriteOffset, const glm::vec2& spriteSize, const std::string& shaderName)
+void Endeavor::SpriteBatch::drawSubTexture(const glm::vec2& pos, const glm::vec2& scale, const glm::vec4& color, std::shared_ptr<Texture2D> texture, std::shared_ptr<Shader> shader, const glm::vec2& spriteOffset, const glm::vec2& spriteSize)
 {
 
-    if (mTextureName != textureName)
+    if (mCurrentTexture != texture)
     {
         flush();
-        mTextureName = textureName;
-        mTexture = AssetManager::getTexture(textureName);
-        mTexture->bind();
+        mCurrentTexture = texture;
+        mCurrentTexture->bind();
     }
 
-    if (mShaderName != shaderName)
+    if (mCurrentShader != shader)
     {
         flush();
-        mShaderName = shaderName;
-        mShader = AssetManager::getShader(shaderName);
-        mShader->use();
+        mCurrentShader = shader;
+        mCurrentShader->use();
     }
 
-    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x + scale.x, pos.y),           glm::vec2(((spriteOffset.x + 1) * spriteSize.x) / mTexture->width, ((spriteOffset.y + 1) * spriteSize.y) / mTexture->height), color));
-    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x + scale.x, pos.y + scale.y), glm::vec2(((spriteOffset.x + 1) * spriteSize.x) / mTexture->width, ((spriteOffset.y) * spriteSize.y) / mTexture->height), color));
-    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x, pos.y + scale.y),           glm::vec2(((spriteOffset.x) * spriteSize.x) / mTexture->width, ((spriteOffset.y) * spriteSize.y) / mTexture->height), color));
-    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x, pos.y),                     glm::vec2(((spriteOffset.x) * spriteSize.x) / mTexture->width, ((spriteOffset.y + 1) * spriteSize.y) / mTexture->height), color));
+    // Calculate texture coordinates based on sprite size and offset
+    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x + scale.x, pos.y),           glm::vec2(((spriteOffset.x + 1) * spriteSize.x) / mCurrentTexture->width, ((spriteOffset.y + 1) * spriteSize.y) / mCurrentTexture->height), color));
+    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x + scale.x, pos.y + scale.y), glm::vec2(((spriteOffset.x + 1) * spriteSize.x) / mCurrentTexture->width, ((spriteOffset.y) * spriteSize.y) / mCurrentTexture->height), color));
+    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x, pos.y + scale.y),           glm::vec2(((spriteOffset.x) * spriteSize.x) / mCurrentTexture->width, ((spriteOffset.y) * spriteSize.y) / mCurrentTexture->height), color));
+    mVertexBuffer.push_back(Vertex(glm::vec2(pos.x, pos.y),                     glm::vec2(((spriteOffset.x) * spriteSize.x) / mCurrentTexture->width, ((spriteOffset.y + 1) * spriteSize.y) / mCurrentTexture->height), color));
 
     mIndexBuffer.push_back(numVertices + 0);
     mIndexBuffer.push_back(numVertices + 1);
@@ -101,7 +105,7 @@ void Endeavor::SpriteBatch::drawSubTexture(const glm::vec2& pos, const glm::vec2
 
 void Endeavor::SpriteBatch::flush()
 {
-    if (mTextureName == "" || mShaderName == "")
+    if (mCurrentTexture == nullptr || mCurrentShader == nullptr)
     {
         return;
     }
@@ -115,7 +119,7 @@ void Endeavor::SpriteBatch::flush()
 
     glm::mat4 viewProjection = mProjectionMatrix * mViewMatrix;
 
-    mShader->setMat4("view_projection", viewProjection);
+    mCurrentShader->setMat4("view_projection", viewProjection);
 
     glDrawElements(GL_TRIANGLES, mIndexBuffer.size(), GL_UNSIGNED_INT, 0);
     numDrawCalls++;
@@ -125,7 +129,6 @@ void Endeavor::SpriteBatch::flush()
     mIndexBuffer.clear();
 
     numVertices = 0;
-
 }
 
 void Endeavor::SpriteBatch::setProjectionMatrix(const glm::mat4& projection)
