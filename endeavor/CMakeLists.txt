@@ -8,7 +8,6 @@ project(Endeavor)
 set(SRC 
 src/input/input.cpp src/time/time.cpp 
 src/math/random.cpp src/math/noise/perlin_noise.cpp
-src/graphics/asset_manager.cpp
 src/graphics/sprite_batch.cpp
 src/graphics/shader.cpp src/graphics/vao.cpp src/graphics/texture_2d.cpp 
 src/graphics/window.cpp  src/graphics/camera.cpp
