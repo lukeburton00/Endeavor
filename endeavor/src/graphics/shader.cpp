@@ -121,7 +121,7 @@ std::shared_ptr<Endeavor::Shader> Endeavor::loadShaderFromFile(const char * vert
 	return shader;
 }
 
-bool Endeavor::Shader::operator==(const std::shared_ptr<Shader> rhs) const
+bool Endeavor::Shader::operator==(const std::shared_ptr<Shader> &rhs) const
 {
 	return (mID == rhs->getID());
 }

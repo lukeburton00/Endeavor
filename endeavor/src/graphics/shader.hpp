@@ -6,6 +6,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <memory>
+#include <string>
 
 namespace Endeavor
 {
@@ -23,7 +24,7 @@ namespace Endeavor
 		void setVec4(const std::string &name, glm::vec4 value) const;
 		void setMat4(const std::string &name, glm::mat4 value) const;
 
-		bool operator==(const std::shared_ptr<Shader> rhs) const;
+		bool operator==(const std::shared_ptr<Shader> &rhs) const;
 
 	private:
 		GLuint mID;
