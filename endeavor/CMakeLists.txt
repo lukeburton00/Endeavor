@@ -5,32 +5,29 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project(Endeavor)
 
-set(SRC 
-src/input/input.cpp src/time/time.cpp 
-src/math/random.cpp src/math/noise/perlin_noise.cpp
-src/graphics/sprite_batch.cpp
-src/graphics/shader.cpp src/graphics/vao.cpp src/graphics/texture_2d.cpp 
-src/graphics/window.cpp  src/graphics/camera.cpp
-
-vendor/stb_image.cpp)
+set(SRC "src/time/time.cpp" 
+"src/math/random.cpp" "src/math/noise/perlin_noise.cpp" 
+"src/renderer/camera.cpp" "src/renderer/gl_element_buffer.cpp" "src/renderer/gl_vertex_array.cpp" "src/renderer/gl_vertex_buffer.cpp"
+"src/renderer/renderer.cpp" "src/renderer/shader.cpp" "src/renderer/texture.cpp"
+"vendor/stb/stb_image.cpp" "src/core/game.cpp" "src/core/window.cpp" "vendor/glad/src/glad.c")
 
 add_library(${PROJECT_NAME} STATIC ${SRC})
 
-add_subdirectory(vendor/sdl2)
-add_subdirectory(vendor/glew)
-add_subdirectory(vendor/glm)
+add_subdirectory("vendor/glfw")
+add_subdirectory("vendor/glm")
 
 find_package(OpenGL REQUIRED)
 
 target_include_directories(${PROJECT_NAME} 
-PUBLIC src
-PUBLIC vendor
-PUBLIC vendor/glm
-PUBLIC vendor/glew/include
-PUBLIC vendor/sdl2/include
+PUBLIC "src"
+PUBLIC "vendor"
+PUBLIC "vendor/stb"
+PUBLIC "vendor/glm"
+PUBLIC "vendor/glad/include"
+PUBLIC "vendor/glfw/include"
 
 PUBLIC ${OPENGL_INCLUDE_DIR})
 
 target_link_libraries(${PROJECT_NAME} 
-PRIVATE SDL2::SDL2-static PRIVATE libglew_static PRIVATE 
-${OPENGL_LIBRARIES} glm::glm)
+PRIVATE glfw PRIVATE 
+${OPENGL_LIBRARIES} PRIVATE glm::glm)

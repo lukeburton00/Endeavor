@@ -1,6 +1,6 @@
-[submodule "endeavor/vendor/sdl2"]
-	path = endeavor/vendor/sdl2
-	url = https://github.com/libsdl-org/SDL
-[submodule "endeavor/vendor/glew"]
-	path = endeavor/vendor/glew
-	url = https://github.com/Perlmint/glew-cmake
+[submodule "endeavor/vendor/glm"]
+	path = endeavor/vendor/glm
+	url = https://github.com/icaven/glm
+[submodule "endeavor/vendor/glfw"]
+	path = endeavor/vendor/glfw
+	url = https://github.com/glfw/glfw
