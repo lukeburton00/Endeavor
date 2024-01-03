@@ -9,7 +9,8 @@ set(SRC "src/time/time.cpp"
 "src/math/random.cpp" "src/math/noise/perlin_noise.cpp" 
 "src/renderer/camera.cpp" "src/renderer/gl_element_buffer.cpp" "src/renderer/gl_vertex_array.cpp" "src/renderer/gl_vertex_buffer.cpp"
 "src/renderer/renderer.cpp" "src/renderer/shader.cpp" "src/renderer/texture.cpp"
-"vendor/stb/stb_image.cpp" "src/core/game.cpp" "src/core/window.cpp" "vendor/glad/src/glad.c")
+"vendor/stb/stb_image.cpp" "src/core/game.cpp" "src/core/window.cpp" "src/core/input.cpp"
+"vendor/glad/src/glad.c")
 
 add_library(${PROJECT_NAME} STATIC ${SRC})
 
