@@ -10,7 +10,10 @@ namespace Endeavor
 	{
 	public:
 		Game();
-		~Game();
+		virtual ~Game() = default;
+
+		static Game& GetInstance() { return *s_Instance; }
+		Window& GetWindow() { return m_Window; }
 
 		void Run();
 
@@ -22,7 +25,11 @@ namespace Endeavor
 		bool m_Running = true;
 		Window m_Window;
 
+	private:
+		static Game* s_Instance;
+
 	};
 
 	Game* CreateGame();
+
 }// namespace Endeavor
