@@ -17,6 +17,8 @@ namespace Endeavor
 	public:
 		Renderer();
 		~Renderer() = default;
+		
+		static std::shared_ptr<Renderer> GetInstance();
 
 		void Init();
 
@@ -32,4 +34,6 @@ namespace Endeavor
 		std::shared_ptr<Shader> m_Shader;
 		std::shared_ptr<Texture> m_Texture;
 	};
+	
+	static std::shared_ptr<Renderer> s_Instance = nullptr;
 }

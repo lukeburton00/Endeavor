@@ -14,16 +14,28 @@ namespace Endeavor
 		m_ViewProjection = glm::mat4(1.f);
 	}
 
-	void Renderer::Init()
-	{
+    std::shared_ptr<Renderer> Renderer::GetInstance()
+    {
+        if (!s_Instance)
+		{
+			s_Instance = std::make_shared<Renderer>();
+		}
+
+		return s_Instance;
+    }
+
+    void Renderer::Init()
+    {
+		std::cout << "Renderer Init" << std::endl;
 		m_VAO.Init();
 		m_VAO.Bind();
 		m_VBO.Init();
 		m_EBO.Init();
 		m_EBO.Bind();
 		m_VAO.Unbind();
-		m_Shader = Shader::LoadFromFile("../../assets/shaders/vertex.glsl", "../../assets/shaders/fragment.glsl");
-		m_Texture = Texture::LoadFromFile("../../assets/textures/default.jpg");
+
+		m_Shader = Shader::LoadFromFile("../assets/shaders/vertex.glsl", "../assets/shaders/fragment.glsl");
+		m_Texture = Texture::LoadFromFile("../assets/textures/default.jpg");
 	}
 
 	void Renderer::Begin(Camera& camera)
