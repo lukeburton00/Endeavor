@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project(Endeavor)
 
-set(SRC "src/time/time.cpp" 
+set(SRC "src/time/timer.cpp" 
 "src/math/random.cpp" "src/math/noise/perlin_noise.cpp" 
 "src/renderer/camera.cpp" "src/renderer/gl_element_buffer.cpp" "src/renderer/gl_vertex_array.cpp" "src/renderer/gl_vertex_buffer.cpp"
 "src/renderer/renderer.cpp" "src/renderer/shader.cpp" "src/renderer/texture.cpp"

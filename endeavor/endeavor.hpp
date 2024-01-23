@@ -8,7 +8,7 @@
 #include "renderer/camera.hpp"
 
 /* ----- Util ----- */
-#include "time/time.hpp"
+#include "time/timer.hpp"
 
 /* ----- Math ----- */
 #include "math/random.hpp"

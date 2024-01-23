@@ -5,7 +5,7 @@
 
 namespace Endeavor
 {
-    class Time
+    class Timer
     {
     public:
 
