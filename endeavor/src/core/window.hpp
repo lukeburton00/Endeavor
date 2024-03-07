@@ -28,6 +28,7 @@ namespace Endeavor
 		void OnResize(uint32_t width, uint32_t height);
 
 		GLFWwindow* GetNativeWindow();
+		WindowProperties& GetProperties();
 
 	public:
 		bool quit = false;

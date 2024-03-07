@@ -33,8 +33,8 @@ namespace Endeavor
 		m_EBO.Bind();
 		m_VAO.Unbind();
 
-		m_Shader = Shader::LoadFromFile("../assets/shaders/vertex.glsl", "../assets/shaders/fragment.glsl");
-		m_Texture = Texture::LoadFromFile("../assets/textures/default.jpg");
+		m_Shader = Shader::LoadFromFile("../../assets/shaders/vertex.glsl", "../../assets/shaders/fragment.glsl");
+		m_Texture = Texture::LoadFromFile("../../assets/textures/default.jpg");
 	}
 
 	void Renderer::Begin(Camera& camera)
