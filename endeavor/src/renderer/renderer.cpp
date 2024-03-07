@@ -26,7 +26,6 @@ namespace Endeavor
 
     void Renderer::Init()
     {
-		std::cout << "Renderer Init" << std::endl;
 		m_VAO.Init();
 		m_VAO.Bind();
 		m_VBO.Init();
