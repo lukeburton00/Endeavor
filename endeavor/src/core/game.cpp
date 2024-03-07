@@ -18,8 +18,11 @@ namespace Endeavor
 
     void Game::Run()
     {
+        Init();
+
         m_Window.Init();
         Renderer::GetInstance()->Init();
+
 
         while (!m_Window.quit)
         {
