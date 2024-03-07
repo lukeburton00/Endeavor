@@ -67,6 +67,11 @@ namespace Endeavor
         return m_Window;
     }
 
+    WindowProperties& Window::GetProperties()
+    {
+        return m_Properties;
+    }
+
     void Window::OnResize(uint32_t width, uint32_t height)
     {
         m_Properties.width = width;
