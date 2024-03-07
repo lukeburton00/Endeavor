@@ -10,7 +10,7 @@ set(SRC "endeavor/src/time/timer.cpp"
 "endeavor/src/renderer/camera.cpp" "endeavor/src/renderer/gl_element_buffer.cpp" "endeavor/src/renderer/gl_vertex_array.cpp" "endeavor/src/renderer/gl_vertex_buffer.cpp"
 "endeavor/src/renderer/renderer.cpp" "endeavor/src/renderer/shader.cpp" "endeavor/src/renderer/texture.cpp"
 "endeavor/vendor/stb/stb_image.cpp" "endeavor/src/core/game.cpp" "endeavor/src/core/window.cpp" "endeavor/src/core/input.cpp"
-"endeavor/vendor/glad/endeavor/srcglad.c")
+"endeavor/vendor/glad/src/glad.c")
 
 add_library(${PROJECT_NAME} STATIC ${SRC})
 
