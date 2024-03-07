@@ -118,7 +118,6 @@ namespace Endeavor
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
 
-		std::cout << "Shader load successful" << std::endl;
 		return shader;
 	}
 }

@@ -55,8 +55,6 @@ namespace Endeavor
 
         stbi_image_free(data);
 
-        std::cout << "Texture load successful" << std::endl;
-
         return texture;
     }
 }
